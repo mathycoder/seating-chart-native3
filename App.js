@@ -7,6 +7,8 @@ import { Provider, connect } from 'react-redux'
 import { createStackNavigator } from '@react-navigation/stack';
 import {NavigationContainer} from '@react-navigation/native';
 import HomeScreen from './src/screens/HomeScreen'
+import KlassesScreen from './src/screens/KlassesScreen'
+
 
 const Stack = createStackNavigator();
 
@@ -16,7 +18,8 @@ const App = () => {
     <NavigationContainer>
       <Provider store={store}>
         <Stack.Navigator>
-          <Stack.Screen name="Home" component={HomeScreen} />
+          <Stack.Screen name="Home" component={HomeScreen} options={{title: 'Welcome'}} />
+          <Stack.Screen name="Klasses" component={KlassesScreen} options={{title: 'Your Classes'}} />
         </Stack.Navigator>
       </Provider>
     </NavigationContainer>
