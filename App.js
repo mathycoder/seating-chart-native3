@@ -1,16 +1,25 @@
+import 'react-native-gesture-handler';
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import store from './src/store'
 import { Provider, connect } from 'react-redux'
+// import Stack from './src/navigators/Stack'
+import { createStackNavigator } from '@react-navigation/stack';
+import {NavigationContainer} from '@react-navigation/native';
+import HomeScreen from './src/screens/HomeScreen'
+
+const Stack = createStackNavigator();
 
 const App = () => {
 
   return (
-    <Provider store={store}>
-      <View style={styles.container}>
-        <Text>Hi there!</Text>
-      </View>
-    </Provider>
+    <NavigationContainer>
+      <Provider store={store}>
+        <Stack.Navigator>
+          <Stack.Screen name="Home" component={HomeScreen} />
+        </Stack.Navigator>
+      </Provider>
+    </NavigationContainer>
   );
 }
 
