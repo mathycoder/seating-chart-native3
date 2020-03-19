@@ -15,7 +15,8 @@ const HomeScreen = ({ navigation, getCurrentUser, currentUser }) => {
 
 const styles = StyleSheet.create({
   containerStyle: {
-
+    justifyContent: "center",
+    flex: 1
   },
   textStyle: {
     fontSize: 20

@@ -1,7 +1,8 @@
 import React, { useState } from 'react'
 import { connect } from 'react-redux'
 import { login } from '../../actions/currentUserActions.js'
-import { View, Text, TextInput, StyleSheet, Button } from 'react-native'
+import { View, Text, TextInput, StyleSheet, TouchableOpacity } from 'react-native'
+import { LinearGradient } from 'expo-linear-gradient';
 
 const Login = ({ login, navigation }) => {
   const [ email, setEmail ] = useState('')
@@ -17,49 +18,104 @@ const Login = ({ login, navigation }) => {
 
   return (
     <View style={styles.signupWrapper}>
-      <View style={styles.signupForm}>
-        <Text style={styles.flexseatsTitle}>
-          Login
-        </Text>
-        <TextInput
-          style={styles.textInput}
-          autoCapitalize="none"
-          autoCorrect={false}
-          placeholder="Enter email"
-          value={email}
-          onChangeText={(newValue) => setEmail(newValue)}
-        />
-        <TextInput
-          style={styles.textInput}
-          autoCapitalize="none"
-          autoCorrect={false}
-          placeholder="Enter password"
-          value={password}
-          onChangeText={(newValue) => setPassword(newValue)}
-        />
-      <Button
-        onPress={() => submitHandler()}
-        title="Log In"
+      <Text style={styles.flexseatsTitle}>
+        Login
+      </Text>
+      <TextInput
+        style={styles.textInput}
+        autoCapitalize="none"
+        autoCorrect={false}
+        placeholder="Enter email"
+        value={email}
+        onChangeText={(newValue) => setEmail(newValue)}
       />
-      </View>
+      <TextInput
+        style={styles.textInput}
+        secureTextEntry={true}
+        autoCapitalize="none"
+        autoCorrect={false}
+        placeholder="Enter password"
+        value={password}
+        onChangeText={(newValue) => setPassword(newValue)}
+      />
+    <TouchableOpacity onPress={() => submitHandler()}>
+        <LinearGradient
+          style={styles.myButton}
+          start={[0.5, 0]}
+          end={[0.5,1]}
+          colors={['#eae0c2', '#ccc2a6']}>
+
+          <Text style={styles.buttonText}>Log In</Text>
+        </LinearGradient>
+      </TouchableOpacity>
     </View>
   )
 }
 
 const styles = StyleSheet.create({
   signupWrapper: {
-
-  },
-  signupForm: {
-    fontSize: 20
+    backgroundColor: "rgb(166, 152, 143)",
+    alignItems: "center",
+    justifyContent: "space-around",
+    width: 300,
+    height: 200,
+    alignSelf: "center",
+    borderColor: "#3e4444",
+    borderWidth: 3,
+    marginBottom: 50
   },
   flexseatsTitle: {
-
+    fontSize: 24
   },
   textInput: {
+    backgroundColor: "white",
+    paddingHorizontal: 8,
+    paddingVertical: 4,
+    borderRadius: 5,
+    width: 220,
+    fontSize: 16
+  },
+  myButton: {
+    paddingHorizontal: 16,
+    paddingVertical: 6,
+    borderRadius: 5,
+    borderColor: "#333029",
+    borderWidth: 1,
 
+
+  },
+  buttonText: {
+    fontSize: 16
   }
 })
+
+// .myButton {
+// 	background:linear-gradient(to bottom, #eae0c2 5%, #ccc2a6 100%);
+// 	background-color:#eae0c2;
+// 	border-radius:5px;
+// 	border:1px solid #333029;
+// 	display:inline-block;
+// 	cursor:pointer;
+// 	color:#505739;
+// 	font-size:14px;
+// 	font-weight:bold;
+// 	padding:6px 16px;
+//   margin: 10px 0;
+// 	text-decoration:none;
+// 	text-shadow:0px 1px 0px #ffffff;
+// }
+//
+// .myButton:hover {
+// 	background:linear-gradient(to bottom, #ccc2a6 5%, #eae0c2 100%);
+// 	background-color:#ccc2a6;
+// }
+// .myButton:active {
+// 	position:relative;
+// 	top:1px;
+// }
+// .myButton:focus {
+// 	outline: none;
+// }
 
 function mapDispatchToProps(dispatch){
   return {
