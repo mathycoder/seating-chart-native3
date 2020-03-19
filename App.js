@@ -9,6 +9,7 @@ import {NavigationContainer} from '@react-navigation/native';
 import HomeScreen from './src/screens/HomeScreen'
 import KlassesScreen from './src/screens/KlassesScreen'
 import NavBarTitle from './src/navBar/NavBarTitle'
+import Logout from './src/components/sessions/Logout'
 
 
 const Stack = createStackNavigator();
@@ -22,15 +23,14 @@ const App = () => {
           screenOptions={{
             headerStyle: {
               backgroundColor: 'rgb(125, 166, 200)',
-            },
-
-
+            }
           }}
         >
           <Stack.Screen
             name="Home"
             component={HomeScreen}
             options={({ navigation, route }) => ({
+              title: false,
               headerLeft: (props) => <NavBarTitle props={props} />
             })}
           />
@@ -38,6 +38,7 @@ const App = () => {
             options={({ navigation, route }) => ({
               title: false,
               headerLeft: (props) => <NavBarTitle props={props} />,
+              headerRight: (props) => <Logout navigation={navigation} />,
               gestureEnabled: false
             })}
           />

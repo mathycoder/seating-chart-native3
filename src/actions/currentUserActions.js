@@ -44,10 +44,10 @@ export function login(credentials, navigation){
   }
 }
 
-export function logout(history){
+export function logout(navigation){
   return (dispatch) => {
     dispatch({type: 'LOGOUT_REQUEST'})
-    fetch(`/logout`, {
+    fetch(`https://flexseats.herokuapp.com/logout`, {
       credentials: "include",
       method: "DELETE",
       headers: {
@@ -60,7 +60,7 @@ export function logout(history){
           console.log(user.error)
         } else {
           dispatch({ type: 'CLEAR_CURRENT_USER' })
-          history.push('/login')
+          navigation.navigate('Home')
         }
       })
       .catch(console.log)

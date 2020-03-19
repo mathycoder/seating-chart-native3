@@ -1,18 +1,28 @@
 import React from 'react'
+import { View, Text, TouchableOpacity, StyleSheet } from 'react-native'
 import { logout } from '../../actions/currentUserActions'
 import { connect } from 'react-redux'
 
-const Logout = ({ logout, history }) => {
+const Logout = ({ logout, navigation }) => {
   return (
-    <div className="home-page-wrapper">
-      {logout(history)}
-    </div>
+    <View>
+      <TouchableOpacity onPress={() => logout(navigation)}>
+        <Text style={styles.textStyle}>Logout</Text>
+      </TouchableOpacity>
+    </View>
   )
 }
 
+const styles = StyleSheet.create({
+  textStyle: {
+    marginRight: 20
+  }
+})
+
+
 function mapDispatchToProps(dispatch){
   return {
-    logout: (history) => dispatch(logout(history))
+    logout: (navigation) => dispatch(logout(navigation))
   }
 }
 
