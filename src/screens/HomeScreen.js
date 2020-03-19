@@ -2,19 +2,12 @@ import React, { useEffect } from 'react'
 import { View, Text, StyleSheet, Button } from 'react-native'
 import { getCurrentUser } from '../actions/currentUserActions.js'
 import { connect } from 'react-redux'
+import Login from '../components/sessions/Login'
 
-const HomeScreen = ({ navigation, getCurrentUser }) => {
-  useEffect(() => {
-    getCurrentUser()
-  }, [])
-
+const HomeScreen = ({ navigation, getCurrentUser, currentUser }) => {
   return (
     <View style={styles.containerStyle}>
-      <Text style={styles.textStyle}>Home Screen</Text>
-      <Button
-        title="Go to My Classes"
-        onPress={() => navigation.navigate('Klasses')}
-      />
+      <Login />
     </View>
   )
 }
@@ -30,7 +23,7 @@ const styles = StyleSheet.create({
 
 function mapStateToProps(state){
   return {
-    klasses: state.klasses
+    klasses: state.currentUser
   }
 }
 
