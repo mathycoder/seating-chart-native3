@@ -1,16 +1,36 @@
-import React, { useEffect } from 'react'
+import React, { useState } from 'react'
 import { View, Text, StyleSheet, Button } from 'react-native'
 import { getCurrentUser } from '../actions/currentUserActions.js'
 import { connect } from 'react-redux'
 import Login from '../components/sessions/Login'
+import NavBarRightLoggedOut from '../navBar/NavBarRightLoggedOut'
 
 const HomeScreen = ({ navigation, getCurrentUser, currentUser }) => {
-  return (
-    <View style={styles.containerStyle}>
-      <Login navigation={navigation} />
-      <Button title="Go to Classes" onPress={() => navigation.navigate('Klasses')} />
-    </View>
-  )
+
+  const [ login, setLogin ] = useState(true)
+
+  React.useLayoutEffect(() => {
+    navigation.setOptions({
+      headerRight: () => (
+        <NavBarRightLoggedOut navigation={navigation} setLogin={setLogin} />
+      ),
+    });
+  }, [navigation, setLogin]);
+
+  if (login) {
+    return (
+      <View style={styles.containerStyle}>
+        <Login navigation={navigation} />
+      </View>
+    )
+  } else {
+    return (
+      <View>
+        <Text>Hi</Text>
+      </View>
+    )
+  }
+
 }
 
 const styles = StyleSheet.create({

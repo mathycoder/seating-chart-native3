@@ -9,7 +9,6 @@ import {NavigationContainer} from '@react-navigation/native';
 import HomeScreen from './src/screens/HomeScreen'
 import KlassesScreen from './src/screens/KlassesScreen'
 import NavBarTitle from './src/navBar/NavBarTitle'
-import NavBarRightLoggedOut from './src/navBar/NavBarRightLoggedOut'
 
 
 const Stack = createStackNavigator();
@@ -24,15 +23,15 @@ const App = () => {
             headerStyle: {
               backgroundColor: 'rgb(125, 166, 200)',
             },
-            headerTintColor: 'white',
-            headerTitle: (props) => <NavBarTitle props={props} />
+            headerTintColor: 'rgb(125, 166, 200)',
+
       }}
         >
           <Stack.Screen
             name="Home"
             component={HomeScreen}
             options={({ navigation, route }) => ({
-              headerRight: props => <NavBarRightLoggedOut navigation={navigation} />
+              headerLeft: (props) => <NavBarTitle props={props} />
             })}
           />
           <Stack.Screen name="Klasses" component={KlassesScreen} options={{}} />

@@ -1,13 +1,13 @@
 import React from 'react'
 import { View, Text, TextInput, StyleSheet, TouchableOpacity, Image } from 'react-native'
 
-const NavBarRightLoggedOut = ({ navigation }) => {
+const NavBarRightLoggedOut = ({ navigation, setLogin }) => {
   return (
     <View style={styles.containerStyle}>
-      <TouchableOpacity onPress={() => navigation.navigate('Login')}>
+      <TouchableOpacity onPress={() => setLogin(true) }>
         <Text style={styles.textStyle}>Login</Text>
       </TouchableOpacity>
-      <TouchableOpacity onPress={() => navigation.navigate('Signup')}>
+      <TouchableOpacity onPress={() => setLogin(false) }>
         <Text style={styles.textStyle}>Signup</Text>
       </TouchableOpacity>
     </View>
@@ -19,8 +19,8 @@ const styles = StyleSheet.create({
     flexDirection: 'row'
   },
   textStyle: {
-    fontSize: 14,
-    marginRight: 10
+    fontSize: 16,
+    marginRight: 20
   },
   boldStyle: {
     fontSize: 25,

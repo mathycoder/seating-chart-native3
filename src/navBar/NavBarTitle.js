@@ -18,7 +18,8 @@ const styles = StyleSheet.create({
   containerStyle: {
     flexDirection: 'row',
     width: 130,
-    justifyContent: 'space-around'
+    justifyContent: 'space-around',
+    marginLeft: 15
   },
   textStyle: {
     fontSize: 25
