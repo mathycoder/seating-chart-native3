@@ -1,7 +1,12 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { View, Text, StyleSheet, Button } from 'react-native'
+import { getCurrentUser } from '../actions/currentUserActions.js'
+import { connect } from 'react-redux'
 
-const HomeScreen = ({ navigation }) => {
+const HomeScreen = ({ navigation, getCurrentUser }) => {
+  useEffect(() => {
+    getCurrentUser()
+  }, [])
 
   return (
     <View style={styles.containerStyle}>
@@ -23,5 +28,17 @@ const styles = StyleSheet.create({
   }
 })
 
+function mapStateToProps(state){
+  return {
+    klasses: state.klasses
+  }
+}
 
-export default HomeScreen
+function mapDispatchToProps(dispatch){
+  return {
+    getCurrentUser: () => dispatch(getCurrentUser())
+  }
+}
+
+
+export default connect(mapStateToProps, mapDispatchToProps)(HomeScreen)

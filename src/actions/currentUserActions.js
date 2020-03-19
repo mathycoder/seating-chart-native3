@@ -1,7 +1,7 @@
 export function getCurrentUser(){
   return (dispatch) => {
     dispatch({ type: 'CHECKING_CURRENT_USER' })
-     fetch(`/get_current_user`, {
+     fetch(`https://flexseats.herokuapp.com/get_current_user.json`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json"
