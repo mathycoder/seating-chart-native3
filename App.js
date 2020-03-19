@@ -23,9 +23,9 @@ const App = () => {
             headerStyle: {
               backgroundColor: 'rgb(125, 166, 200)',
             },
-            headerTintColor: 'rgb(125, 166, 200)',
 
-      }}
+
+          }}
         >
           <Stack.Screen
             name="Home"
@@ -34,7 +34,13 @@ const App = () => {
               headerLeft: (props) => <NavBarTitle props={props} />
             })}
           />
-          <Stack.Screen name="Klasses" component={KlassesScreen} options={{}} />
+          <Stack.Screen name="Klasses" component={KlassesScreen}
+            options={({ navigation, route }) => ({
+              title: false,
+              headerLeft: (props) => <NavBarTitle props={props} />,
+              gestureEnabled: false
+            })}
+          />
         </Stack.Navigator>
       </Provider>
     </NavigationContainer>

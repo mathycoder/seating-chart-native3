@@ -1,6 +1,6 @@
-export function signupTeacher(teacherData, history){
+export function signupTeacher(teacherData, navigation){
   return (dispatch) => {
-     fetch(`/teachers`, {
+     fetch(`https://flexseats.herokuapp.com/teachers.json`, {
        method: 'POST',
        body: JSON.stringify(teacherData),
        headers: {
@@ -15,7 +15,7 @@ export function signupTeacher(teacherData, history){
         } else {
           dispatch({ type: 'SET_CURRENT_USER', user })
           dispatch({ type: 'ADD_FLASH_MESSAGE', message: "Created New Teacher Account" })
-          history.push('/classes')
+          navigation.push('Klasses')
         }
       })
       .catch(console.log)

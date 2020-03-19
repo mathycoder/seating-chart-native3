@@ -3,6 +3,7 @@ import { View, Text, StyleSheet, Button } from 'react-native'
 import { getCurrentUser } from '../actions/currentUserActions.js'
 import { connect } from 'react-redux'
 import Login from '../components/sessions/Login'
+import Signup from '../components/sessions/Signup'
 import NavBarRightLoggedOut from '../navBar/NavBarRightLoggedOut'
 
 const HomeScreen = ({ navigation, getCurrentUser, currentUser }) => {
@@ -25,8 +26,8 @@ const HomeScreen = ({ navigation, getCurrentUser, currentUser }) => {
     )
   } else {
     return (
-      <View>
-        <Text>Hi</Text>
+      <View style={styles.containerStyle}>
+        <Signup navigation={navigation} />
       </View>
     )
   }

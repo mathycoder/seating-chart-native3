@@ -11,6 +11,7 @@ const KlassesScreen = ({ klasses, fetchKlasses }) => {
 
   return (
     <View>
+      <Text>Klasses Page</Text>
       <FlatList
           data={klasses.allIds}
           keyExtractor={klassId => klassId}
