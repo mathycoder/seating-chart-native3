@@ -7,7 +7,8 @@ import Login from '../components/sessions/Login'
 const HomeScreen = ({ navigation, getCurrentUser, currentUser }) => {
   return (
     <View style={styles.containerStyle}>
-      <Login />
+      <Login navigation={navigation} />
+      <Button title="Go to Classes" onPress={() => navigation.navigate('Klasses')} />
     </View>
   )
 }

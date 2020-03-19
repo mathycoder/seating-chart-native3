@@ -1,7 +1,7 @@
 export function fetchKlasses(){
   return (dispatch) => {
     dispatch({ type: 'FETCH_KLASSES_REQUEST' })
-     fetch(`/klasses`, {
+     fetch(`https://flexseats.herokuapp.com/klasses.json`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json"

@@ -20,10 +20,10 @@ export function getCurrentUser(){
   }
 }
 
-export function login(credentials, history){
+export function login(credentials, navigation){
   return (dispatch) => {
     dispatch({type: 'LOGIN_REQUEST'})
-    fetch(`/login`, {
+    fetch(`https://flexseats.herokuapp.com/login.json`, {
       credentials: "include",
       method: "POST",
       headers: {
@@ -37,7 +37,7 @@ export function login(credentials, history){
           dispatch({ type: 'ADD_FLASH_MESSAGE', message: "Email or password incorrect" })
         } else {
           dispatch({ type: 'SET_CURRENT_USER', user })
-          history.push('/classes')
+          navigation.navigate('Klasses')
         }
       })
       .catch(console.log)

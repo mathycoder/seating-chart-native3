@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import { login } from '../../actions/currentUserActions.js'
 import { View, Text, TextInput, StyleSheet, Button } from 'react-native'
 
-const Login = ({ login, history }) => {
+const Login = ({ login, navigation }) => {
   const [ email, setEmail ] = useState('')
   const [ password, setPassword ] = useState('')
 
@@ -12,7 +12,7 @@ const Login = ({ login, history }) => {
       email: email,
       password: password
     }
-    login(data, history)
+    login(data, navigation)
   }
 
   return (
@@ -63,7 +63,7 @@ const styles = StyleSheet.create({
 
 function mapDispatchToProps(dispatch){
   return {
-    login: (credentials, history) => dispatch(login(credentials, history))
+    login: (credentials, navigation) => dispatch(login(credentials, navigation))
   }
 }
 

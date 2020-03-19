@@ -15,6 +15,7 @@ const KlassesScreen = ({ klasses, fetchKlasses }) => {
           data={klasses.allIds}
           keyExtractor={klassId => klassId}
           renderItem={({item}) => {
+            const klass = klasses.byId[item]
             return (
               <View>
                 <Text>{klass.name}</Text>
