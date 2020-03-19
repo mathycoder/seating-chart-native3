@@ -8,6 +8,8 @@ import { createStackNavigator } from '@react-navigation/stack';
 import {NavigationContainer} from '@react-navigation/native';
 import HomeScreen from './src/screens/HomeScreen'
 import KlassesScreen from './src/screens/KlassesScreen'
+import NavBarTitle from './src/navBar/NavBarTitle'
+import NavBarRightLoggedOut from './src/navBar/NavBarRightLoggedOut'
 
 
 const Stack = createStackNavigator();
@@ -17,9 +19,23 @@ const App = () => {
   return (
     <NavigationContainer>
       <Provider store={store}>
-        <Stack.Navigator>
-          <Stack.Screen name="Home" component={HomeScreen} options={{title: 'Welcome'}} />
-          <Stack.Screen name="Klasses" component={KlassesScreen} options={{title: 'Your Classes'}} />
+        <Stack.Navigator
+          screenOptions={{
+            headerStyle: {
+              backgroundColor: 'rgb(125, 166, 200)',
+            },
+            headerTintColor: 'white',
+            headerTitle: (props) => <NavBarTitle props={props} />
+      }}
+        >
+          <Stack.Screen
+            name="Home"
+            component={HomeScreen}
+            options={({ navigation, route }) => ({
+              headerRight: props => <NavBarRightLoggedOut navigation={navigation} />
+            })}
+          />
+          <Stack.Screen name="Klasses" component={KlassesScreen} options={{}} />
         </Stack.Navigator>
       </Provider>
     </NavigationContainer>
