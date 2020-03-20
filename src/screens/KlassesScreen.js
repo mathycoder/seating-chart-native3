@@ -3,6 +3,7 @@ import { View, Text, StyleSheet, FlatList } from 'react-native'
 import { connect } from 'react-redux'
 import { fetchKlasses } from '../actions/klassActions.js'
 import { getCurrentUser } from '../actions/currentUserActions.js'
+import KlassesIndex from '../components/klasses/KlassesIndex'
 
 const KlassesScreen = ({ klasses, fetchKlasses }) => {
   useEffect(() => {
@@ -10,25 +11,18 @@ const KlassesScreen = ({ klasses, fetchKlasses }) => {
     }, [])
 
   return (
-    <View>
-      <Text>Klasses Page</Text>
-      <FlatList
-          data={klasses.allIds}
-          keyExtractor={klassId => klassId}
-          renderItem={({item}) => {
-            const klass = klasses.byId[item]
-            return (
-              <View>
-                <Text>{klass.name}</Text>
-              </View>
-            )
-          }}
-        />
+    <View style={styles.containerStyle}>
+      <KlassesIndex />
     </View>
   )
 }
 
-const styles = StyleSheet.create({})
+const styles = StyleSheet.create({
+  containerStyle: {
+    justifyContent: "center",
+    flex: 1
+  }
+})
 
 function mapStateToProps(state){
   return {

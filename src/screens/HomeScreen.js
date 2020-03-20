@@ -38,9 +38,6 @@ const styles = StyleSheet.create({
   containerStyle: {
     justifyContent: "center",
     flex: 1
-  },
-  textStyle: {
-    fontSize: 20
   }
 })
 
