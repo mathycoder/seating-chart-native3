@@ -45,7 +45,7 @@ const Login = ({ login, navigation }) => {
           end={[0.5,1]}
           colors={['#eae0c2', '#ccc2a6']}>
 
-          <Text style={styles.buttonText}>Log In</Text>
+          <Text style={styles.myButtonText}>Log In</Text>
         </LinearGradient>
       </TouchableOpacity>
     </View>
@@ -83,7 +83,7 @@ const styles = StyleSheet.create({
     borderColor: "#333029",
     borderWidth: 1,
   },
-  buttonText: {
+  myButtonText: {
     fontSize: 16
   }
 })

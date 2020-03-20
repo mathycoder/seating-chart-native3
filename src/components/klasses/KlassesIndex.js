@@ -1,6 +1,7 @@
 import React from 'react'
-import { View, Text, StyleSheet, FlatList } from 'react-native'
+import { View, Text, StyleSheet, FlatList, TouchableOpacity } from 'react-native'
 import { connect } from 'react-redux'
+import { LinearGradient } from 'expo-linear-gradient';
 
 const KlassesIndex = ({ klasses, currentUser }) => {
   return (
@@ -15,6 +16,8 @@ const KlassesIndex = ({ klasses, currentUser }) => {
       </View>
 
       <FlatList
+          scrollEnabled={false}
+          style={styles.listStyle}
           data={klasses.allIds}
           keyExtractor={klassId => klassId}
           renderItem={({item}) => {
@@ -23,11 +26,30 @@ const KlassesIndex = ({ klasses, currentUser }) => {
               <View style={styles.rowStyle}>
                 <Text style={[styles.periodColumn, styles.klassStyle]}>{klass.period}</Text>
                 <Text style={[styles.nameColumn, styles.klassStyle]}>{klass.name}</Text>
-                <Text style={[styles.actionsColumn, styles.klassStyle]}></Text>
+                <TouchableOpacity onPress={() => console.log("edit")}>
+                    <LinearGradient
+                      style={[styles.actionsColumn, styles.myButtonSmall]}
+                      start={[0.5, 0]}
+                      end={[0.5,1]}
+                      colors={['#eae0c2', '#ccc2a6']}>
+
+                      <Text style={styles.myButtonTextSmall}>Edit</Text>
+                    </LinearGradient>
+                  </TouchableOpacity>
               </View>
             )
           }}
         />
+        <TouchableOpacity onPress={() => console.log('create class')}>
+            <LinearGradient
+              style={styles.myButton}
+              start={[0.5, 0]}
+              end={[0.5,1]}
+              colors={['#eae0c2', '#ccc2a6']}>
+
+              <Text style={styles.myButtonText}>Create Class</Text>
+            </LinearGradient>
+          </TouchableOpacity>
     </View>
   )
 }
@@ -38,7 +60,6 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "space-around",
     width: 300,
-    height: 200,
     alignSelf: "center",
     borderColor: "#3e4444",
     borderWidth: 3,
@@ -52,16 +73,15 @@ const styles = StyleSheet.create({
   rowStyle: {
     flexDirection: "row",
     width: 280,
-    justifyContent: "space-between",
-    marginVertical: 5
-
+    justifyContent: "space-around",
+    marginVertical: 8
   },
   periodColumn: {
     width: 70,
     textAlign: "center"
   },
   nameColumn: {
-    width: 130,
+    width: 120,
   },
   actionsColumn: {
     width: 60,
@@ -72,6 +92,33 @@ const styles = StyleSheet.create({
   },
   klassStyle: {
     fontSize: 20
+  },
+  myButton: {
+    paddingHorizontal: 16,
+    paddingVertical: 6,
+    borderRadius: 5,
+    borderColor: "#333029",
+    borderWidth: 1,
+    marginVertical: 10
+  },
+  myButtonText: {
+    fontSize: 16
+  },
+  myButtonSmall: {
+    paddingHorizontal: 2,
+    paddingVertical: 3,
+    borderRadius: 5,
+    borderColor: "#333029",
+    borderWidth: 1,
+    width: 40
+  },
+  myButtonTextSmall: {
+    fontSize: 16,
+    textAlign: "center"
+  },
+
+  listStyle: {
+    flexGrow: 0
   }
 })
 
