@@ -7,7 +7,7 @@ import SmallButton from '../buttons/SmallButton'
 import BigButton from '../buttons/BigButton'
 
 const KlassesIndex = ({ klasses, currentUser }) => {
-  const [displayForm, setdisplayForm] = useState(false)
+  const [displayForm, setDisplayForm] = useState(false)
   const [editKlassId, setEditKlassId] = useState(null)
 
   const renderKlassRow = (klass) => {
@@ -56,13 +56,27 @@ const KlassesIndex = ({ klasses, currentUser }) => {
           keyExtractor={klassId => klassId}
           renderItem={({item}) => {
             const klass = klasses.byId[item]
-            return item !== editKlassId ? renderKlassRow(klass) : <KlassForm setDisplayForm={setDisplayForm} klass={klass}/>
+            return item !== editKlassId
+              ? renderKlassRow(klass)
+              : <KlassForm
+                  setEditKlassId={setEditKlassId}
+                  setDisplayForm={setDisplayForm}
+                  klass={klass}
+                />
           }}
-
         />
-        { displayForm ? <KlassForm setDisplayForm={setDisplayForm}/> : null }
-        { !displayForm && !editKlassId ? renderCreateKlassButton() : null }
-
+        {
+          displayForm
+          ? <KlassForm
+              setEditKlassId={setEditKlassId}
+              setDisplayForm={setDisplayForm}/>
+          : null
+        }
+        {
+          !displayForm && !editKlassId
+          ? renderCreateKlassButton()
+          : null
+        }
     </View>
   )
 }

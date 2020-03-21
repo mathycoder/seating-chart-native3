@@ -4,8 +4,9 @@ import { connect } from 'react-redux'
 import { View, Text, StyleSheet, FlatList,
         TouchableOpacity, TextInput, Picker } from 'react-native'
 import PeriodDropdown from './PeriodDropdown'
+import SmallButton from '../buttons/SmallButton'
 
-const KlassForm = ({ setDisplayForm, klass }) => {
+const KlassForm = ({ setDisplayForm,setEditKlassId, klass }) => {
   const [name, setName] = useState('')
   const [period, setPeriod] = useState(1)
 
@@ -28,7 +29,20 @@ const KlassForm = ({ setDisplayForm, klass }) => {
         value={name}
         onChangeText={(newValue) => setName(newValue)}
       />
-      <Text style={styles.actionsColumn}>Klass Form</Text>
+      <SmallButton
+        title={<Text>&#10003;</Text>}
+        callbackFunction={() => {
+          setDisplayForm(false)
+          setEditKlassId(null)
+        }}
+      />
+      <SmallButton
+        title="X"
+        callbackFunction={() => {
+          setDisplayForm(false)
+          setEditKlassId(null)
+        }}
+      />
     </View>
   )
 }

@@ -19,12 +19,11 @@ const SmallButton = ({ callbackFunction, title }) => {
 
 const styles = StyleSheet.create({
   myButtonSmall: {
-    paddingHorizontal: 2,
+    paddingHorizontal: 6,
     paddingVertical: 3,
     borderRadius: 5,
     borderColor: "#333029",
     borderWidth: 1,
-    width: 40,
     alignSelf: 'center'
   },
   myButtonTextSmall: {
