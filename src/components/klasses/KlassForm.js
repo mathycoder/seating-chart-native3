@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { addKlass, updateKlass, deleteKlass } from '../../actions/klassActions.js'
 import { connect } from 'react-redux'
-import { View, Text, StyleSheet, FlatList,
+import { View, Text, StyleSheet, FlatList, Alert,
         TouchableOpacity, TextInput, Picker } from 'react-native'
 import PeriodDropdown from './PeriodDropdown'
 import SmallButton from '../buttons/SmallButton'
@@ -19,8 +19,17 @@ const KlassForm = ({ setDisplayForm,setEditKlassId, klass,
   }, [])
 
   const submitHandler = (action) => {
-    if (action === 'delete'){
-      deleteKlass(klass)
+    if (action === 'cancel/delete'){
+      if (klass){
+        Alert.alert(
+          `Delete Class ${klass.name}`,
+          `Are you sure you want to delete class ${klass.name}?`,
+          [
+            {text: 'No', onPress: () => null},
+            {text: 'Yes', onPress: () => deleteKlass(klass)},
+          ]
+        );
+      }
     } else {
       const params = {
       klass: {
@@ -52,7 +61,7 @@ const KlassForm = ({ setDisplayForm,setEditKlassId, klass,
       />
       <SmallButton
         title="X"
-        callbackFunction={() => submitHandler('delete')}
+        callbackFunction={() => submitHandler('cancel/delete')}
       />
     </View>
   )
