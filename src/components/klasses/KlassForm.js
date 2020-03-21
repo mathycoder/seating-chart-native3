@@ -51,6 +51,7 @@ const styles = StyleSheet.create({
   },
   actionsColumn: {
     width: 60,
+    justifyContent: 'center'
   },
   textInput: {
     backgroundColor: "white",

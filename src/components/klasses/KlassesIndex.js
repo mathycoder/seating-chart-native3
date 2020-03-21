@@ -3,6 +3,7 @@ import { View, Text, StyleSheet, FlatList, TouchableOpacity } from 'react-native
 import { connect } from 'react-redux'
 import { LinearGradient } from 'expo-linear-gradient';
 import KlassForm from './KlassForm'
+import SmallButton from '../buttons/SmallButton'
 
 const KlassesIndex = ({ klasses, currentUser }) => {
   const [displayForm, displayFormSet] = useState(false)
@@ -13,18 +14,9 @@ const KlassesIndex = ({ klasses, currentUser }) => {
       <View style={styles.rowStyle}>
         <Text style={[styles.periodColumn, styles.klassStyle]}>{klass.period}</Text>
         <Text style={[styles.nameColumn, styles.klassStyle]}>{klass.name}</Text>
-        <TouchableOpacity onPress={() => {
-          setEditKlassId(`klass${klass.id}`)
-        }}>
-            <LinearGradient
-              style={[styles.actionsColumn, styles.myButtonSmall]}
-              start={[0.5, 0]}
-              end={[0.5,1]}
-              colors={['#eae0c2', '#ccc2a6']}>
-
-              <Text style={styles.myButtonTextSmall}>Edit</Text>
-            </LinearGradient>
-          </TouchableOpacity>
+        <View style={styles.actionsColumn}>
+          <SmallButton callbackFunction={() => setEditKlassId(`klass${klass.id}`)}/>
+        </View>
       </View>
     )
   }
