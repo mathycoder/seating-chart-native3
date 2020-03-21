@@ -44,7 +44,7 @@ export function addKlass(klassData){
 
 export function updateKlass(klassData, klass){
   return (dispatch) => {
-    dispatch({type: 'START_EDITING_KLASS_REQUEST'})
+    dispatch({type: 'START_EDITING_KLASS_REQUEST', klassData, klass})
     fetch(`https://flexseats.herokuapp.com/klasses/${klass.id}.json`, {
       method: "PATCH",
       credentials: "include",

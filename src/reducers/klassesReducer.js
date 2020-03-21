@@ -22,6 +22,16 @@ function klassesById(state = {}, action) {
         [`klass${action.klass.id}`]: action.klass
       }
 
+    case 'START_EDITING_KLASS_REQUEST':
+      const editedKlass = normalizedObject([action.klass])
+      editedKlass.name = action.klassData.klass.name
+      editedKlass.period = action.klassData.klass.period
+
+      return {
+        ...state,
+        [`klass${action.klass.id}`]: editedKlass
+      }
+
     case 'EDIT_KLASS':
       return {
         ...state,
