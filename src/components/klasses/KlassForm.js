@@ -6,7 +6,8 @@ import { View, Text, StyleSheet, FlatList,
 import PeriodDropdown from './PeriodDropdown'
 import SmallButton from '../buttons/SmallButton'
 
-const KlassForm = ({ setDisplayForm,setEditKlassId, klass }) => {
+const KlassForm = ({ setDisplayForm,setEditKlassId, klass,
+                     addKlass, updateKlass, deleteKlass }) => {
   const [name, setName] = useState('')
   const [period, setPeriod] = useState(1)
 
@@ -16,6 +17,22 @@ const KlassForm = ({ setDisplayForm,setEditKlassId, klass }) => {
       setPeriod(klass.period)
     }
   }, [])
+
+  const submitHandler = (action) => {
+    if (action === 'delete'){
+      deleteKlass(klass)
+    } else {
+      const params = {
+      klass: {
+        name: name,
+        period: period
+      }
+    }
+      klass ? updateKlass(params, klass) : addKlass(params)
+    }
+    setDisplayForm(false)
+    setEditKlassId(null)
+  }
 
   return (
     <View style={styles.rowStyle}>
@@ -31,17 +48,11 @@ const KlassForm = ({ setDisplayForm,setEditKlassId, klass }) => {
       />
       <SmallButton
         title={<Text>&#10003;</Text>}
-        callbackFunction={() => {
-          setDisplayForm(false)
-          setEditKlassId(null)
-        }}
+        callbackFunction={() => submitHandler('add/edit')}
       />
       <SmallButton
         title="X"
-        callbackFunction={() => {
-          setDisplayForm(false)
-          setEditKlassId(null)
-        }}
+        callbackFunction={() => submitHandler('delete')}
       />
     </View>
   )

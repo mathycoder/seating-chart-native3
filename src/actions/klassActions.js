@@ -23,7 +23,7 @@ export function fetchKlasses(){
 export function addKlass(klassData){
   return (dispatch) => {
     dispatch({type: 'START_ADDING_KLASS_REQUEST'})
-    fetch('/klasses', {
+    fetch('https://flexseats.herokuapp.com/klasses.json', {
       method: "POST",
       credentials: "include",
       body: JSON.stringify(klassData),
@@ -45,7 +45,7 @@ export function addKlass(klassData){
 export function updateKlass(klassData, klass){
   return (dispatch) => {
     dispatch({type: 'START_EDITING_KLASS_REQUEST'})
-    fetch(`/klasses/${klass.id}`, {
+    fetch(`https://flexseats.herokuapp.com/klasses/${klass.id}.json`, {
       method: "PATCH",
       credentials: "include",
       body: JSON.stringify(klassData),
@@ -67,7 +67,7 @@ export function updateKlass(klassData, klass){
 export function deleteKlass(klass){
   return (dispatch) => {
     dispatch({type: 'START_DELETING_KLASS_REQUEST'})
-    fetch(`/klasses/${klass.id}`, {
+    fetch(`https://flexseats.herokuapp.com/klasses/${klass.id}.json`, {
       method: 'DELETE',
       credentials: "include",
       headers: {
