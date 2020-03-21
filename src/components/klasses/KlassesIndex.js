@@ -4,9 +4,10 @@ import { connect } from 'react-redux'
 import { LinearGradient } from 'expo-linear-gradient';
 import KlassForm from './KlassForm'
 import SmallButton from '../buttons/SmallButton'
+import BigButton from '../buttons/BigButton'
 
 const KlassesIndex = ({ klasses, currentUser }) => {
-  const [displayForm, displayFormSet] = useState(false)
+  const [displayForm, setdisplayForm] = useState(false)
   const [editKlassId, setEditKlassId] = useState(null)
 
   const renderKlassRow = (klass) => {
@@ -15,26 +16,26 @@ const KlassesIndex = ({ klasses, currentUser }) => {
         <Text style={[styles.periodColumn, styles.klassStyle]}>{klass.period}</Text>
         <Text style={[styles.nameColumn, styles.klassStyle]}>{klass.name}</Text>
         <View style={styles.actionsColumn}>
-          <SmallButton callbackFunction={() => setEditKlassId(`klass${klass.id}`)}/>
+          <SmallButton
+            title="Edit"
+            callbackFunction={() => {
+              setEditKlassId(`klass${klass.id}`)
+              setDisplayForm(false)
+            }}
+          />
         </View>
       </View>
     )
   }
 
   const renderCreateKlassButton = () => (
-    <TouchableOpacity onPress={() => {
-      displayFormSet(!displayForm)
-      setEditKlassId(null)
-    }}>
-        <LinearGradient
-          style={styles.myButton}
-          start={[0.5, 0]}
-          end={[0.5,1]}
-          colors={['#eae0c2', '#ccc2a6']}>
-
-          <Text style={styles.myButtonText}>Create Class</Text>
-        </LinearGradient>
-      </TouchableOpacity>
+    <BigButton
+      callbackFunction={() => {
+        setDisplayForm(!displayForm)
+        setEditKlassId(null)
+      }}
+      title="Create Class"
+    />
   )
 
   return (
@@ -55,11 +56,11 @@ const KlassesIndex = ({ klasses, currentUser }) => {
           keyExtractor={klassId => klassId}
           renderItem={({item}) => {
             const klass = klasses.byId[item]
-            return item !== editKlassId ? renderKlassRow(klass) : <KlassForm displayFormSet={displayFormSet} klass={klass}/>
+            return item !== editKlassId ? renderKlassRow(klass) : <KlassForm setDisplayForm={setDisplayForm} klass={klass}/>
           }}
 
         />
-        { displayForm ? <KlassForm displayFormSet={displayFormSet}/> : null }
+        { displayForm ? <KlassForm setDisplayForm={setDisplayForm}/> : null }
         { !displayForm && !editKlassId ? renderCreateKlassButton() : null }
 
     </View>
@@ -105,30 +106,6 @@ const styles = StyleSheet.create({
   klassStyle: {
     fontSize: 20
   },
-  myButton: {
-    paddingHorizontal: 16,
-    paddingVertical: 6,
-    borderRadius: 5,
-    borderColor: "#333029",
-    borderWidth: 1,
-    marginVertical: 10
-  },
-  myButtonText: {
-    fontSize: 16
-  },
-  myButtonSmall: {
-    paddingHorizontal: 2,
-    paddingVertical: 3,
-    borderRadius: 5,
-    borderColor: "#333029",
-    borderWidth: 1,
-    width: 40
-  },
-  myButtonTextSmall: {
-    fontSize: 16,
-    textAlign: "center"
-  },
-
   listStyle: {
     flexGrow: 0
   }

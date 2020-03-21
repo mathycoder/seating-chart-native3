@@ -5,7 +5,7 @@ import { View, Text, StyleSheet, FlatList,
         TouchableOpacity, TextInput, Picker } from 'react-native'
 import PeriodDropdown from './PeriodDropdown'
 
-const KlassForm = ({ displayFormSet, klass }) => {
+const KlassForm = ({ setDisplayForm, klass }) => {
   const [name, setName] = useState('')
   const [period, setPeriod] = useState(1)
 
