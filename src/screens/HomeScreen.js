@@ -18,20 +18,11 @@ const HomeScreen = ({ navigation, getCurrentUser, currentUser }) => {
     });
   }, [navigation, setLogin]);
 
-  if (login) {
-    return (
-      <View style={styles.containerStyle}>
-        <Login navigation={navigation} />
-      </View>
-    )
-  } else {
-    return (
-      <View style={styles.containerStyle}>
-        <Signup navigation={navigation} />
-      </View>
-    )
-  }
-
+  return (
+    <View style={styles.containerStyle}>
+      {login ? <Login navigation={navigation} /> : <Signup navigation={navigation} />}
+    </View>
+  )
 }
 
 const styles = StyleSheet.create({

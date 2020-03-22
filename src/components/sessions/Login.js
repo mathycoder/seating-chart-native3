@@ -1,8 +1,8 @@
 import React, { useState } from 'react'
 import { connect } from 'react-redux'
 import { login } from '../../actions/currentUserActions.js'
-import { View, Text, TextInput, StyleSheet, TouchableOpacity } from 'react-native'
-import { LinearGradient } from 'expo-linear-gradient';
+import { View, Text, TextInput, StyleSheet } from 'react-native'
+import BigButton from '../buttons/BigButton'
 
 const Login = ({ login, navigation }) => {
   const [ email, setEmail ] = useState('')
@@ -38,16 +38,10 @@ const Login = ({ login, navigation }) => {
         value={password}
         onChangeText={(newValue) => setPassword(newValue)}
       />
-    <TouchableOpacity onPress={() => submitHandler()}>
-        <LinearGradient
-          style={styles.myButton}
-          start={[0.5, 0]}
-          end={[0.5,1]}
-          colors={['#eae0c2', '#ccc2a6']}>
-
-          <Text style={styles.myButtonText}>Log In</Text>
-        </LinearGradient>
-      </TouchableOpacity>
+      <BigButton
+        callbackFunction={() => submitHandler()}
+        title="Log In"
+      />
     </View>
   )
 }
@@ -74,16 +68,6 @@ const styles = StyleSheet.create({
     paddingVertical: 4,
     borderRadius: 5,
     width: 200,
-    fontSize: 16
-  },
-  myButton: {
-    paddingHorizontal: 16,
-    paddingVertical: 6,
-    borderRadius: 5,
-    borderColor: "#333029",
-    borderWidth: 1,
-  },
-  myButtonText: {
     fontSize: 16
   }
 })
