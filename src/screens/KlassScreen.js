@@ -1,16 +1,29 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useLayoutEffect } from 'react'
 import { View, Text, StyleSheet, FlatList } from 'react-native'
 import { connect } from 'react-redux'
-import { getCurrentUser } from '../actions/currentUserActions.js'
-import KlassesIndex from '../components/klasses/KlassesIndex'
+import { fetchStudents } from '../actions/studentActions.js'
+import { setCurrentKlass } from '../actions/currentKlassActions.js'
 
-const KlassScreen = ({ klasses, route }) => {
+const KlassScreen = ({ navigation, klasses, route,
+                       fetchStudents, setCurrentKlass }) => {
   const { klass } = route.params
-  console.log(klass)
+
+  useEffect(() => {
+    if (klass) {
+      fetchStudents(klass)
+      setCurrentKlass(klass)
+    }
+  }, [klass])
+
+  useLayoutEffect(() => {
+    navigation.setOptions({
+      title: `Class ${klass.name}`
+    });
+  }, [navigation]);
 
   return (
     <View style={styles.containerStyle}>
-      <Text>{`Class ${klass.name}`}</Text>
+      <Text>Klass Show Page</Text>
     </View>
   )
 }
@@ -22,15 +35,16 @@ const styles = StyleSheet.create({
   }
 })
 
-function mapStateToProps(state){
+const mapStateToProps = state => {
   return {
     klasses: state.klasses
   }
 }
 
-function mapDispatchToProps(dispatch){
+const mapDispatchToProps = (dispatch) => {
   return {
-
+    fetchStudents: klass => dispatch(fetchStudents(klass)),
+    setCurrentKlass: klass => dispatch(setCurrentKlass(klass))
   }
 }
 
