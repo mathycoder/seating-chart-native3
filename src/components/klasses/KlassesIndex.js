@@ -6,7 +6,7 @@ import KlassForm from './KlassForm'
 import SmallButton from '../buttons/SmallButton'
 import BigButton from '../buttons/BigButton'
 
-const KlassesIndex = ({ klasses, currentUser }) => {
+const KlassesIndex = ({ klasses, currentUser, navigation }) => {
   const [displayForm, setDisplayForm] = useState(false)
   const [editKlassId, setEditKlassId] = useState(null)
 
@@ -14,7 +14,11 @@ const KlassesIndex = ({ klasses, currentUser }) => {
     return (
       <View style={styles.rowStyle}>
         <Text style={[styles.periodColumn, styles.klassStyle]}>{klass.period}</Text>
-        <Text style={[styles.nameColumn, styles.klassStyle]}>{klass.name}</Text>
+        <Text
+          style={[styles.nameColumn, styles.klassStyle]}
+          onPress={() => navigation.navigate('Klass', {klass: klass} )}
+          >{klass.name}
+        </Text>
         <View style={styles.actionsColumn}>
           <SmallButton
             title="Edit"

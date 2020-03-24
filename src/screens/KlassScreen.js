@@ -1,18 +1,16 @@
 import React, { useEffect } from 'react'
 import { View, Text, StyleSheet, FlatList } from 'react-native'
 import { connect } from 'react-redux'
-import { fetchKlasses } from '../actions/klassActions.js'
 import { getCurrentUser } from '../actions/currentUserActions.js'
 import KlassesIndex from '../components/klasses/KlassesIndex'
 
-const KlassesScreen = ({ navigation, klasses, fetchKlasses }) => {
-  useEffect(() => {
-      fetchKlasses()
-    }, [])
+const KlassScreen = ({ klasses, route }) => {
+  const { klass } = route.params
+  console.log(klass)
 
   return (
     <View style={styles.containerStyle}>
-      <KlassesIndex navigation={navigation} />
+      <Text>{`Class ${klass.name}`}</Text>
     </View>
   )
 }
@@ -32,8 +30,8 @@ function mapStateToProps(state){
 
 function mapDispatchToProps(dispatch){
   return {
-    fetchKlasses: () => dispatch(fetchKlasses())
+
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(KlassesScreen)
+export default connect(mapStateToProps, mapDispatchToProps)(KlassScreen)
