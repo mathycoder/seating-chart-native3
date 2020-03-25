@@ -16,7 +16,6 @@ import Logout from './src/components/sessions/Logout'
 const Stack = createStackNavigator();
 
 const App = () => {
-
   return (
     <NavigationContainer>
       <Provider store={store}>

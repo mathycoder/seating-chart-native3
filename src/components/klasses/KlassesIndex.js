@@ -16,7 +16,7 @@ const KlassesIndex = ({ klasses, currentUser, navigation }) => {
         <Text style={[styles.periodColumn, styles.klassStyle]}>{klass.period}</Text>
         <Text
           style={[styles.nameColumn, styles.klassStyle]}
-          onPress={() => navigation.navigate('Klass', {klass: klass} )}
+          onPress={() => navigation.navigate('Klass', { klass: klass } )}
           >{klass.name}
         </Text>
         <View style={styles.actionsColumn}>
