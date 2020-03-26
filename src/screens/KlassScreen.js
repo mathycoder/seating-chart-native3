@@ -1,11 +1,12 @@
 import React, { useEffect, useLayoutEffect, useRef } from 'react'
-import { View, Text, StyleSheet, FlatList } from 'react-native'
+import { View, Text, StyleSheet } from 'react-native'
 import { connect } from 'react-redux'
 import { fetchStudents } from '../actions/studentActions.js'
 import { setCurrentKlass } from '../actions/currentKlassActions.js'
 import { ScreenOrientation } from 'expo'
 import { Dimensions } from "react-native"
 import Desk from '../components/desks/Desk'
+import EmptyDesk from '../components/desks/EmptyDesk'
 
 const KlassScreen = ({ navigation, klasses, route, students,
                        fetchStudents, setCurrentKlass }) => {
@@ -33,12 +34,45 @@ const KlassScreen = ({ navigation, klasses, route, students,
     });
   }, [navigation]);
 
+
+  const studentsInTheirSeats = () => {
+    return students.allIds.sort((a,b) => {
+      const studentA = students.byId[a]
+      const studentB = students.byId[b]
+      return studentA.seatPair - studentB.seatPair
+    })
+  }
+
+  const seats = () => {
+    return [...Array(32).keys()].map(seatNumber => {
+      const studentId = students.allIds.find(stId => {
+        const st = students.byId[stId]
+        return st.seatPair === seatNumber
+      })
+      return studentId ? studentId : null
+    })
+  }
+
+
+
   const renderDesks = () => {
-    return students.allIds.map(studentId => {
+    return seats().map((studentId, index) => {
       const student = students.byId[studentId]
-      return (
-        <Desk student={student} />
-      )
+      return student ?
+              <Desk
+                type={"pair"}
+                key={index}
+                klass={klass}
+                student={student}
+                index={index}
+                students={students}
+               />
+             : <EmptyDesk
+                type={"pair"}
+                key={index}
+                index={index}
+                klass={klass}
+               />
     })
 
   }
@@ -62,7 +96,6 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: 'yellow',
     paddingHorizontal: 10,
     paddingVertical: 10
   },
@@ -70,7 +103,6 @@ const styles = StyleSheet.create({
     fontSize: 20
   },
   PairSeatingChart: {
-    backgroundColor: 'red',
     flexDirection: 'row',
     flexWrap: 'wrap',
   }
