@@ -80,7 +80,6 @@ const styles = StyleSheet.create({
     alignSelf: "center",
     borderColor: "#3e4444",
     borderWidth: 3,
-    marginBottom: 180
   },
   flexseatsTitle: {
     fontSize: 24,

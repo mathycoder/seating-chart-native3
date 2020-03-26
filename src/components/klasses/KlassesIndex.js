@@ -57,7 +57,8 @@ const KlassesIndex = ({ klasses, currentUser, navigation }) => {
       </View>
 
       <FlatList
-          scrollEnabled={false}
+          scrollEnabled={true}
+          bounces={false}
           style={styles.listStyle}
           data={klasses.allIds}
           keyExtractor={klassId => klassId}
@@ -97,7 +98,7 @@ const styles = StyleSheet.create({
     alignSelf: "center",
     borderColor: "#3e4444",
     borderWidth: 3,
-    marginBottom: 130
+    maxHeight: 300
   },
   flexseatsTitle: {
     fontSize: 24,

@@ -13,9 +13,6 @@ const KlassesScreen = ({ navigation, klasses, fetchKlasses }) => {
       fetchKlasses()
     }, [])
 
-
-    const ModalStack = createStackNavigator();
-
   return (
     <>
       <View style={styles.containerStyle}>

@@ -1,5 +1,5 @@
 import React, { useEffect, useLayoutEffect, useRef } from 'react'
-import { View, Text, StyleSheet } from 'react-native'
+import { View, Text, StyleSheet, ScrollContainer } from 'react-native'
 import { connect } from 'react-redux'
 import { fetchStudents } from '../actions/studentActions.js'
 import { setCurrentKlass } from '../actions/currentKlassActions.js'
@@ -105,6 +105,7 @@ const styles = StyleSheet.create({
   PairSeatingChart: {
     flexDirection: 'row',
     flexWrap: 'wrap',
+    width: 400
   }
 })
 
