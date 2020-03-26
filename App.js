@@ -9,6 +9,7 @@ import {NavigationContainer} from '@react-navigation/native';
 import HomeScreen from './src/screens/HomeScreen'
 import KlassesScreen from './src/screens/KlassesScreen'
 import KlassScreen from './src/screens/KlassScreen'
+import KlassesNavigator from './src/screens/KlassesNavigator'
 import NavBarTitle from './src/navBar/NavBarTitle'
 import Logout from './src/components/sessions/Logout'
 
@@ -34,17 +35,10 @@ const App = () => {
               headerLeft: (props) => <NavBarTitle props={props} />
             })}
           />
-          <Stack.Screen name="Klasses" component={KlassesScreen}
+        <Stack.Screen name="KlassesNavigator" component={KlassesNavigator}
             options={({ navigation, route }) => ({
               title: false,
               headerLeft: (props) => <NavBarTitle props={props} />,
-              headerRight: (props) => <Logout navigation={navigation} />,
-              gestureEnabled: false
-            })}
-          />
-          <Stack.Screen name="Klass" component={KlassScreen}
-            options={({ navigation, route }) => ({
-              title: "Klass Page",
               headerRight: (props) => <Logout navigation={navigation} />,
               gestureEnabled: false
             })}
@@ -54,6 +48,14 @@ const App = () => {
     </NavigationContainer>
   );
 }
+
+// <Stack.Screen name="Klass" component={KlassScreen}
+//   options={({ navigation, route }) => ({
+//     title: "Klass Page",
+//     headerRight: (props) => <Logout navigation={navigation} />,
+//     gestureEnabled: false
+//   })}
+// />
 
 const styles = StyleSheet.create({
   container: {

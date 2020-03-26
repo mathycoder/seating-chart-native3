@@ -4,15 +4,10 @@ import { connect } from 'react-redux'
 import { fetchStudents } from '../actions/studentActions.js'
 import { setCurrentKlass } from '../actions/currentKlassActions.js'
 import { ScreenOrientation } from 'expo'
-import blahScreen from './blahScreen'
-import { createStackNavigator } from '@react-navigation/stack';
-
 
 const KlassScreen = ({ navigation, klasses, route,
                        fetchStudents, setCurrentKlass }) => {
   const { klass } = route.params
-
-  const ModalStack = createStackNavigator();
 
   useEffect(() => {
     if (klass) {
@@ -33,15 +28,12 @@ const KlassScreen = ({ navigation, klasses, route,
 
 
   return (
-    <ModalStack.Navigator mode="modal">
-      <ModalStack.Screen name="Blah" component={blahScreen} options={{ headerShown: false }} />
-    </ModalStack.Navigator>
+    <View>
+      <Text>Klass Show Screen</Text>
+      <Text onPress={() => navigation.goBack()}>X</Text>
+    </View>
   )
 }
-
-// <View style={styles.containerStyle}>
-//   <Text>Klass Show Page</Text>
-// </View>
 
 
 

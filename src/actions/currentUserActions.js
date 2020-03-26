@@ -37,7 +37,7 @@ export function login(credentials, navigation){
           dispatch({ type: 'ADD_FLASH_MESSAGE', message: "Email or password incorrect" })
         } else {
           dispatch({ type: 'SET_CURRENT_USER', user })
-          navigation.navigate('Klasses')
+          navigation.navigate('KlassesNavigator')
         }
       })
       .catch(console.log)

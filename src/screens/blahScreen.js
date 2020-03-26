@@ -2,7 +2,7 @@ import React  from 'react'
 import { View, Text, StyleSheet, FlatList } from 'react-native'
 import { ScreenOrientation } from 'expo'
 
-const blahScreen = () => {
+const BlahScreen = () => {
 
   return (
     <View style={styles.containerStyle}>
@@ -18,4 +18,4 @@ const styles = StyleSheet.create({
 })
 
 
-export default blahScreen
+export default BlahScreen
