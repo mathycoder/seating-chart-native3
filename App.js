@@ -1,6 +1,6 @@
 import 'react-native-gesture-handler';
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View, StatusBar } from 'react-native';
 import store from './src/store'
 import { Provider, connect } from 'react-redux'
 // import Stack from './src/navigators/Stack'
@@ -20,6 +20,7 @@ const Stack = createStackNavigator();
 const App = () => {
   return (
     <NavigationContainer>
+      <StatusBar hidden />
       <Provider store={store}>
         <Stack.Navigator
           screenOptions={{
@@ -49,14 +50,6 @@ const App = () => {
     </NavigationContainer>
   );
 }
-
-// <Stack.Screen name="Klass" component={KlassScreen}
-//   options={({ navigation, route }) => ({
-//     title: "Klass Page",
-//     headerRight: (props) => <Logout navigation={navigation} />,
-//     gestureEnabled: false
-//   })}
-// />
 
 const styles = StyleSheet.create({
   container: {

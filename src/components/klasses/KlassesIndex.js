@@ -58,7 +58,6 @@ const KlassesIndex = ({ klasses, currentUser, navigation }) => {
 
       <FlatList
           scrollEnabled={true}
-          bounces={false}
           style={styles.listStyle}
           data={klasses.allIds}
           keyExtractor={klassId => klassId}

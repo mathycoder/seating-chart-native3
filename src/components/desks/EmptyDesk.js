@@ -1,10 +1,13 @@
 import React from 'react'
 import { Text, View, StyleSheet } from 'react-native'
 
-const EmptyDesk = ({ student }) => {
+const EmptyDesk = ({ student, index }) => {
   return (
-    <View style={styles.deskStyle}>
-    </View>
+    <>
+      <View style={styles.deskStyle}>
+      </View>
+      {index % 2 === 1 ? <View style={styles.gapStyle}></View> : null}
+    </>
   )
 }
 
@@ -15,16 +18,19 @@ const EmptyDesk = ({ student }) => {
 
 const styles = StyleSheet.create({
   deskStyle: {
-    width: 50,
-    height: 38,
+    width: 60,
+    height: 48,
     borderRadius: 5,
     justifyContent: "center",
     alignItems: "center",
     borderColor: "lightgray",
     borderWidth: 1,
-    backgroundColor: "white"
+    backgroundColor: "white",
+    marginVertical: 10
   },
-
+  gapStyle: {
+    width: 30
+  }
 })
 
 export default EmptyDesk

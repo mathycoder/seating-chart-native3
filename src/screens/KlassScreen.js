@@ -100,12 +100,14 @@ const styles = StyleSheet.create({
     paddingVertical: 10
   },
   xOutStyle: {
-    fontSize: 20
+    fontSize: 20,
+    alignSelf: "flex-start",
+    marginTop: -20
   },
   PairSeatingChart: {
     flexDirection: 'row',
     flexWrap: 'wrap',
-    width: 400
+    width: 600
   }
 })
 

@@ -16,7 +16,12 @@ const KlassesNavigator = () => {
             gestureEnabled: false
           })}
         />
-      <ModalStack.Screen name="Klass" component={KlassScreen}  />
+      <ModalStack.Screen name="Klass" component={KlassScreen}
+        options={({ navigation, route }) => ({
+          title: false,
+          gestureEnabled: false
+        })}
+        />
     </ModalStack.Navigator>
   )
 }
