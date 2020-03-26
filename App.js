@@ -11,6 +11,7 @@ import KlassesScreen from './src/screens/KlassesScreen'
 import KlassScreen from './src/screens/KlassScreen'
 import KlassesNavigator from './src/screens/KlassesNavigator'
 import NavBarTitle from './src/navBar/NavBarTitle'
+import NavBarSmallTitle from './src/navBar/NavBarSmallTitle'
 import Logout from './src/components/sessions/Logout'
 
 
@@ -38,7 +39,7 @@ const App = () => {
         <Stack.Screen name="KlassesNavigator" component={KlassesNavigator}
             options={({ navigation, route }) => ({
               title: false,
-              headerLeft: (props) => <NavBarTitle props={props} />,
+              headerLeft: (props) => <NavBarSmallTitle props={props} />,
               headerRight: (props) => <Logout navigation={navigation} />,
               gestureEnabled: false
             })}

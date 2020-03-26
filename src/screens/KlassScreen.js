@@ -20,7 +20,7 @@ const KlassScreen = ({ navigation, klasses, route,
   }, [klass])
 
   useLayoutEffect(() => {
-    navigation.setOptions({
+    navigation.dangerouslyGetParent().setOptions({
       title: `Class ${klass.name}`
     });
   }, [navigation]);
@@ -28,18 +28,18 @@ const KlassScreen = ({ navigation, klasses, route,
 
 
   return (
-    <View>
+    <View style={styles.containerStyle}>
       <Text>Klass Show Screen</Text>
       <Text onPress={() => navigation.goBack()}>X</Text>
     </View>
   )
 }
 
-
-
 const styles = StyleSheet.create({
   containerStyle: {
+    transform: [{ rotate: '270deg'}],
     justifyContent: "center",
+    alignItems: "center",
     flex: 1
   }
 })
