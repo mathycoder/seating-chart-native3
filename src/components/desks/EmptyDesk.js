@@ -18,6 +18,7 @@ const styles = StyleSheet.create({
     borderColor: "lightgray",
     borderWidth: 1,
     backgroundColor: "white",
+    zIndex: 1
   },
   gapStyle: {
     width: 30

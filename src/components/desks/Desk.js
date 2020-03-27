@@ -1,24 +1,61 @@
-import React from 'react'
-import { Text, View, StyleSheet } from 'react-native'
+import React, { Component } from 'react'
+import { Text, View, StyleSheet, PanResponder, Animated } from 'react-native'
 import { LinearGradient } from 'expo-linear-gradient';
 
-const Desk = ({ student, index }) => {
-  return (
-    <View style={styles.deskWrapperStyle}>
-      <LinearGradient
-        style={styles.deskStyle}
-        start={[0.5, 0]}
-        end={[0.5,1]}
-        colors={['#f6f6f6', '#e9e9e9']}>
-        <View style={styles.grooveStyle}></View>
-        <View style={styles.deskItemsStyle}>
-          <Text style={styles.deskItemsText}>{student.firstName}</Text>
-          <View style={styles.ratingsStyle}>
+class Desk extends Component {
+  constructor(){
+    super()
+    this.state = {
+      pan: new Animated.ValueXY(),
+      moving: false
+    }
+    this.panResponder = PanResponder.create({
+      onStartShouldSetPanResponder: () => true,
+
+      // runs when the drag starts
+      onPanResponderGrant: () => {
+        this.state.pan.setOffset(this.state.pan.__getValue());
+        this.state.pan.setValue({ x: 0, y: 0 });
+        this.setState({...this.state, moving: true})
+      },
+      onPanResponderMove: Animated.event([
+        null, {
+          dx: this.state.pan.x,
+          dy: this.state.pan.y
+        }
+      ])
+    });
+  }
+
+  render(){
+    const { student, index } = this.props
+    const panStyle = {
+      transform: this.state.pan.getTranslateTransform()
+    }
+    const elevateStyle = {
+      zIndex: this.state.moving ? 999 : 1
+    }
+
+    return (
+      <Animated.View
+        {...this.panResponder.panHandlers}
+        style={[panStyle, styles.deskWrapperStyle, elevateStyle]}
+      >
+        <LinearGradient
+          style={[styles.deskStyle, {shadowRadius: this.state.moving ? 0 : 1}, elevateStyle]}
+          start={[0.5, 0]}
+          end={[0.5,1]}
+          colors={['#f6f6f6', '#e9e9e9']}>
+          <View style={styles.grooveStyle}></View>
+          <View style={styles.deskItemsStyle}>
+            <Text style={styles.deskItemsText}>{student.firstName}</Text>
+            <View style={styles.ratingsStyle}>
+            </View>
           </View>
-        </View>
-      </LinearGradient>
-    </View>
-  )
+        </LinearGradient>
+      </Animated.View>
+    )
+  }
 }
 
 const styles = StyleSheet.create({
@@ -29,6 +66,7 @@ const styles = StyleSheet.create({
     shadowOpacity: .8,
     overflow: "visible",
     borderRadius: 5,
+    zIndex: 1
   },
   deskStyle: {
     width: 60,
@@ -39,6 +77,7 @@ const styles = StyleSheet.create({
     borderColor: "black",
     borderWidth: 0.5,
     backgroundColor: "#f6f6f6",
+    zIndex: 1
 
   },
   deskItemsText: {
@@ -56,11 +95,5 @@ const styles = StyleSheet.create({
   }
 })
 
-// background-color: darkgray;
-// height: 2px;
-// width: 50px;
-// display: block;
-// margin: 0 auto;
-// margin-top: 4px;
 
 export default Desk
