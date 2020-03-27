@@ -7,9 +7,10 @@ import { ScreenOrientation } from 'expo'
 import { Dimensions } from "react-native"
 import Desk from '../components/desks/Desk'
 import EmptyDesk from '../components/desks/EmptyDesk'
+import { clearCurrentKlass } from '../actions/currentKlassActions.js'
 
 const KlassScreen = ({ navigation, klasses, route, students,
-                       fetchStudents, setCurrentKlass }) => {
+                       fetchStudents, setCurrentKlass, clearCurrentKlass }) => {
   const { klass } = route.params
 
   useEffect(() => {
@@ -17,6 +18,8 @@ const KlassScreen = ({ navigation, klasses, route, students,
       fetchStudents(klass)
       setCurrentKlass(klass)
     }
+
+    return () => clearCurrentKlass()
     // ScreenOrientation.lockAsync(ScreenOrientation.OrientationLock.LANDSCAPE_RIGHT)
     // return () => ScreenOrientation.lockAsync(ScreenOrientation.OrientationLock.PORTRAIT_UP)
 
@@ -138,7 +141,8 @@ const mapStateToProps = state => {
 const mapDispatchToProps = (dispatch) => {
   return {
     fetchStudents: klass => dispatch(fetchStudents(klass)),
-    setCurrentKlass: klass => dispatch(setCurrentKlass(klass))
+    setCurrentKlass: klass => dispatch(setCurrentKlass(klass)),
+    clearCurrentKlass: () => dispatch(clearCurrentKlass())
   }
 }
 

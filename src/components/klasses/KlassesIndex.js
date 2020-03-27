@@ -6,7 +6,7 @@ import KlassForm from './KlassForm'
 import SmallButton from '../buttons/SmallButton'
 import BigButton from '../buttons/BigButton'
 
-const KlassesIndex = ({ klasses, currentUser, navigation }) => {
+const KlassesIndex = ({ klasses, currentUser, navigation, clearCurrentKlass }) => {
   const [displayForm, setDisplayForm] = useState(false)
   const [editKlassId, setEditKlassId] = useState(null)
 

@@ -16,6 +16,9 @@ function studentsById(state = {}, action) {
         ...normalizedObject(action.students)
       }
 
+    case 'CLEAR_CURRENT_KLASS':
+      return {}
+
     case 'ADD_STUDENT':
       return {
         ...state, ...normalizedObject([action.student])
@@ -77,6 +80,9 @@ function allStudents(state = [], action) {
   switch(action.type) {
     case 'FETCH_STUDENTS':
       return [ ...action.students.map(student => `student${student.id}`)]
+
+    case 'CLEAR_CURRENT_KLASS':
+      return []
 
     case 'ADD_STUDENT':
       return [...state, `student${action.student.id}`]
