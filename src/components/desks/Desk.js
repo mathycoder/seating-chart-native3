@@ -4,23 +4,20 @@ import { LinearGradient } from 'expo-linear-gradient';
 
 const Desk = ({ student, index }) => {
   return (
-    <>
-      <View style={styles.deskWrapperStyle}>
-        <LinearGradient
-          style={styles.deskStyle}
-          start={[0.5, 0]}
-          end={[0.5,1]}
-          colors={['#f6f6f6', '#e9e9e9']}>
-          <View style={styles.grooveStyle}></View>
-          <View style={styles.deskItemsStyle}>
-            <Text style={styles.deskItemsText}>{student.firstName}</Text>
-            <View style={styles.ratingsStyle}>
-            </View>
+    <View style={styles.deskWrapperStyle}>
+      <LinearGradient
+        style={styles.deskStyle}
+        start={[0.5, 0]}
+        end={[0.5,1]}
+        colors={['#f6f6f6', '#e9e9e9']}>
+        <View style={styles.grooveStyle}></View>
+        <View style={styles.deskItemsStyle}>
+          <Text style={styles.deskItemsText}>{student.firstName}</Text>
+          <View style={styles.ratingsStyle}>
           </View>
-        </LinearGradient>
-      </View>
-      {index % 2 === 1 ? <View style={styles.gapStyle}></View> : null}
-    </>
+        </View>
+      </LinearGradient>
+    </View>
   )
 }
 
@@ -42,7 +39,6 @@ const styles = StyleSheet.create({
     borderColor: "black",
     borderWidth: 0.5,
     backgroundColor: "#f6f6f6",
-    marginVertical: 10,
 
   },
   deskItemsText: {

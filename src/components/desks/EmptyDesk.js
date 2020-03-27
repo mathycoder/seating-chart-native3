@@ -3,18 +3,10 @@ import { Text, View, StyleSheet } from 'react-native'
 
 const EmptyDesk = ({ student, index }) => {
   return (
-    <>
-      <View style={styles.deskStyle}>
-      </View>
-      {index % 2 === 1 ? <View style={styles.gapStyle}></View> : null}
-    </>
+    <View style={styles.deskStyle}>
+    </View>
   )
 }
-
-// background: none;
-// border: 1px solid lightgray;
-// background-color: white;
-// box-shadow: none;
 
 const styles = StyleSheet.create({
   deskStyle: {
@@ -26,7 +18,6 @@ const styles = StyleSheet.create({
     borderColor: "lightgray",
     borderWidth: 1,
     backgroundColor: "white",
-    marginVertical: 10
   },
   gapStyle: {
     width: 30

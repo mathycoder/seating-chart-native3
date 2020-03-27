@@ -56,25 +56,29 @@ const KlassScreen = ({ navigation, klasses, route, students,
 
 
   const renderDesks = () => {
-    return seats().map((studentId, index) => {
-      const student = students.byId[studentId]
-      return student ?
-              <Desk
-                type={"pair"}
-                key={index}
-                klass={klass}
-                student={student}
-                index={index}
-                students={students}
-               />
-             : <EmptyDesk
-                type={"pair"}
-                key={index}
-                index={index}
-                klass={klass}
-               />
-    })
-
+    const mySeats = seats()
+    return [0,1,2,3].map(row => (
+      <View style={styles.rowStyle}>
+        {mySeats.slice(row*8, (row+1)*8).map((studentId, index) => {
+          const student = students.byId[studentId]
+          return student ?
+                  <Desk
+                    type={"pair"}
+                    key={index}
+                    klass={klass}
+                    student={student}
+                    index={index}
+                    students={students}
+                   />
+                 : <EmptyDesk
+                    type={"pair"}
+                    key={index}
+                    index={index}
+                    klass={klass}
+                   />
+        })}
+      </View>
+    ))
   }
 
   return (
@@ -102,12 +106,17 @@ const styles = StyleSheet.create({
   xOutStyle: {
     fontSize: 20,
     alignSelf: "flex-start",
-    marginTop: -20
+    marginTop: 0,
   },
   PairSeatingChart: {
+    flex: 1,
+  },
+  rowStyle: {
     flexDirection: 'row',
-    flexWrap: 'wrap',
-    width: 600
+    backgroundColor: 'red',
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center'
   }
 })
 
