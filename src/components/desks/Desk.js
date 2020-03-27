@@ -46,7 +46,21 @@ const styles = StyleSheet.create({
   },
   gapStyle: {
     width: 30
+  },
+  grooveStyle: {
+    backgroundColor: 'lightgray',
+    height: 2,
+    width: 35,
+    position: 'absolute',
+    top: 3
   }
 })
+
+// background-color: darkgray;
+// height: 2px;
+// width: 50px;
+// display: block;
+// margin: 0 auto;
+// margin-top: 4px;
 
 export default Desk

@@ -53,8 +53,6 @@ const KlassScreen = ({ navigation, klasses, route, students,
     })
   }
 
-
-
   const renderDesks = () => {
     const mySeats = seats()
     return [0,1,2,3].map(row => {
