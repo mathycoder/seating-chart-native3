@@ -57,28 +57,39 @@ const KlassScreen = ({ navigation, klasses, route, students,
 
   const renderDesks = () => {
     const mySeats = seats()
-    return [0,1,2,3].map(row => (
-      <View style={styles.rowStyle}>
-        {mySeats.slice(row*8, (row+1)*8).map((studentId, index) => {
-          const student = students.byId[studentId]
-          return student ?
-                  <Desk
-                    type={"pair"}
-                    key={index}
-                    klass={klass}
-                    student={student}
-                    index={index}
-                    students={students}
-                   />
-                 : <EmptyDesk
-                    type={"pair"}
-                    key={index}
-                    index={index}
-                    klass={klass}
-                   />
-        })}
-      </View>
-    ))
+    return [0,1,2,3].map(row => {
+      const rowOfStudents = mySeats.slice(row*8, (row+1)*8)
+      return (
+        <View style={styles.rowStyle} key={`row${row}`}>
+          {[0,1,2,3].map(pair => {
+            const pairOfStudents = rowOfStudents.slice(pair*2, (pair+1)*2)
+            return (
+              <View style={styles.pairStyle} key={`row${row}pair${pair}`}>
+                {pairOfStudents.map((studentId, index) => {
+                  const student = students.byId[studentId]
+                  return student ?
+                          <Desk
+                            type={"pair"}
+                            key={index + row*8}
+                            klass={klass}
+                            student={student}
+                            index={index}
+                            students={students}
+                           />
+                         : <EmptyDesk
+                            type={"pair"}
+                            key={index + row*8}
+                            index={index}
+                            klass={klass}
+                           />
+                  })}
+              </View>
+              )
+            })
+          }
+        </View>
+      )
+    })
   }
 
   return (
@@ -110,13 +121,20 @@ const styles = StyleSheet.create({
   },
   PairSeatingChart: {
     flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    alignSelf: 'stretch',
+
   },
   rowStyle: {
     flexDirection: 'row',
-    backgroundColor: 'red',
     flex: 1,
     alignItems: 'center',
-    justifyContent: 'center'
+    justifyContent: 'space-around',
+    alignSelf: 'stretch'
+  },
+  pairStyle: {
+    flexDirection: 'row'
   }
 })
 
