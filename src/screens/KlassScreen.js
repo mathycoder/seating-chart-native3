@@ -1,5 +1,5 @@
-import React, { useEffect, useLayoutEffect, useRef } from 'react'
-import { View, Text, StyleSheet, ScrollContainer } from 'react-native'
+import React, { useState, useEffect, useLayoutEffect, useRef } from 'react'
+import { View, Text, StyleSheet, ScrollContainer, PanResponder, Animated } from 'react-native'
 import { connect } from 'react-redux'
 import { fetchStudents } from '../actions/studentActions.js'
 import { setCurrentKlass } from '../actions/currentKlassActions.js'
@@ -12,7 +12,9 @@ import { clearCurrentKlass } from '../actions/currentKlassActions.js'
 
 const KlassScreen = ({ navigation, klasses, route, students,
                        fetchStudents, setCurrentKlass, clearCurrentKlass }) => {
+  const [draggedStudent, setDraggedStudent] = useState(null)
   const { klass } = route.params
+  const pan = useRef(new Animated.ValueXY()).current;
 
   useEffect(() => {
     if (klass) {
@@ -37,6 +39,36 @@ const KlassScreen = ({ navigation, klasses, route, students,
       title: `Class ${klass.name}`
     });
   }, [navigation]);
+
+
+
+  const panResponder = useRef(
+    PanResponder.create({
+      onMoveShouldSetPanResponder: () => true,
+      onPanResponderGrant: (e, gesture) => {
+        setDraggedStudent(e._targetInst.memoizedProps.student)
+        pan.setOffset({
+          x: pan.x._value,
+          y: pan.y._value
+        });
+      },
+      onPanResponderMove: Animated.event(
+        [
+          null,
+          { dx: pan.x, dy: pan.y }
+        ]
+      ),
+      onPanResponderRelease: (e, gesture) => {
+        setDraggedStudent(null)
+        pan.flattenOffset();
+        Animated.spring(pan, {
+          toValue: { x: 0, y: 0 },
+          friction: 5
+        }).start();
+      }
+    })
+  ).current;
+
 
   const seats = () => {
     return [...Array(32).keys()].map(seatNumber => {
@@ -76,6 +108,8 @@ const KlassScreen = ({ navigation, klasses, route, students,
                 student={student}
                 index={index}
                 students={students}
+                pan={pan}
+                panResponder={panResponder}
                />
              : <EmptyDesk
                 type={"pair"}
@@ -95,6 +129,7 @@ const KlassScreen = ({ navigation, klasses, route, students,
       </Text>
       <View style={styles.PairSeatingChart}>
         {renderDeskRows()}
+        <CloneDesk pan={pan} panResponder={panResponder} student={draggedStudent}/>
       </View>
     </View>
   )

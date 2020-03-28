@@ -1,10 +1,19 @@
 import React from 'react'
-import { Text, View, StyleSheet } from 'react-native'
+import { Text, View, StyleSheet, Animated } from 'react-native'
 
-const EmptyDesk = ({ student, index }) => {
+const CloneDesk = ({ student, index, pan, panResponder  }) => {
+  const panStyle = {
+          transform: [{ translateX: pan.x }, { translateY: pan.y }]
+        }
+
   return (
-    <View style={styles.deskStyle}>
-      <Text>Clone</Text>
+    <View>
+      <Animated.View
+        style={[styles.deskStyle, panStyle]}
+        {...panResponder.panHandlers}
+      >
+        <Text>{student ? student.firstName : 'Clone'}</Text>
+      </Animated.View>
     </View>
   )
 }
@@ -26,4 +35,4 @@ const styles = StyleSheet.create({
   }
 })
 
-export default EmptyDesk
+export default CloneDesk
