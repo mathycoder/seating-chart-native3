@@ -19,7 +19,7 @@ const CloneDesk = ({ student, index, pan, panResponder, setCloneLocation  }) => 
   }
 
   return (
-    <View style={{position: 'absolute', left: 0, top: 0}}>
+    <View style={{position: 'absolute', left: -50, top: -50}}>
       <Animated.View
         style={[student ? styles.deskStyle : styles.hiddenStyle, panStyle]}
         {...panResponder.panHandlers}

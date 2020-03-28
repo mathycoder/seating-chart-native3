@@ -44,8 +44,8 @@ const KlassScreen = ({ navigation, klasses, route, students,
       onMoveShouldSetPanResponder: () => true,
       onPanResponderGrant: (e, gesture) => {
         setDraggedStudent(e._targetInst.memoizedProps.student)
-        console.log("pan.x", pan.x, "gesture.x0", gesture.x0, "cloneLocationRef", cloneLocationRef.current.x)
-        console.log("pan.y", pan.y, "gesture.y0", gesture.y0, "cloneLocationRef", cloneLocationRef.current.y)
+        //console.log("pan.x", pan.x, "gesture.x0", gesture.x0, "cloneLocationRef", cloneLocationRef.current.x)
+        //console.log("pan.y", pan.y, "gesture.y0", gesture.y0, "cloneLocationRef", cloneLocationRef.current.y)
         pan.setOffset({
           x: pan.x._value + gesture.x0 - cloneLocationRef.current.x,
           y: pan.y._value + gesture.y0  - cloneLocationRef.current.y
@@ -60,8 +60,9 @@ const KlassScreen = ({ navigation, klasses, route, students,
       ),
       onPanResponderRelease: (e, gesture) => {
         setDraggedStudent(null)
-        // pan.setValue({ x: 0, y: 0 })
-        pan.flattenOffset();
+        pan.setOffset({ x: 0, y: 0 })
+        pan.setValue({ x: 0, y: 0 })
+        // pan.flattenOffset();
         // Animated.spring(pan, {
         //   toValue: { x: 0, y: 0 },
         //   friction: 5
