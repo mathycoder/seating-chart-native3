@@ -4,21 +4,22 @@ import { LinearGradient } from 'expo-linear-gradient';
 
 const CloneDesk = ({ student, index, pan, panResponder, setCloneLocation  }) => {
   const refContainer = useRef(null)
+  const [locationMeasured, setLocationMeasured] = useState(false)
 
   const panStyle = {
           transform: [{ translateX: pan.x }, { translateY: pan.y }]
         }
 
   const measure = (nativeEvent) => {
-    if (refContainer){
+    if (refContainer && !locationMeasured){
       refContainer.current.getNode().measure((fx, fy, width, height, px, py) => {
         setCloneLocation({x: px + width/2, y: py + height/2})
       })
     }
   }
-  
+
   return (
-    <View>
+    <View style={{position: 'absolute', left: 0, top: 0}}>
       <Animated.View
         style={[student ? styles.deskStyle : styles.hiddenStyle, panStyle]}
         {...panResponder.panHandlers}
@@ -61,10 +62,10 @@ const styles = StyleSheet.create({
     borderColor: "black",
     borderWidth: 0.5,
     backgroundColor: "#f6f6f6",
-    zIndex: -1
+    zIndex: -1,
   },
   hiddenStyle: {
-    borderWidth: 0
+    borderWidth: 0,
   },
   deskItemsText: {
     fontSize: 13
