@@ -31,24 +31,13 @@ const KlassScreen = ({ navigation, klasses, route, students,
     }
 
     return () => clearCurrentKlass()
-    // ScreenOrientation.lockAsync(ScreenOrientation.OrientationLock.LANDSCAPE_RIGHT)
-    // return () => ScreenOrientation.lockAsync(ScreenOrientation.OrientationLock.PORTRAIT_UP)
-
   }, [klass])
-
-  // useEffect(() => {
-  //   ScreenOrientation.lockAsync(ScreenOrientation.OrientationLock.LANDSCAPE_RIGHT)
-  //   return () => ScreenOrientation.lockAsync(ScreenOrientation.OrientationLock.PORTRAIT_UP)
-  //
-  // }, [students])
 
   useLayoutEffect(() => {
     navigation.dangerouslyGetParent().setOptions({
       title: `Class ${klass.name}`
     });
   }, [navigation]);
-
-
 
   const panResponder = useRef(
     PanResponder.create({
@@ -121,6 +110,7 @@ const KlassScreen = ({ navigation, klasses, route, students,
                 students={students}
                 pan={pan}
                 panResponder={panResponder}
+                draggedStudent={draggedStudent}
                />
              : <EmptyDesk
                 type={"pair"}

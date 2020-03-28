@@ -2,53 +2,14 @@ import React, { useState, useRef } from 'react'
 import { Text, View, StyleSheet, PanResponder, Animated } from 'react-native'
 import { LinearGradient } from 'expo-linear-gradient';
 
-const Desk = ({ student, index, pan, panResponder }) => {
-  // const pan = useRef(new Animated.ValueXY()).current;
-  // const [moving, setMoving] = useState(false)
-
-  // const panResponder = useRef(
-  //   PanResponder.create({
-  //     onMoveShouldSetPanResponder: () => true,
-  //     onPanResponderGrant: (e, gesture) => {
-  //       setMoving(true)
-  //       pan.setOffset({
-  //         x: pan.x._value,
-  //         y: pan.y._value
-  //       });
-  //     },
-  //     onPanResponderMove: Animated.event(
-  //       [
-  //         null,
-  //         { dx: pan.x, dy: pan.y }
-  //       ]
-  //     ),
-  //     onPanResponderRelease: (e, gesture) => {
-  //       pan.flattenOffset();
-  //       setMoving(false)
-  //       Animated.spring(pan, {
-  //         toValue: { x: 0, y: 0 },
-  //         friction: 5
-  //       }).start();
-  //     }
-  //   })
-  // ).current;
-
-  // const panStyle = {
-  //         transform: [{ translateX: pan.x }, { translateY: pan.y }]
-  //       }
-
-  const floatingStyle = {
-    opacity: 1
-  }
-
-  const activeCloneStyle = {
-    display: 'block'
-  }
+const Desk = ({ student, draggedStudent, index, panResponder }) => {
+  const floatingStyle = student === draggedStudent ?
+    {opacity: 0.2} : null
 
   return (
     <View>
       <View
-        style={[styles.deskWrapperStyle]}
+        style={[styles.deskWrapperStyle, floatingStyle]}
         {...panResponder.panHandlers}
         student={student}
       >
@@ -70,11 +31,6 @@ const Desk = ({ student, index, pan, panResponder }) => {
 }
 
 const styles = StyleSheet.create({
-  cloneStyle: {
-    display: "none",
-    position: 'absolute',
-    zIndex: 999
-  },
   deskWrapperStyle: {
     shadowColor: '#888888',
     shadowOffset: { width: 0.5, height: 1 },
