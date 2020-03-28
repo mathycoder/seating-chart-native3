@@ -7,6 +7,7 @@ import { ScreenOrientation } from 'expo'
 import { Dimensions } from "react-native"
 import Desk from '../components/desks/Desk'
 import EmptyDesk from '../components/desks/EmptyDesk'
+import CloneDesk from '../components/desks/CloneDesk'
 import { clearCurrentKlass } from '../actions/currentKlassActions.js'
 
 const KlassScreen = ({ navigation, klasses, route, students,

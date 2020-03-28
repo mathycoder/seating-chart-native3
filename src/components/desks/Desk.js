@@ -4,13 +4,13 @@ import { LinearGradient } from 'expo-linear-gradient';
 
 const Desk = ({ student, index }) => {
   const pan = useRef(new Animated.ValueXY()).current;
-  const [zIndex, setZIndex] = useState(-1)
+  const [moving, setMoving] = useState(false)
 
   const panResponder = useRef(
     PanResponder.create({
       onMoveShouldSetPanResponder: () => true,
-      onPanResponderGrant: () => {
-        setZIndex(1)
+      onPanResponderGrant: (e, gesture) => {
+        setMoving(true)
         pan.setOffset({
           x: pan.x._value,
           y: pan.y._value
@@ -24,10 +24,10 @@ const Desk = ({ student, index }) => {
       ),
       onPanResponderRelease: (e, gesture) => {
         pan.flattenOffset();
-        setZIndex(1)
+        setMoving(false)
         Animated.spring(pan, {
           toValue: { x: 0, y: 0 },
-          friction: 6
+          friction: 5
         }).start();
       }
     })
@@ -37,30 +37,51 @@ const Desk = ({ student, index }) => {
           transform: [{ translateX: pan.x }, { translateY: pan.y }]
         }
 
+  const floatingStyle = {
+    opacity: 1
+  }
+
+  const activeCloneStyle = {
+    display: 'block'
+  }
+
   return (
-    <View style={{ zIndex: zIndex }}>
+    <>
+      <View>
+        <Animated.View
+          style={[styles.deskWrapperStyle, (moving ? floatingStyle : null)]}
+          {...panResponder.panHandlers}
+        >
+          <LinearGradient
+            style={styles.deskStyle}
+            start={[0.5, 0]}
+            end={[0.5,1]}
+            colors={['#f6f6f6', '#e9e9e9']}>
+            <View style={styles.grooveStyle}></View>
+            <View style={styles.deskItemsStyle}>
+              <Text style={styles.deskItemsText}>{student.firstName}</Text>
+              <View style={styles.ratingsStyle}>
+              </View>
+            </View>
+          </LinearGradient>
+        </Animated.View>
+      </View>
       <Animated.View
-        style={[styles.deskWrapperStyle, panStyle]}
+        style={[styles.cloneStyle, panStyle, moving ? activeCloneStyle : null]}
         {...panResponder.panHandlers}
       >
-        <LinearGradient
-          style={styles.deskStyle}
-          start={[0.5, 0]}
-          end={[0.5,1]}
-          colors={['#f6f6f6', '#e9e9e9']}>
-          <View style={styles.grooveStyle}></View>
-          <View style={styles.deskItemsStyle}>
-            <Text style={styles.deskItemsText}>{student.firstName}</Text>
-            <View style={styles.ratingsStyle}>
-            </View>
-          </View>
-        </LinearGradient>
+        <Text>Clone</Text>
       </Animated.View>
-    </View>
+    </>
   )
 }
 
 const styles = StyleSheet.create({
+  cloneStyle: {
+    display: "none",
+    position: 'absolute',
+    zIndex: 999
+  },
   deskWrapperStyle: {
     shadowColor: '#888888',
     shadowOffset: { width: 0.5, height: 1 },
@@ -68,7 +89,7 @@ const styles = StyleSheet.create({
     shadowOpacity: .8,
     overflow: "visible",
     borderRadius: 5,
-    zIndex: -1
+    zIndex: -1,
   },
   deskStyle: {
     width: 65,

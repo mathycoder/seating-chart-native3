@@ -40,7 +40,7 @@ const App = () => {
         <Stack.Screen name="KlassesNavigator" component={KlassesNavigator}
             options={({ navigation, route }) => ({
               title: false,
-              headerLeft: (props) => <NavBarSmallTitle props={props} />,
+              headerLeft: (props) => <NavBarTitle props={props} />,
               headerRight: (props) => <Logout navigation={navigation} />,
               gestureEnabled: false
             })}
