@@ -1,16 +1,28 @@
-import React from 'react'
-import { Text, View, StyleSheet, Animated } from 'react-native'
+import React, { useState, useRef } from 'react'
+import { Text, View, StyleSheet, Animated, measure } from 'react-native'
 
-const CloneDesk = ({ student, index, pan, panResponder  }) => {
+const CloneDesk = ({ student, index, pan, panResponder, setCloneLocation  }) => {
+  const refContainer = useRef(null)
+
   const panStyle = {
           transform: [{ translateX: pan.x }, { translateY: pan.y }]
         }
+
+  const measure = (nativeEvent) => {
+    if (refContainer){
+      refContainer.current.getNode().measure((fx, fy, width, height, px, py) => {
+        setCloneLocation({x: px, y: py})
+      })
+    }
+  }
 
   return (
     <View>
       <Animated.View
         style={[styles.deskStyle, panStyle]}
         {...panResponder.panHandlers}
+        ref={refContainer}
+        onLayout={({ nativeEvent }) => measure()}
       >
         <Text>{student ? student.firstName : 'Clone'}</Text>
       </Animated.View>
@@ -28,7 +40,7 @@ const styles = StyleSheet.create({
     borderColor: "lightgray",
     borderWidth: 1,
     backgroundColor: "white",
-    zIndex: -1
+    zIndex: -1,
   },
   gapStyle: {
     width: 30

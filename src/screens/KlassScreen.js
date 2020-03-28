@@ -13,8 +13,16 @@ import { clearCurrentKlass } from '../actions/currentKlassActions.js'
 const KlassScreen = ({ navigation, klasses, route, students,
                        fetchStudents, setCurrentKlass, clearCurrentKlass }) => {
   const [draggedStudent, setDraggedStudent] = useState(null)
+  const [cloneLocation, _setCloneLocation] = useState({x: 0, y: 0})
   const { klass } = route.params
   const pan = useRef(new Animated.ValueXY()).current;
+
+  const cloneLocationRef = useRef()
+
+  const setCloneLocation = data => {
+    cloneLocationRef.current = data;
+    _setCloneLocation(data);
+  };
 
   useEffect(() => {
     if (klass) {
@@ -47,10 +55,13 @@ const KlassScreen = ({ navigation, klasses, route, students,
       onMoveShouldSetPanResponder: () => true,
       onPanResponderGrant: (e, gesture) => {
         setDraggedStudent(e._targetInst.memoizedProps.student)
+        // console.log("pan.x", pan.x, "gesture.x0", gesture.x0, "cloneLocationRef", cloneLocationRef.current.x)
+        // console.log("pan.y", pan.y, "gesture.y0", gesture.y0, "cloneLocationRef", cloneLocationRef.current.y)
         pan.setOffset({
-          x: pan.x._value,
-          y: pan.y._value
+          x: pan.x._value + gesture.x0 - cloneLocationRef.current.x,
+          y: pan.y._value + gesture.y0  - cloneLocationRef.current.y
         });
+
       },
       onPanResponderMove: Animated.event(
         [
@@ -129,7 +140,12 @@ const KlassScreen = ({ navigation, klasses, route, students,
       </Text>
       <View style={styles.PairSeatingChart}>
         {renderDeskRows()}
-        <CloneDesk pan={pan} panResponder={panResponder} student={draggedStudent}/>
+        <CloneDesk
+          pan={pan}
+          panResponder={panResponder}
+          student={draggedStudent}
+          setCloneLocation={setCloneLocation}
+        />
       </View>
     </View>
   )
