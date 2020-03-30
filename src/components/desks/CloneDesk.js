@@ -12,9 +12,12 @@ const CloneDesk = ({ student, index, pan, panResponder, setCloneLocation  }) => 
 
   const measure = (nativeEvent) => {
     if (refContainer && !locationMeasured){
-      refContainer.current.getNode().measure((fx, fy, width, height, px, py) => {
-        setCloneLocation({x: px + width/2, y: py + height/2})
-      })
+      window.setTimeout(() => {
+        refContainer.current.getNode().measure((fx, fy, width, height, px, py) => {
+          setCloneLocation({x: px + width/2, y: py + height/2})
+        })
+      }, 500)
+
     }
   }
 
