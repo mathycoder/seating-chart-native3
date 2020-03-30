@@ -14,7 +14,6 @@ const KlassScreen = ({ navigation, klasses, route, students,
                        fetchStudents, setCurrentKlass, clearCurrentKlass }) => {
   const [draggedStudent, setDraggedStudent] = useState(null)
   const [cloneLocation, _setCloneLocation] = useState({x: 0, y: 0})
-  const [seatLocationsArray, setSeatLocationsArray] = useState([])
   const { klass } = route.params
   const pan = useRef(new Animated.ValueXY()).current;
   const seatsArrayRef = useRef([])
