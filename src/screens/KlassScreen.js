@@ -14,8 +14,10 @@ const KlassScreen = ({ navigation, klasses, route, students,
                        fetchStudents, setCurrentKlass, clearCurrentKlass }) => {
   const [draggedStudent, setDraggedStudent] = useState(null)
   const [cloneLocation, _setCloneLocation] = useState({x: 0, y: 0})
+  const [seatLocationsArray, setSeatLocationsArray] = useState([])
   const { klass } = route.params
   const pan = useRef(new Animated.ValueXY()).current;
+  const seatsArrayRef = useRef([])
 
   const cloneLocationRef = useRef()
 
@@ -44,8 +46,8 @@ const KlassScreen = ({ navigation, klasses, route, students,
       onMoveShouldSetPanResponder: () => true,
       onPanResponderGrant: (e, gesture) => {
         setDraggedStudent(e._targetInst.memoizedProps.student)
-        console.log("pan.x", pan.x, "gesture.x0", gesture.x0, "cloneLocationRef", cloneLocationRef.current.x)
-        console.log("pan.y", pan.y, "gesture.y0", gesture.y0, "cloneLocationRef", cloneLocationRef.current.y)
+        // console.log("pan.x", pan.x, "gesture.x0", gesture.x0, "cloneLocationRef", cloneLocationRef.current.x)
+        // console.log("pan.y", pan.y, "gesture.y0", gesture.y0, "cloneLocationRef", cloneLocationRef.current.y)
         pan.setOffset({
           x: pan.x._value + gesture.x0 - cloneLocationRef.current.x,
           y: pan.y._value + gesture.y0  - cloneLocationRef.current.y
@@ -105,10 +107,13 @@ const KlassScreen = ({ navigation, klasses, route, students,
       return student ?
               <Desk
                 type={"pair"}
+                row={row}
+                pair={pair}
+                index={index}
+                seatsArrayRef={seatsArrayRef}
                 key={index + row*8}
                 klass={klass}
                 student={student}
-                index={index}
                 students={students}
                 pan={pan}
                 panResponder={panResponder}
@@ -116,9 +121,12 @@ const KlassScreen = ({ navigation, klasses, route, students,
                />
              : <EmptyDesk
                 type={"pair"}
+                row={row}
+                pair={pair}
                 key={index + row*8}
                 index={index}
                 klass={klass}
+                seatsArrayRef={seatsArrayRef}
                />
       })
   }

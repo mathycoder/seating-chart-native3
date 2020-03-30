@@ -4,20 +4,18 @@ import { LinearGradient } from 'expo-linear-gradient';
 
 const CloneDesk = ({ student, index, pan, panResponder, setCloneLocation  }) => {
   const refContainer = useRef(null)
-  const [locationMeasured, setLocationMeasured] = useState(false)
 
   const panStyle = {
           transform: [{ translateX: pan.x }, { translateY: pan.y }]
         }
 
-  const measure = (nativeEvent) => {
-    if (refContainer && !locationMeasured){
+  const myMeasure = (nativeEvent) => {
+    if (refContainer){
       window.setTimeout(() => {
         refContainer.current.getNode().measure((fx, fy, width, height, px, py) => {
           setCloneLocation({x: px + width/2, y: py + height/2})
         })
       }, 500)
-
     }
   }
 
@@ -27,7 +25,7 @@ const CloneDesk = ({ student, index, pan, panResponder, setCloneLocation  }) => 
         style={[student ? styles.deskStyle : styles.hiddenStyle, panStyle]}
         {...panResponder.panHandlers}
         ref={refContainer}
-        onLayout={({ nativeEvent }) => measure()}
+        onLayout={({ nativeEvent }) => myMeasure()}
       >
         <LinearGradient
           style={styles.deskStyle}

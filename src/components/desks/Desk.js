@@ -2,15 +2,37 @@ import React, { useState, useRef } from 'react'
 import { Text, View, StyleSheet, PanResponder, Animated } from 'react-native'
 import { LinearGradient } from 'expo-linear-gradient';
 
-const Desk = ({ student, draggedStudent, index, panResponder }) => {
+const Desk = ({ student, draggedStudent, panResponder,
+                seatsArrayRef, row, pair, index }) => {
+  const [myMeasurements, _setMyMeasurements] = useState(null)
+
   const floatingStyle = student === draggedStudent ?
     {opacity: 0.2} : null
+
+  const seatNumber = row*8 + pair*2 + index
+
+  const myMeasure = () => {
+    if (seatsArrayRef.current[seatNumber]){
+      window.setTimeout(() => {
+        seatsArrayRef.current[seatNumber].getNode().measure((fx, fy, width, height, px, py) => {
+          setMyMeasurements({
+            screenX: px,
+            screenY: py,
+            width: width,
+            height: height
+          })
+        })
+      }, 500)
+    }
+  }
 
   return (
     <View>
       <View
         style={[styles.deskWrapperStyle, floatingStyle]}
         {...panResponder.panHandlers}
+        ref={seatsArrayRef.current[seatNumber]}
+        onLayout={({ nativeEvent }) => myMeasure()}
         student={student}
       >
         <LinearGradient
