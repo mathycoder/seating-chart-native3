@@ -10,7 +10,7 @@ import EmptyDesk from '../components/desks/EmptyDesk'
 import CloneDesk from '../components/desks/CloneDesk'
 import { clearCurrentKlass } from '../actions/currentKlassActions.js'
 
-const KlassScreen = ({ navigation, klasses, route, students,
+const KlassScreen = ({ navigation, klasses, route, students, desks,
                        fetchStudents, setCurrentKlass, clearCurrentKlass }) => {
   const [draggedStudent, setDraggedStudent] = useState(null)
   const [cloneLocation, _setCloneLocation] = useState({x: 0, y: 0})
@@ -22,6 +22,12 @@ const KlassScreen = ({ navigation, klasses, route, students,
     cloneLocationRef.current = data;
     _setCloneLocation(data);
   };
+
+  const desksRef = useRef(desks)
+
+  useEffect(() => {
+    desksRef.current = desks
+  }, [desks])
 
   useEffect(() => {
     if (klass) {
@@ -51,12 +57,20 @@ const KlassScreen = ({ navigation, klasses, route, students,
         });
 
       },
-      onPanResponderMove: Animated.event(
-        [
-          null,
-          { dx: pan.x, dy: pan.y }
-        ]
-      ),
+      onPanResponderMove: (e, gesture) => {
+        // const over = desksRef.current.allIds.filter(seatId => {
+        //   seat = desksRef.current.byId[seatId]
+        //   return (seat.topLeft.x < gesture.x0 && seat.topRight.x > gesture.x0 &&
+        //           seat.topLeft.y < gesture.y0 && seat.topRight.y > gesture.y0)
+        // })
+
+        Animated.event(
+          [
+            null,
+            { dx: pan.x, dy: pan.y }
+          ]
+        )(e, gesture)
+      },
       onPanResponderRelease: (e, gesture) => {
         setDraggedStudent(null)
         pan.setOffset({ x: 0, y: 0 })
@@ -181,7 +195,8 @@ const styles = StyleSheet.create({
 const mapStateToProps = state => {
   return {
     klasses: state.klasses,
-    students: state.students
+    students: state.students,
+    desks: state.seats.pairSeats
   }
 }
 

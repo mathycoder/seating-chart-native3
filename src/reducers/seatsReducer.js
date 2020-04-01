@@ -1,7 +1,10 @@
 import { combineReducers } from 'redux'
 
 const seatsReducer = combineReducers({
-  pairSeats: pairSeatsReducer,
+  pairSeats: combineReducers({
+    byId: pairSeatsById,
+    allIds: pairSeatsAllIds
+  }),
   groupSeats: groupSeatsReducer
 })
 
@@ -16,19 +19,32 @@ function emptySeats(){
   return emptyObj
 }
 
-function pairSeatsReducer(state = {}, action) {
+function pairSeatsById(state = {}, action) {
   switch(action.type) {
     case 'SET_SEAT_LOCATION':
       const { seatNumber, measurements } = action
+      const { screenX, screenY, width, height } = measurements
       return {
         ...state,
         [`seat${seatNumber}`]: {
-          x: measurements.screenX, y: measurements.screenY
+          topLeft: { x: screenX, y: screenY },
+          topRight: { x: screenX + width, y: screenY },
+          bottomLeft: { x: screenX, y: screenY + height },
+          bottomRight: { x: screenX + width, y: screenY + height },
+          center: { x: screenX + width/2, y: screenY + height/2 },
         }
       }
 
     default:
       return emptySeats()
+  }
+}
+
+function pairSeatsAllIds(state = [], action) {
+  switch(action.type) {
+
+    default:
+      return [...Array(32).keys()].map(num => `seat${num}`)
   }
 }
 
