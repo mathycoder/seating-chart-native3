@@ -17,8 +17,16 @@ function emptySeats(){
 }
 
 function pairSeatsReducer(state = {}, action) {
-
   switch(action.type) {
+    case 'SET_SEAT_LOCATION':
+      const { seatNumber, measurements } = action
+      return {
+        ...state,
+        [`seat${seatNumber}`]: {
+          x: measurements.screenX, y: measurements.screenY
+        }
+      }
+
     default:
       return emptySeats()
   }

@@ -1,28 +1,31 @@
 import React, { useState, useRef } from 'react'
 import { Text, View, StyleSheet, PanResponder, Animated } from 'react-native'
 import { LinearGradient } from 'expo-linear-gradient';
+import { setSeatLocation } from '../../actions/seatActions.js'
+import { connect } from 'react-redux'
 
 const Desk = ({ student, draggedStudent, panResponder,
-                seatsArrayRef, row, pair, index }) => {
-  const [myMeasurements, _setMyMeasurements] = useState(null)
+                seatsArrayRef, row, pair, index, setSeatLocation }) => {
+
+  const deskRef = React.createRef()
 
   const floatingStyle = student === draggedStudent ?
     {opacity: 0.2} : null
 
   const seatNumber = row*8 + pair*2 + index
 
-  const myMeasure = () => {
-    if (seatsArrayRef.current[seatNumber]){
+  const myMeasure = (nativeEvent) => {
+    if (deskRef){
       window.setTimeout(() => {
-        seatsArrayRef.current[seatNumber].getNode().measure((fx, fy, width, height, px, py) => {
-          setMyMeasurements({
+        deskRef.current.measure((fx, fy, width, height, px, py) => {
+          setSeatLocation(seatNumber, {
             screenX: px,
             screenY: py,
             width: width,
             height: height
           })
         })
-      }, 500)
+      }, 0)
     }
   }
 
@@ -31,8 +34,8 @@ const Desk = ({ student, draggedStudent, panResponder,
       <View
         style={[styles.deskWrapperStyle, floatingStyle]}
         {...panResponder.panHandlers}
-        ref={seatsArrayRef.current[seatNumber]}
-        onLayout={({ nativeEvent }) => myMeasure()}
+        ref={deskRef}
+        onLayout={({ nativeEvent }) => myMeasure(nativeEvent)}
         student={student}
       >
         <LinearGradient
@@ -88,4 +91,10 @@ const styles = StyleSheet.create({
   }
 })
 
-export default Desk
+const mapDispatchToProps = dispatch => {
+  return {
+    setSeatLocation: (seatNumber, measurements) => dispatch(setSeatLocation(seatNumber, measurements))
+  }
+}
+
+export default connect(null, mapDispatchToProps)(Desk)

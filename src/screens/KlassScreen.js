@@ -16,10 +16,8 @@ const KlassScreen = ({ navigation, klasses, route, students,
   const [cloneLocation, _setCloneLocation] = useState({x: 0, y: 0})
   const { klass } = route.params
   const pan = useRef(new Animated.ValueXY()).current;
-  const seatsArrayRef = useRef([])
 
   const cloneLocationRef = useRef()
-
   const setCloneLocation = data => {
     cloneLocationRef.current = data;
     _setCloneLocation(data);
@@ -109,7 +107,6 @@ const KlassScreen = ({ navigation, klasses, route, students,
                 row={row}
                 pair={pair}
                 index={index}
-                seatsArrayRef={seatsArrayRef}
                 key={index + row*8}
                 klass={klass}
                 student={student}
@@ -125,7 +122,6 @@ const KlassScreen = ({ navigation, klasses, route, students,
                 key={index + row*8}
                 index={index}
                 klass={klass}
-                seatsArrayRef={seatsArrayRef}
                />
       })
   }
