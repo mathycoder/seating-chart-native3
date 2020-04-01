@@ -4,35 +4,15 @@ import { LinearGradient } from 'expo-linear-gradient';
 import { setSeatLocation } from '../../actions/seatActions.js'
 import { connect } from 'react-redux'
 
-const Desk = ({ student, draggedStudent, panResponder, seatNumber, setSeatLocation }) => {
-
-  const deskRef = React.createRef()
-
+const Desk = ({ student, draggedStudent, panResponder, seatNumber, setSeatLocation, overDesk }) => {
   const floatingStyle = student === draggedStudent ?
     {opacity: 0.2} : null
-
-  const myMeasure = (nativeEvent) => {
-    if (deskRef){
-      window.setTimeout(() => {
-        deskRef.current.measure((fx, fy, width, height, px, py) => {
-          setSeatLocation(seatNumber, {
-            screenX: px,
-            screenY: py,
-            width: width,
-            height: height
-          })
-        })
-      }, 0)
-    }
-  }
 
   return (
     <View>
       <View
         style={[styles.deskWrapperStyle, floatingStyle]}
         {...panResponder.panHandlers}
-        ref={deskRef}
-        onLayout={({ nativeEvent }) => myMeasure(nativeEvent)}
         student={student}
       >
         <LinearGradient

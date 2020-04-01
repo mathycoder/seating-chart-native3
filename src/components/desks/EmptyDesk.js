@@ -3,7 +3,7 @@ import { Text, View, StyleSheet } from 'react-native'
 import { setSeatLocation } from '../../actions/seatActions.js'
 import { connect } from 'react-redux'
 
-const EmptyDesk = ({ student, row, pair, index, seatNumber, setSeatLocation }) => {
+const EmptyDesk = ({ student, seatNumber, setSeatLocation, overDesk }) => {
   const deskRef = React.createRef()
 
   const myMeasure = () => {
@@ -23,7 +23,7 @@ const EmptyDesk = ({ student, row, pair, index, seatNumber, setSeatLocation }) =
 
   return (
     <View
-      style={styles.deskStyle}
+      style={[styles.deskStyle, overDesk === `seat${seatNumber}` ? {backgroundColor: "yellow"} : null]}
       ref={deskRef}
       onLayout={({ nativeEvent }) => myMeasure()}
     >
@@ -45,6 +45,9 @@ const styles = StyleSheet.create({
   },
   gapStyle: {
     width: 30
+  },
+  overDeskStyle: {
+    backgroundColor: "yellow"
   }
 })
 

@@ -13,6 +13,7 @@ import { clearCurrentKlass } from '../actions/currentKlassActions.js'
 const KlassScreen = ({ navigation, klasses, route, students, desks,
                        fetchStudents, setCurrentKlass, clearCurrentKlass }) => {
   const [draggedStudent, setDraggedStudent] = useState(null)
+  const [overDesk, setOverDesk] = useState(null)
   const [cloneLocation, _setCloneLocation] = useState({x: 0, y: 0})
   const { klass } = route.params
   const pan = useRef(new Animated.ValueXY()).current;
@@ -58,11 +59,16 @@ const KlassScreen = ({ navigation, klasses, route, students, desks,
 
       },
       onPanResponderMove: (e, gesture) => {
-        const over = desksRef.current.allIds.find(seatId => {
-          const seat = desksRef.current.byId[seatId]
-          return (gesture.x0 + pan.x._value > seat.topLeft.x && gesture.x0 + pan.x._value < seat.topRight.x &&
-                  gesture.y0 + pan.y._value > seat.topLeft.y && gesture.y0 + pan.y._value < seat.bottomLeft.y)
-        })
+        // const over = desksRef.current.allIds.find(seatId => {
+        //   const seat = desksRef.current.byId[seatId]
+        //   if (seat.topLeft && seat.topRight && seat.bottomLeft && seat.bottomRight){
+        //     return (gesture.x0 + pan.x._value > seat.topLeft.x && gesture.x0 + pan.x._value < seat.topRight.x &&
+        //             gesture.y0 + pan.y._value > seat.topLeft.y && gesture.y0 + pan.y._value < seat.bottomLeft.y)
+        //   } else {
+        //     return false
+        //   }
+        // })
+        // if (overDesk !== over) { setOverDesk(over) }
 
         Animated.event(
           [
@@ -75,6 +81,7 @@ const KlassScreen = ({ navigation, klasses, route, students, desks,
         setDraggedStudent(null)
         pan.setOffset({ x: 0, y: 0 })
         pan.setValue({ x: 0, y: 0 })
+        setOverDesk(null)
         // pan.flattenOffset();
         // Animated.spring(pan, {
         //   toValue: { x: 0, y: 0 },
@@ -120,6 +127,7 @@ const KlassScreen = ({ navigation, klasses, route, students, desks,
               <Desk
                 type={"pair"}
                 seatNumber={seatNumber}
+                overDesk={overDesk}
                 key={seatNumber}
                 klass={klass}
                 student={student}
@@ -131,6 +139,7 @@ const KlassScreen = ({ navigation, klasses, route, students, desks,
              : <EmptyDesk
                 type={"pair"}
                 seatNumber={seatNumber}
+                overDesk={overDesk}
                 key={seatNumber}
                 index={index}
                 klass={klass}
