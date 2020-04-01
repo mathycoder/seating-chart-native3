@@ -4,15 +4,12 @@ import { LinearGradient } from 'expo-linear-gradient';
 import { setSeatLocation } from '../../actions/seatActions.js'
 import { connect } from 'react-redux'
 
-const Desk = ({ student, draggedStudent, panResponder,
-                seatsArrayRef, row, pair, index, setSeatLocation }) => {
+const Desk = ({ student, draggedStudent, panResponder, seatNumber, setSeatLocation }) => {
 
   const deskRef = React.createRef()
 
   const floatingStyle = student === draggedStudent ?
     {opacity: 0.2} : null
-
-  const seatNumber = row*8 + pair*2 + index
 
   const myMeasure = (nativeEvent) => {
     if (deskRef){

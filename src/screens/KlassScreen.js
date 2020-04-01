@@ -115,13 +115,12 @@ const KlassScreen = ({ navigation, klasses, route, students, desks,
     const pairOfStudents = rowOfStudents.slice(pair*2, (pair+1)*2)
     return pairOfStudents.map((studentId, index) => {
       const student = students.byId[studentId]
+      const seatNumber = row*8 + pair*2 + index
       return student ?
               <Desk
                 type={"pair"}
-                row={row}
-                pair={pair}
-                index={index}
-                key={index + row*8}
+                seatNumber={seatNumber}
+                key={seatNumber}
                 klass={klass}
                 student={student}
                 students={students}
@@ -131,9 +130,8 @@ const KlassScreen = ({ navigation, klasses, route, students, desks,
                />
              : <EmptyDesk
                 type={"pair"}
-                row={row}
-                pair={pair}
-                key={index + row*8}
+                seatNumber={seatNumber}
+                key={seatNumber}
                 index={index}
                 klass={klass}
                />
