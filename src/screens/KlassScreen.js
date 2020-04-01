@@ -58,11 +58,11 @@ const KlassScreen = ({ navigation, klasses, route, students, desks,
 
       },
       onPanResponderMove: (e, gesture) => {
-        // const over = desksRef.current.allIds.filter(seatId => {
-        //   seat = desksRef.current.byId[seatId]
-        //   return (seat.topLeft.x < gesture.x0 && seat.topRight.x > gesture.x0 &&
-        //           seat.topLeft.y < gesture.y0 && seat.topRight.y > gesture.y0)
-        // })
+        const over = desksRef.current.allIds.find(seatId => {
+          const seat = desksRef.current.byId[seatId]
+          return (gesture.x0 + pan.x._value > seat.topLeft.x && gesture.x0 + pan.x._value < seat.topRight.x &&
+                  gesture.y0 + pan.y._value > seat.topLeft.y && gesture.y0 + pan.y._value < seat.bottomLeft.y)
+        })
 
         Animated.event(
           [
