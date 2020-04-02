@@ -59,16 +59,16 @@ const KlassScreen = ({ navigation, klasses, route, students, desks,
 
       },
       onPanResponderMove: (e, gesture) => {
-        // const over = desksRef.current.allIds.find(seatId => {
-        //   const seat = desksRef.current.byId[seatId]
-        //   if (seat.topLeft && seat.topRight && seat.bottomLeft && seat.bottomRight){
-        //     return (gesture.x0 + pan.x._value > seat.topLeft.x && gesture.x0 + pan.x._value < seat.topRight.x &&
-        //             gesture.y0 + pan.y._value > seat.topLeft.y && gesture.y0 + pan.y._value < seat.bottomLeft.y)
-        //   } else {
-        //     return false
-        //   }
-        // })
-        // if (overDesk !== over) { setOverDesk(over) }
+        const over = desksRef.current.allIds.find(seatId => {
+          const seat = desksRef.current.byId[seatId]
+          if (seat.topLeft && seat.topRight && seat.bottomLeft && seat.bottomRight){
+            return (gesture.x0 + pan.x._value > seat.topLeft.x && gesture.x0 + pan.x._value < seat.topRight.x &&
+                    gesture.y0 + pan.y._value > seat.topLeft.y && gesture.y0 + pan.y._value < seat.bottomLeft.y)
+          } else {
+            return false
+          }
+        })
+        if (overDesk !== over) { setOverDesk(over) }
 
         Animated.event(
           [
@@ -155,7 +155,7 @@ const KlassScreen = ({ navigation, klasses, route, students, desks,
         >X
       </Text>
       <View style={styles.PairSeatingChart}>
-        {renderDeskRows()}
+        {students.loading ? null : renderDeskRows()}
       </View>
       <CloneDesk
         pan={pan}

@@ -5,21 +5,42 @@ import { setSeatLocation } from '../../actions/seatActions.js'
 import { connect } from 'react-redux'
 
 const Desk = ({ student, draggedStudent, panResponder, seatNumber, setSeatLocation, overDesk }) => {
+  const deskRef = React.createRef()
+
+  const myMeasure = () => {
+    if (deskRef){
+      window.setTimeout(() => {
+        deskRef.current.measure((fx, fy, width, height, px, py) => {
+          setSeatLocation(seatNumber, {
+            screenX: px,
+            screenY: py,
+            width: width,
+            height: height
+          })
+        })
+      }, 0)
+    }
+  }
+
   const floatingStyle = student === draggedStudent ?
     {opacity: 0.2} : null
+
+  const overStyle = overDesk === `seat${seatNumber}` ? ["yellow", "yellow"] : ['#f6f6f6', '#e9e9e9']
 
   return (
     <View>
       <View
         style={[styles.deskWrapperStyle, floatingStyle]}
         {...panResponder.panHandlers}
+        ref={deskRef}
+        onLayout={({ nativeEvent }) => myMeasure()}
         student={student}
       >
         <LinearGradient
           style={styles.deskStyle}
           start={[0.5, 0]}
           end={[0.5,1]}
-          colors={['#f6f6f6', '#e9e9e9']}>
+          colors={overStyle}>
           <View style={styles.grooveStyle}></View>
           <View style={styles.deskItemsStyle}>
             <Text style={styles.deskItemsText}>{student.firstName}</Text>

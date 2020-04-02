@@ -100,6 +100,9 @@ function loading(state = false, action){
     case 'REQUEST_GENERATE':
       return true
 
+      case 'FETCH_STUDENTS_REQUEST':
+        return true
+
     case 'FETCH_STUDENTS':
       return false
 
