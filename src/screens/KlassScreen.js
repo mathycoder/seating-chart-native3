@@ -93,9 +93,10 @@ const KlassScreen = ({ navigation, klasses, route, students, desks,
         )(e, gesture)
       },
       onPanResponderRelease: (e, gesture) => {
+        const seatNumber = overDeskRef.current ? parseInt(overDeskRef.current.split("seat")[1]) : null
         const overStudentId = studentsRef.current.allIds.find(stId => {
           const student = studentsRef.current.byId[stId]
-          return student.seatPair === parseInt(overDeskRef.current.split("seat")[1])
+          return student.seatPair === parseInt(seatNumber)
         })
 
         const currentStudent = e._targetInst.memoizedProps.student
@@ -103,6 +104,8 @@ const KlassScreen = ({ navigation, klasses, route, students, desks,
 
         if (overStudent) {
           swap(klass, currentStudent, overStudent, 'pair')
+        } else if (overDeskRef.current) {
+          newSeat(klass, currentStudent, seatNumber, 'pair')
         }
 
         setDraggedStudent(null)
