@@ -198,15 +198,7 @@ const KlassScreen = ({ navigation, klasses, route, students, desks,
         student={draggedStudent}
         setCloneLocation={setCloneLocation}
       />
-      {students.loading ? null : desks.allIds.map(deskId => {
-        const desk = desks.byId[deskId]
-        return (
-          <>
-            <View style={[styles.deskBorderStyle, {left: desk.bottomLeft ? desk.bottomLeft.x : 0, top: desk.bottomLeft ? desk.bottomLeft.y : 0}]}>
-            </View>
-          </>
-        )
-      })}
+
     </View>
   )
 }
@@ -216,13 +208,7 @@ const KlassScreen = ({ navigation, klasses, route, students, desks,
 //   const desk = desks.byId[deskId]
 //   return (
 //     <>
-//       <View style={[styles.deskBorderStyle, {left: desk.topLeft.x, top: desk.topLeft.y}]}>
-//       </View>
-//       <View style={[styles.deskBorderStyle, {left: desk.topRight.x, top: desk.topRight.y}]}>
-//       </View>
-//       <View style={[styles.deskBorderStyle, {left: desk.bottomLeft.x, top: desk.bottomLeft.y}]}>
-//       </View>
-//       <View style={[styles.deskBorderStyle, {left: desk.bottomRight.x, top: desk.bottomRight.y}]}>
+//       <View style={[styles.deskBorderStyle, {left: desk.bottomLeft ? desk.bottomLeft.x : 0, top: desk.bottomLeft ? desk.bottomLeft.y : 0}]}>
 //       </View>
 //     </>
 //   )

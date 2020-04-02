@@ -15,12 +15,12 @@ const CloneDesk = ({ student, index, pan, panResponder, setCloneLocation  }) => 
         refContainer.current.getNode().measure((fx, fy, width, height, px, py) => {
           setCloneLocation({x: px + width/2, y: py + height/2})
         })
-      }, 500)
+      }, 0)
     }
   }
 
   return (
-    <View style={{position: 'absolute', left: -50, top: -50}}>
+    <View style={{position: 'absolute', left: -100, top: -100}}>
       <Animated.View
         style={[student ? styles.deskStyle : styles.hiddenStyle, panStyle]}
         {...panResponder.panHandlers}
