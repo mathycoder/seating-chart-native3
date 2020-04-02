@@ -15,7 +15,7 @@ const KlassScreen = ({ navigation, klasses, route, students, desks,
                        fetchStudents, setCurrentKlass, clearCurrentKlass,
                        swap, newSeat }) => {
   const [draggedStudent, setDraggedStudent] = useState(null)
-  const [overDesk, setOverDesk] = useState(null)
+  const [overDesk, _setOverDesk] = useState(null)
   const [cloneLocation, _setCloneLocation] = useState({x: 0, y: 0})
   const { klass } = route.params
   const pan = useRef(new Animated.ValueXY()).current;
@@ -28,6 +28,7 @@ const KlassScreen = ({ navigation, klasses, route, students, desks,
 
   const desksRef = useRef(desks)
   const studentsRef = useRef(students)
+  const overDeskRef = useRef(overDesk)
 
   useEffect(() => {
     desksRef.current = desks
@@ -36,6 +37,13 @@ const KlassScreen = ({ navigation, klasses, route, students, desks,
   useEffect(() => {
     studentsRef.current = students
   }, [students])
+
+  const setOverDesk = data => {
+    overDeskRef.current = data
+    _setOverDesk(data)
+  }
+
+
 
   useEffect(() => {
     if (klass) {
@@ -75,7 +83,7 @@ const KlassScreen = ({ navigation, klasses, route, students, desks,
             return false
           }
         })
-        if (overDesk !== over) { setOverDesk(over) }
+        setOverDesk(over)
 
         Animated.event(
           [
@@ -85,24 +93,17 @@ const KlassScreen = ({ navigation, klasses, route, students, desks,
         )(e, gesture)
       },
       onPanResponderRelease: (e, gesture) => {
-        const over = desksRef.current.allIds.find(seatId => {
-          const seat = desksRef.current.byId[seatId]
-          if (seat.topLeft && seat.topRight && seat.bottomLeft && seat.bottomRight){
-            return (gesture.x0 + pan.x._value > seat.topLeft.x && gesture.x0 + pan.x._value < seat.topRight.x &&
-                    gesture.y0 + pan.y._value > seat.topLeft.y && gesture.y0 + pan.y._value < seat.bottomLeft.y)
-          } else {
-            return false
-          }
-        })
-
-        const overStudent = studentsRef.current.allIds.find(stId => {
+        const overStudentId = studentsRef.current.allIds.find(stId => {
           const student = studentsRef.current.byId[stId]
-          return student.seatPair === parseInt(over.split("seat")[1])
+          return student.seatPair === parseInt(overDeskRef.current.split("seat")[1])
         })
 
-        console.log(overStudent)
+        const currentStudent = e._targetInst.memoizedProps.student
+        const overStudent = overStudentId ? studentsRef.current.byId[overStudentId] : null
 
-
+        if (overStudent) {
+          swap(klass, currentStudent, overStudent, 'pair')
+        }
 
         setDraggedStudent(null)
         pan.setOffset({ x: 0, y: 0 })

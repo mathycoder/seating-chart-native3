@@ -7,6 +7,7 @@ import { connect } from 'react-redux'
 const Desk = ({ student, draggedStudent, panResponder, seatNumber, setSeatLocation, overDesk }) => {
   const deskRef = React.createRef()
 
+
   const myMeasure = () => {
     if (deskRef){
       window.setTimeout(() => {

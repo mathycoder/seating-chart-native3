@@ -19,7 +19,7 @@ function emptySeats(){
   return emptyObj
 }
 
-function pairSeatsById(state = {}, action) {
+function pairSeatsById(state = emptySeats(), action) {
   switch(action.type) {
     case 'SET_SEAT_LOCATION':
       const { seatNumber, measurements } = action
@@ -36,11 +36,11 @@ function pairSeatsById(state = {}, action) {
       }
 
     default:
-      return emptySeats()
+      return state
   }
 }
 
-function pairSeatsAllIds(state = [], action) {
+function pairSeatsAllIds(state = emptySeats(), action) {
   switch(action.type) {
 
     default:
@@ -52,6 +52,6 @@ function groupSeatsReducer(state = {}, action) {
 
   switch(action.type) {
     default:
-      return emptySeats()
+      return state
   }
 }
