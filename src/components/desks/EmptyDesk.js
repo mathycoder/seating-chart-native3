@@ -21,11 +21,13 @@ const EmptyDesk = ({ student, seatNumber, setSeatLocation, overDesk }) => {
     }
   }
 
+  //onLayout={({ nativeEvent }) => myMeasure()}
+
   return (
     <View
       style={[styles.deskStyle, overDesk === `seat${seatNumber}` ? {backgroundColor: "yellow"} : null]}
       ref={deskRef}
-      onLayout={({ nativeEvent }) => myMeasure()}
+
     >
     </View>
   )

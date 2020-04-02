@@ -28,13 +28,15 @@ const Desk = ({ student, draggedStudent, panResponder, seatNumber, setSeatLocati
 
   const overStyle = overDesk === `seat${seatNumber}` ? ["yellow", "yellow"] : ['#f6f6f6', '#e9e9e9']
 
+//onLayout={({ nativeEvent }) => myMeasure()}
+
   return (
     <View>
       <View
         style={[styles.deskWrapperStyle, floatingStyle]}
         {...panResponder.panHandlers}
         ref={deskRef}
-        onLayout={({ nativeEvent }) => myMeasure()}
+
         student={student}
       >
         <LinearGradient

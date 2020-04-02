@@ -10,10 +10,11 @@ import EmptyDesk from '../components/desks/EmptyDesk'
 import CloneDesk from '../components/desks/CloneDesk'
 import { clearCurrentKlass } from '../actions/currentKlassActions.js'
 import { newSeat, swapSeats } from '../actions/studentActions.js'
+import { setSeatLocations } from '../actions/seatActions.js'
 
 const KlassScreen = ({ navigation, klasses, route, students, desks,
                        fetchStudents, setCurrentKlass, clearCurrentKlass,
-                       swap, newSeat }) => {
+                       swap, newSeat, setSeatLocations }) => {
   const [draggedStudent, setDraggedStudent] = useState(null)
   const [overDesk, _setOverDesk] = useState(null)
   const [cloneLocation, _setCloneLocation] = useState({x: 0, y: 0})
@@ -42,6 +43,10 @@ const KlassScreen = ({ navigation, klasses, route, students, desks,
     overDeskRef.current = data
     _setOverDesk(data)
   }
+
+  useEffect(() => {
+    setSeatLocations(Dimensions.get('window').width, Dimensions.get('window').height)
+  }, [])
 
 
 
@@ -77,8 +82,8 @@ const KlassScreen = ({ navigation, klasses, route, students, desks,
         const over = desksRef.current.allIds.find(seatId => {
           const seat = desksRef.current.byId[seatId]
           if (seat.topLeft && seat.topRight && seat.bottomLeft && seat.bottomRight){
-            return (gesture.x0 + pan.x._value > seat.topLeft.x && gesture.x0 + pan.x._value < seat.topRight.x &&
-                    gesture.y0 + pan.y._value > seat.topLeft.y && gesture.y0 + pan.y._value < seat.bottomLeft.y)
+            return (gesture.moveX > seat.topLeft.x && gesture.moveX < seat.topRight.x &&
+                    gesture.moveY - 35> seat.topLeft.y && gesture.moveY - 35 < seat.bottomLeft.y)
           } else {
             return false
           }
@@ -193,11 +198,44 @@ const KlassScreen = ({ navigation, klasses, route, students, desks,
         student={draggedStudent}
         setCloneLocation={setCloneLocation}
       />
+      {students.loading ? null : desks.allIds.map(deskId => {
+        const desk = desks.byId[deskId]
+        return (
+          <>
+            <View style={[styles.deskBorderStyle, {left: desk.bottomLeft ? desk.bottomLeft.x : 0, top: desk.bottomLeft ? desk.bottomLeft.y : 0}]}>
+            </View>
+          </>
+        )
+      })}
     </View>
   )
 }
 
+// border test
+// {students.loading ? null : desks.allIds.map(deskId => {
+//   const desk = desks.byId[deskId]
+//   return (
+//     <>
+//       <View style={[styles.deskBorderStyle, {left: desk.topLeft.x, top: desk.topLeft.y}]}>
+//       </View>
+//       <View style={[styles.deskBorderStyle, {left: desk.topRight.x, top: desk.topRight.y}]}>
+//       </View>
+//       <View style={[styles.deskBorderStyle, {left: desk.bottomLeft.x, top: desk.bottomLeft.y}]}>
+//       </View>
+//       <View style={[styles.deskBorderStyle, {left: desk.bottomRight.x, top: desk.bottomRight.y}]}>
+//       </View>
+//     </>
+//   )
+// })}
+
 const styles = StyleSheet.create({
+  deskBorderStyle: {
+    position: 'absolute',
+    width: 5,
+    height: 5,
+    borderRadius: 5,
+     backgroundColor: 'blue'
+  },
   containerStyle: {
     flex: 1,
     justifyContent: 'center',
@@ -243,7 +281,8 @@ const mapDispatchToProps = (dispatch) => {
     setCurrentKlass: klass => dispatch(setCurrentKlass(klass)),
     clearCurrentKlass: () => dispatch(clearCurrentKlass()),
     swap: (klass, student1, student2, type) => dispatch(swapSeats(klass, student1, student2, type)),
-    newSeat: (klass, student, seat, type) => dispatch(newSeat(klass, student, seat, type))
+    newSeat: (klass, student, seat, type) => dispatch(newSeat(klass, student, seat, type)),
+    setSeatLocations: (screenWidth, screenHeight) => dispatch(setSeatLocations(screenWidth, screenHeight))
   }
 }
 
