@@ -9,9 +9,11 @@ import Desk from '../components/desks/Desk'
 import EmptyDesk from '../components/desks/EmptyDesk'
 import CloneDesk from '../components/desks/CloneDesk'
 import { clearCurrentKlass } from '../actions/currentKlassActions.js'
+import { newSeat, swapSeats } from '../actions/studentActions.js'
 
 const KlassScreen = ({ navigation, klasses, route, students, desks,
-                       fetchStudents, setCurrentKlass, clearCurrentKlass }) => {
+                       fetchStudents, setCurrentKlass, clearCurrentKlass,
+                       swap, newSeat }) => {
   const [draggedStudent, setDraggedStudent] = useState(null)
   const [overDesk, setOverDesk] = useState(null)
   const [cloneLocation, _setCloneLocation] = useState({x: 0, y: 0})
@@ -25,10 +27,15 @@ const KlassScreen = ({ navigation, klasses, route, students, desks,
   };
 
   const desksRef = useRef(desks)
+  const studentsRef = useRef(students)
 
   useEffect(() => {
     desksRef.current = desks
   }, [desks])
+
+  useEffect(() => {
+    studentsRef.current = students
+  }, [students])
 
   useEffect(() => {
     if (klass) {
@@ -78,6 +85,25 @@ const KlassScreen = ({ navigation, klasses, route, students, desks,
         )(e, gesture)
       },
       onPanResponderRelease: (e, gesture) => {
+        const over = desksRef.current.allIds.find(seatId => {
+          const seat = desksRef.current.byId[seatId]
+          if (seat.topLeft && seat.topRight && seat.bottomLeft && seat.bottomRight){
+            return (gesture.x0 + pan.x._value > seat.topLeft.x && gesture.x0 + pan.x._value < seat.topRight.x &&
+                    gesture.y0 + pan.y._value > seat.topLeft.y && gesture.y0 + pan.y._value < seat.bottomLeft.y)
+          } else {
+            return false
+          }
+        })
+
+        const overStudent = studentsRef.current.allIds.find(stId => {
+          const student = studentsRef.current.byId[stId]
+          return student.seatPair === parseInt(over.split("seat")[1])
+        })
+
+        console.log(overStudent)
+
+
+
         setDraggedStudent(null)
         pan.setOffset({ x: 0, y: 0 })
         pan.setValue({ x: 0, y: 0 })
@@ -211,7 +237,9 @@ const mapDispatchToProps = (dispatch) => {
   return {
     fetchStudents: klass => dispatch(fetchStudents(klass)),
     setCurrentKlass: klass => dispatch(setCurrentKlass(klass)),
-    clearCurrentKlass: () => dispatch(clearCurrentKlass())
+    clearCurrentKlass: () => dispatch(clearCurrentKlass()),
+    swap: (klass, student1, student2, type) => dispatch(swapSeats(klass, student1, student2, type)),
+    newSeat: (klass, student, seat, type) => dispatch(newSeat(klass, student, seat, type))
   }
 }
 
