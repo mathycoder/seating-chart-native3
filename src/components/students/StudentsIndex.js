@@ -1,4 +1,4 @@
-import React, { useState }  from 'react'
+import React, { useState, useRef }  from 'react'
 import { Text, View, StyleSheet, TouchableOpacity, FlatList } from 'react-native'
 import { connect } from 'react-redux'
 import { deleteStudent } from '../../actions/studentActions.js'
@@ -10,6 +10,7 @@ const StudentsIndex = ({ students }) => {
   const [editStudentId, setEditStudentId] = useState(null)
   const [filter, setFilter] = useState('firstName')
   const [order, setOrder] = useState(true)
+  const flatListRef = useRef()
 
   const studentIdsByFilter = (filter, ascending ) => {
     return students.allIds.sort((idA, idB) => {
@@ -19,6 +20,38 @@ const StudentsIndex = ({ students }) => {
       else if (studentA[filter] < studentB[filter]) { return ascending ? -1 : 1 }
       else { return 0 }
     })
+  }
+
+  const renderStudentRow = (item, index) => {
+    const student = students.byId[item]
+    return (
+      <>
+        {editStudentId && student.id === editStudentId
+          ? <StudentForm
+              student={student}
+              setEditStudentId={setEditStudentId}
+            />
+          : <View style={[styles.rowStyle, {backgroundColor: index % 2 === 0 ? 'lightgray' : 'white'}]}>
+              <Text style={styles.studentTextStyle}>{student.firstName}</Text>
+              <Text style={styles.studentTextStyle}>{student.lastName}</Text>
+              <Text style={[styles.studentTextStyle, {textAlign: 'center'}]}>{student.academicScore}</Text>
+              <Text style={[styles.studentTextStyle, {textAlign: 'center'}]}>{student.behaviorScore}</Text>
+              <View style={styles.editButtonsStyle}>
+                <View style={styles.buttonMarginStyle}>
+                  <SmallButton title='Edit' callbackFunction={() => {
+                    console.log("edit")
+                  }}/>
+                </View>
+                <View>
+                  <SmallButton title='X' callbackFunction={() => {
+                    console.log("delete")
+                  }}/>
+                </View>
+              </View>
+            </View>
+        }
+      </>
+    )
   }
 
   return (
@@ -43,48 +76,32 @@ const StudentsIndex = ({ students }) => {
         }
         <View style={styles.columnHeader}></View>
       </View>
-      {
-        <FlatList
-            scrollEnabled={true}
-            style={styles.listStyle}
-            data={studentIdsByFilter(filter, order)}
-            keyExtractor={studentId => studentId}
-            renderItem={({item, index}) => {
-              const student = students.byId[item]
-              return (
-                <>
-                  {editStudentId && student.id === editStudentId
-                    ? <StudentForm
-                        klass={klass}
-                        student={student}
-                        setEditStudentId={setEditStudentId}
-                      />
-                    : <View style={[styles.rowStyle, {backgroundColor: index % 2 === 0 ? 'lightgray' : 'white'}]}>
-                        <Text style={styles.studentTextStyle}>{student.firstName}</Text>
-                        <Text style={styles.studentTextStyle}>{student.lastName}</Text>
-                        <Text style={[styles.studentTextStyle, {textAlign: 'center'}]}>{student.academicScore}</Text>
-                        <Text style={[styles.studentTextStyle, {textAlign: 'center'}]}>{student.behaviorScore}</Text>
-                        <View style={styles.editButtonsStyle}>
-                          <View style={styles.buttonMarginStyle}>
-                            <SmallButton title='Edit' callbackFunction={() => {
-                              console.log("edit")
-                            }}/>
-                          </View>
-                          <View>
-                            <SmallButton title='X' callbackFunction={() => {
-                              console.log("delete")
-                            }}/>
-                          </View>
-                        </View>
-                      </View>
-                  }
-                </>
-              )
-            }} />
-      }
+      <FlatList
+        ref={flatListRef}
+        scrollEnabled={true}
+        extraData={showForm}
+        style={styles.listStyle}
+        data={studentIdsByFilter(filter, order)}
+        keyExtractor={studentId => studentId}
+        renderItem={({item, index}) => renderStudentRow(item, index)}
+        onContentSizeChange={(contentWidth, contentHeight)=> {flatListRef.current.scrollToEnd({animated: true})}}
+        ListFooterComponent={() => (
+          <>
+          {showForm ? <StudentForm /> : null}
+          <TouchableOpacity
+            onPress={() => {
+              setShowForm(!showForm)
+            }}
+            style={styles.addStudentButtonStyle}>
+            <Text style={styles.addStudentButtonTextStyle}>{showForm ? 'Cancel' : 'Add Student'}</Text>
+          </TouchableOpacity>
+          </>
+        )}
+      />
     </View>
   )
 }
+
 
 // <div className="student-index-page noselect">
 //   <div className="student-index-wrapper">
@@ -148,7 +165,8 @@ const styles = StyleSheet.create({
     alignItems: 'stretch',
     borderWidth: 1,
     borderColor: 'black',
-    width: '80%',
+    width: '87%',
+    maxWidth: 600,
     flex: 1
   },
   rowStyle: {
@@ -179,7 +197,19 @@ const styles = StyleSheet.create({
   },
   buttonMarginStyle: {
     marginHorizontal: 10
+  },
+  addStudentButtonStyle: {
+    backgroundColor: 'gray',
+    height: 40,
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
+  addStudentButtonTextStyle: {
+    color: 'white',
+    fontWeight: 'bold',
+    fontSize: 16
   }
+
 })
 
 const mapDispatchToProps = (dispatch) => {
