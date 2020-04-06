@@ -1,8 +1,9 @@
 import React, { useState }  from 'react'
-import { Text, View, StyleSheet, TouchableOpacity } from 'react-native'
+import { Text, View, StyleSheet, TouchableOpacity, FlatList } from 'react-native'
 import { connect } from 'react-redux'
 import { deleteStudent } from '../../actions/studentActions.js'
 import StudentForm from './StudentForm'
+import SmallButton from '../buttons/SmallButton'
 
 const StudentsIndex = ({ students }) => {
   const [showForm, setShowForm] = useState(false)
@@ -22,7 +23,7 @@ const StudentsIndex = ({ students }) => {
 
   return (
     <View style={styles.wrapperStyle}>
-      <View style={styles.rowStyle}>
+      <View style={[styles.rowStyle, {backgroundColor: 'grey'}]}>
         {
           [['firstName', 'First Name'],
           ['lastName', 'Last Name'],
@@ -36,32 +37,51 @@ const StudentsIndex = ({ students }) => {
                 setFilter(item[0])
               }}
             >
-              <Text style={styles.headerStyleText}>{item[1]}</Text>
+              <Text style={[styles.headerStyleText, index > 1 ? {textAlign: 'center'} : null]}>{item[1]}</Text>
             </TouchableOpacity>
           ))
         }
+        <View style={styles.columnHeader}></View>
       </View>
-      {studentIdsByFilter(filter, order).map(studentId => {
-        const student = students.byId[studentId]
-        return (
-          <View key={studentId}>
-            {editStudentId && student.id === editStudentId
-              ? <StudentForm
-                  klass={klass}
-                  student={student}
-                  setEditStudentId={setEditStudentId}
-                />
-              : <View key={studentId} style={styles.rowStyle}>
-                  <Text style={styles.studentTextStyle}>{student.firstName}</Text>
-                  <Text style={styles.studentTextStyle}>{student.lastName}</Text>
-                  <Text style={styles.studentTextStyle}>{student.academicScore}</Text>
-                  <Text style={styles.studentTextStyle}>{student.behaviorScore}</Text>
-
-                </View>
-            }
-          </View>
-        )
-      })}
+      {
+        <FlatList
+            scrollEnabled={true}
+            style={styles.listStyle}
+            data={studentIdsByFilter(filter, order)}
+            keyExtractor={studentId => studentId}
+            renderItem={({item, index}) => {
+              const student = students.byId[item]
+              return (
+                <>
+                  {editStudentId && student.id === editStudentId
+                    ? <StudentForm
+                        klass={klass}
+                        student={student}
+                        setEditStudentId={setEditStudentId}
+                      />
+                    : <View style={[styles.rowStyle, {backgroundColor: index % 2 === 0 ? 'lightgray' : 'white'}]}>
+                        <Text style={styles.studentTextStyle}>{student.firstName}</Text>
+                        <Text style={styles.studentTextStyle}>{student.lastName}</Text>
+                        <Text style={[styles.studentTextStyle, {textAlign: 'center'}]}>{student.academicScore}</Text>
+                        <Text style={[styles.studentTextStyle, {textAlign: 'center'}]}>{student.behaviorScore}</Text>
+                        <View style={styles.editButtonsStyle}>
+                          <View style={styles.buttonMarginStyle}>
+                            <SmallButton title='Edit' callbackFunction={() => {
+                              console.log("edit")
+                            }}/>
+                          </View>
+                          <View>
+                            <SmallButton title='X' callbackFunction={() => {
+                              console.log("delete")
+                            }}/>
+                          </View>
+                        </View>
+                      </View>
+                  }
+                </>
+              )
+            }} />
+      }
     </View>
   )
 }
@@ -125,28 +145,40 @@ const StudentsIndex = ({ students }) => {
 const styles = StyleSheet.create({
   wrapperStyle: {
     justifyContent: 'center',
-    alignItems: 'center',
+    alignItems: 'stretch',
     borderWidth: 1,
     borderColor: 'black',
-    width: '90%',
-    backgroundColor: 'grey',
+    width: '80%',
+    flex: 1
   },
   rowStyle: {
-    alignItems: 'center',
     justifyContent: 'space-around',
     flexDirection: 'row',
-    width: '100%'
+    height: 40,
+    alignItems: 'center'
+  },
+  columnHeader: {
+    flex: 1,
   },
   headerStyleText: {
     color: 'white',
     fontWeight: 'bold',
     fontSize: 16,
-    width: 200,
-    paddingHorizontal: 10
+    paddingHorizontal: 10,
+    fontSize: 16
   },
   studentTextStyle: {
-    width: 200,
+    flex: 1,
     paddingHorizontal: 10,
+    fontSize: 16
+  },
+  editButtonsStyle: {
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'center'
+  },
+  buttonMarginStyle: {
+    marginHorizontal: 10
   }
 })
 
