@@ -3,28 +3,25 @@ import { View, Text, TextInput, StyleSheet, TouchableOpacity } from 'react-nativ
 import { showStudentsPage, hideStudentsPage } from '../actions/currentKlassActions.js'
 import { connect } from 'react-redux'
 
-const NavBarKlass = ({ klass, navigation, showStudentsPage, hideStudentsPage }) => {
+const NavBarKlass = ({ klass, navigation, showStudentsPage, hideStudentsPage,studentsPage }) => {
 
   const renderKlassTitle = () => (
     <View style={styles.containerStyle}>
-      <Text
-        onPress={() => hideStudentsPage()}
-        style={styles.textStyle}
-      >
-        {`Class ${klass.name}`}
-      </Text>
-      <Text
-        style={styles.textStyle}
-        onPress={() => showStudentsPage()}
-      >
-        Students
-      </Text>
+      <TouchableOpacity onPress={() => hideStudentsPage()}>
+        <Text style={[styles.textStyle, !studentsPage ? styles.boldTextStyle : null]}>
+          {`Class ${klass.name}`}
+        </Text>
+      </TouchableOpacity>
+      <TouchableOpacity onPress={() => showStudentsPage()}>
+        <Text style={[styles.textStyle, studentsPage ? styles.boldTextStyle : null]}>
+          Students
+        </Text>
+      </TouchableOpacity>
     </View>
   )
 
   const renderKlassesTitle = () => (
     <View>
-      <Text style={styles.textStyle}>Classes</Text>
     </View>
   )
 
@@ -44,12 +41,18 @@ const styles = StyleSheet.create({
   textStyle: {
     fontSize: 16,
     marginHorizontal: 20
+  },
+  boldTextStyle: {
+    fontWeight: '600',
+    fontSize: 16,
+    marginHorizontal: 18
   }
 })
 
 const mapStateToProps = state => {
   return {
-    klass: state.currentKlass.klass
+    klass: state.currentKlass.klass,
+    studentsPage: state.currentKlass.studentsPage
   }
 }
 

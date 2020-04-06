@@ -14,14 +14,15 @@ const KlassesIndex = ({ klasses, currentUser, navigation, clearCurrentKlass }) =
     return (
       <View style={styles.rowStyle}>
         <Text style={[styles.periodColumn, styles.klassStyle]}>{klass.period}</Text>
-        <Text
-          style={[styles.nameColumn, styles.klassStyle]}
+        <TouchableOpacity
           onPress={() => navigation.navigate('KlassesNavigator', {
                           screen: 'Klass',
                           params: { klass: klass },
-                  })}
-          >{klass.name}
-        </Text>
+                  })}>
+          <Text style={[styles.nameColumn, styles.klassStyle]}>
+            {klass.name}
+          </Text>
+        </TouchableOpacity>
         <View style={styles.actionsColumn}>
           <SmallButton
             title="Edit"

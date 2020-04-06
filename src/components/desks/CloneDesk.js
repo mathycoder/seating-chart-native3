@@ -15,7 +15,7 @@ const CloneDesk = ({ student, index, pan, panResponder, setCloneLocation  }) => 
         refContainer.current.getNode().measure((fx, fy, width, height, px, py) => {
           setCloneLocation({x: px + width/2, y: py + height/2})
         })
-      }, 0)
+      }, 300)
     }
   }
 
