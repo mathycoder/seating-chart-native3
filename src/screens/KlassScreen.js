@@ -199,7 +199,7 @@ const KlassScreen = ({ navigation, klasses, route, students, desks,
 
   return (
     <View style={styles.containerStyle}>
-      {studentsPage ? <StudentsIndex /> : renderSeatingChart()}
+      {studentsPage ? <StudentsIndex students={students} /> : renderSeatingChart()}
       <TouchableOpacity
         style={{position: 'absolute', top: 10, left: 10}}
         onPress={() => navigation.goBack(null)}>
