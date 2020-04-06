@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useLayoutEffect, useRef } from 'react'
-import { View, Text, StyleSheet, ScrollContainer, PanResponder, Animated } from 'react-native'
+import { View, Text, StyleSheet, TouchableOpacity,
+        ScrollContainer, PanResponder, Animated } from 'react-native'
 import { connect } from 'react-redux'
 import { fetchStudents } from '../actions/studentActions.js'
 import { setCurrentKlass, clearCurrentKlass } from '../actions/currentKlassActions.js'
@@ -198,12 +199,15 @@ const KlassScreen = ({ navigation, klasses, route, students, desks,
 
   return (
     <View style={styles.containerStyle}>
-      <Text
-        onPress={() => navigation.goBack()}
-        style={styles.xOutStyle}
-        >X
-      </Text>
       {studentsPage ? <StudentsIndex /> : renderSeatingChart()}
+      <TouchableOpacity
+        style={{position: 'absolute', top: 10, left: 10}}
+        onPress={() => navigation.goBack(null)}>
+        <Text
+          style={styles.xOutStyle}
+          >X
+        </Text>
+      </TouchableOpacity>
     </View>
   )
 }
@@ -243,8 +247,6 @@ const styles = StyleSheet.create({
   },
   xOutStyle: {
     fontSize: 20,
-    alignSelf: "flex-start",
-    marginTop: 0,
   },
   PairSeatingChart: {
     flex: 1,

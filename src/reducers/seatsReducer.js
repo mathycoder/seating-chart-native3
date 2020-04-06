@@ -49,12 +49,11 @@ function pairSeatsById(state = emptySeats(), action) {
 function setSeatLocations(stateCopy, screenWidth, screenHeight){
   const deskWidth = 65
   const deskHeight = 52
-  const marginViewVertical = 20
   const paddingHorizontal = 20
-  const paddingVertical = 20
+  const paddingVertical = 15
 
   const marginHorizontal = (screenWidth - deskWidth*8 - paddingHorizontal) / 8  // 47
-  const marginVertical = (screenHeight - deskHeight*4 - paddingVertical - marginViewVertical) / 5
+  const marginVertical = (screenHeight - deskHeight*4 - paddingVertical) / 5
 
   for (let key in stateCopy){
     const seat = parseInt(key.split("seat")[1])
@@ -64,7 +63,7 @@ function setSeatLocations(stateCopy, screenWidth, screenHeight){
     const relMarHor = 10 + marginHorizontal
                                 + Math.floor(col / 2) * marginHorizontal*2
                                 + col * deskWidth
-    const relMarTop = 13 +marginVertical
+    const relMarTop = -10 + marginVertical
                                 + row * marginVertical
                                 + row * deskHeight
 
