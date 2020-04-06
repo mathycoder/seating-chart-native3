@@ -1,11 +1,11 @@
 import React, { useState, useRef }  from 'react'
-import { Text, View, StyleSheet, TouchableOpacity, FlatList } from 'react-native'
+import { Text, View, StyleSheet, TouchableOpacity, FlatList, Alert } from 'react-native'
 import { connect } from 'react-redux'
 import { deleteStudent } from '../../actions/studentActions.js'
 import StudentForm from './StudentForm'
 import SmallButton from '../buttons/SmallButton'
 
-const StudentsIndex = ({ students }) => {
+const StudentsIndex = ({ students, deleteStudent, klass }) => {
   const [showForm, setShowForm] = useState(false)
   const [editStudentId, setEditStudentId] = useState(null)
   const [filter, setFilter] = useState('firstName')
@@ -39,12 +39,19 @@ const StudentsIndex = ({ students }) => {
               <View style={styles.editButtonsStyle}>
                 <View style={styles.buttonMarginStyle}>
                   <SmallButton title='Edit' callbackFunction={() => {
-                    console.log("edit")
+                    setEditStudentId(student.id)
                   }}/>
                 </View>
                 <View>
                   <SmallButton title='X' callbackFunction={() => {
-                    console.log("delete")
+                    Alert.alert(
+                      'Delete Student',
+                      `Are you sure you want to delete ${student.firstName} ${student.lastName}?`,
+                      [
+                        {text: 'Cancel', onPress: () => null},
+                        {text: 'Delete', onPress: () => deleteStudent(klass, student)},
+                      ]
+                    )
                   }}/>
                 </View>
               </View>
@@ -84,12 +91,12 @@ const StudentsIndex = ({ students }) => {
         data={studentIdsByFilter(filter, order)}
         keyExtractor={studentId => studentId}
         renderItem={({item, index}) => renderStudentRow(item, index)}
-        onContentSizeChange={(contentWidth, contentHeight)=> {flatListRef.current.scrollToEnd({animated: true})}}
         ListFooterComponent={() => (
           <>
           {showForm ? <StudentForm /> : null}
           <TouchableOpacity
             onPress={() => {
+              flatListRef.current.scrollToEnd({animated: true})
               setShowForm(!showForm)
             }}
             style={styles.addStudentButtonStyle}>
@@ -212,10 +219,16 @@ const styles = StyleSheet.create({
 
 })
 
+const mapStateToProps = (state) => {
+  return {
+    klass: state.currentKlass.klass
+  }
+}
+
 const mapDispatchToProps = (dispatch) => {
   return {
     deleteStudent: (klass, student) => dispatch(deleteStudent(klass, student))
   }
 }
 
-export default connect(null, mapDispatchToProps)(StudentsIndex)
+export default connect(mapStateToProps, mapDispatchToProps)(StudentsIndex)
