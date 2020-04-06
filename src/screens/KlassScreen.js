@@ -2,13 +2,12 @@ import React, { useState, useEffect, useLayoutEffect, useRef } from 'react'
 import { View, Text, StyleSheet, ScrollContainer, PanResponder, Animated } from 'react-native'
 import { connect } from 'react-redux'
 import { fetchStudents } from '../actions/studentActions.js'
-import { setCurrentKlass } from '../actions/currentKlassActions.js'
+import { setCurrentKlass, clearCurrentKlass } from '../actions/currentKlassActions.js'
 import { ScreenOrientation } from 'expo'
 import { Dimensions } from "react-native"
 import Desk from '../components/desks/Desk'
 import EmptyDesk from '../components/desks/EmptyDesk'
 import CloneDesk from '../components/desks/CloneDesk'
-import { clearCurrentKlass } from '../actions/currentKlassActions.js'
 import { newSeat, swapSeats } from '../actions/studentActions.js'
 import { setSeatLocations } from '../actions/seatActions.js'
 import NavBarKlass from '../navBar/NavBarKlass'
@@ -33,7 +32,7 @@ const KlassScreen = ({ navigation, klasses, route, students, desks,
   const overDeskRef = useRef(overDesk)
 
   useEffect(() => {
-    
+    setCurrentKlass(klass)
     setSeatLocations(Dimensions.get('window').width, Dimensions.get('window').height)
   }, [])
 

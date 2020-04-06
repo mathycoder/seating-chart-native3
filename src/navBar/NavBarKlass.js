@@ -1,5 +1,6 @@
 import React from 'react'
 import { View, Text, TextInput, StyleSheet, TouchableOpacity } from 'react-native'
+import { connect } from 'react-redux'
 
 const NavBarKlass = ({ klass }) => {
 
@@ -12,7 +13,7 @@ const NavBarKlass = ({ klass }) => {
 
   const renderKlassesTitle = () => (
     <View>
-      <Text>Classes</Text>
+      <Text style={styles.textStyle}>Classes</Text>
     </View>
   )
 
@@ -35,4 +36,10 @@ const styles = StyleSheet.create({
   }
 })
 
-export default NavBarKlass
+const mapStateToProps = state => {
+  return {
+    klass: state.currentKlass.klass
+  }
+}
+
+export default connect(mapStateToProps, null)(NavBarKlass)
