@@ -42,7 +42,7 @@ const App = () => {
             options={({ navigation, route }) => ({
               title: false,
               headerLeft: (props) => <NavBarTitle props={props} />,
-              headerTitle: props => <NavBarKlass />,
+            headerTitle: props => <NavBarKlass navigation={navigation} />,
               headerRight: (props) => <Logout navigation={navigation} />,
               gestureEnabled: false
             })}

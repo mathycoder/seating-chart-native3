@@ -8,13 +8,14 @@ import { Dimensions } from "react-native"
 import Desk from '../components/desks/Desk'
 import EmptyDesk from '../components/desks/EmptyDesk'
 import CloneDesk from '../components/desks/CloneDesk'
+import StudentsIndex from '../components/students/StudentsIndex'
 import { newSeat, swapSeats } from '../actions/studentActions.js'
 import { setSeatLocations } from '../actions/seatActions.js'
 import NavBarKlass from '../navBar/NavBarKlass'
 
 const KlassScreen = ({ navigation, klasses, route, students, desks,
                        fetchStudents, setCurrentKlass, clearCurrentKlass,
-                       swap, newSeat, setSeatLocations }) => {
+                       swap, newSeat, setSeatLocations, studentsPage }) => {
   const [draggedStudent, setDraggedStudent] = useState(null)
   const [overDesk, _setOverDesk] = useState(null)
   const [cloneLocation, _setCloneLocation] = useState({x: 0, y: 0})
@@ -181,13 +182,8 @@ const KlassScreen = ({ navigation, klasses, route, students, desks,
       })
   }
 
-  return (
-    <View style={styles.containerStyle}>
-      <Text
-        onPress={() => navigation.goBack()}
-        style={styles.xOutStyle}
-        >X
-      </Text>
+  const renderSeatingChart = () => (
+    <>
       <View style={styles.PairSeatingChart}>
         {students.loading ? null : renderDeskRows()}
       </View>
@@ -197,7 +193,17 @@ const KlassScreen = ({ navigation, klasses, route, students, desks,
         student={draggedStudent}
         setCloneLocation={setCloneLocation}
       />
+    </>
+  )
 
+  return (
+    <View style={styles.containerStyle}>
+      <Text
+        onPress={() => navigation.goBack()}
+        style={styles.xOutStyle}
+        >X
+      </Text>
+      {studentsPage ? <StudentsIndex /> : renderSeatingChart()}
     </View>
   )
 }
@@ -263,7 +269,8 @@ const mapStateToProps = state => {
   return {
     klasses: state.klasses,
     students: state.students,
-    desks: state.seats.pairSeats
+    desks: state.seats.pairSeats,
+    studentsPage: state.currentKlass.studentsPage
   }
 }
 

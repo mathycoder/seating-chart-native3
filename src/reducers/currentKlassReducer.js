@@ -4,7 +4,8 @@ const currentKlassReducer = combineReducers({
   klass: currentKlass,
   grouping: currentGrouping,
   academics: showAcademics,
-  behavior: showBehavior
+  behavior: showBehavior,
+  studentsPage: showStudents
 })
 
 
@@ -55,6 +56,22 @@ function showBehavior(state = false, action) {
       return true
 
     case 'HIDE_BEHAVIOR':
+      return false
+
+    default:
+      return state;
+  }
+}
+
+function showStudents(state = false, action) {
+  switch(action.type) {
+    case 'SHOW_STUDENTS_PAGE':
+      return true
+
+    case 'HIDE_STUDENTS_PAGE':
+      return false
+
+    case 'CLEAR_CURRENT_KLASS':
       return false
 
     default:

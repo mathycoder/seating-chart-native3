@@ -9,3 +9,11 @@ export function clearCurrentKlass(){
 export function setCurrentGroup(group){
   return {type: 'SET_CURRENT_GROUP', group}
 }
+
+export function showStudentsPage(){
+  return {type: 'SHOW_STUDENTS_PAGE'}
+}
+
+export function hideStudentsPage(){
+  return {type: 'HIDE_STUDENTS_PAGE'}
+}
