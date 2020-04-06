@@ -53,7 +53,6 @@ function setSeatLocations(stateCopy, screenWidth, screenHeight){
   const paddingHorizontal = 20
   const paddingVertical = 20
 
-  // 896 - 65*8 = 896 - 520 = 376 / 8 = 47
   const marginHorizontal = (screenWidth - deskWidth*8 - paddingHorizontal) / 8  // 47
   const marginVertical = (screenHeight - deskHeight*4 - paddingVertical - marginViewVertical) / 5
 

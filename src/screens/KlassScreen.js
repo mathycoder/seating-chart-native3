@@ -11,6 +11,7 @@ import CloneDesk from '../components/desks/CloneDesk'
 import { clearCurrentKlass } from '../actions/currentKlassActions.js'
 import { newSeat, swapSeats } from '../actions/studentActions.js'
 import { setSeatLocations } from '../actions/seatActions.js'
+import NavBarKlass from '../navBar/NavBarKlass'
 
 const KlassScreen = ({ navigation, klasses, route, students, desks,
                        fetchStudents, setCurrentKlass, clearCurrentKlass,
@@ -19,8 +20,8 @@ const KlassScreen = ({ navigation, klasses, route, students, desks,
   const [overDesk, _setOverDesk] = useState(null)
   const [cloneLocation, _setCloneLocation] = useState({x: 0, y: 0})
   const { klass } = route.params
-  const pan = useRef(new Animated.ValueXY()).current;
 
+  const pan = useRef(new Animated.ValueXY()).current;
   const cloneLocationRef = useRef()
   const setCloneLocation = data => {
     cloneLocationRef.current = data;
@@ -30,6 +31,11 @@ const KlassScreen = ({ navigation, klasses, route, students, desks,
   const desksRef = useRef(desks)
   const studentsRef = useRef(students)
   const overDeskRef = useRef(overDesk)
+
+  useEffect(() => {
+    
+    setSeatLocations(Dimensions.get('window').width, Dimensions.get('window').height)
+  }, [])
 
   useEffect(() => {
     desksRef.current = desks
@@ -45,12 +51,6 @@ const KlassScreen = ({ navigation, klasses, route, students, desks,
   }
 
   useEffect(() => {
-    setSeatLocations(Dimensions.get('window').width, Dimensions.get('window').height)
-  }, [])
-
-
-
-  useEffect(() => {
     if (klass) {
       fetchStudents(klass)
       setCurrentKlass(klass)
@@ -59,11 +59,11 @@ const KlassScreen = ({ navigation, klasses, route, students, desks,
     return () => clearCurrentKlass()
   }, [klass])
 
-  useLayoutEffect(() => {
-    navigation.dangerouslyGetParent().setOptions({
-      title: `Class ${klass.name}`
-    });
-  }, [navigation]);
+  // useLayoutEffect(() => {
+  //   navigation.dangerouslyGetParent().setOptions({
+  //     headerTitle: props => <NavBarKlass klass={klass} />
+  //   })
+  // }, [navigation]);
 
   const panResponder = useRef(
     PanResponder.create({
@@ -203,16 +203,23 @@ const KlassScreen = ({ navigation, klasses, route, students, desks,
   )
 }
 
-// border test
+//border test
 // {students.loading ? null : desks.allIds.map(deskId => {
 //   const desk = desks.byId[deskId]
 //   return (
 //     <>
 //       <View style={[styles.deskBorderStyle, {left: desk.bottomLeft ? desk.bottomLeft.x : 0, top: desk.bottomLeft ? desk.bottomLeft.y : 0}]}>
 //       </View>
+//       <View style={[styles.deskBorderStyle, {left: desk.bottomRight ? desk.bottomRight.x : 0, top: desk.bottomRight ? desk.bottomRight.y : 0}]}>
+//       </View>
+//       <View style={[styles.deskBorderStyle, {left: desk.topLeft ? desk.topLeft.x : 0, top: desk.topLeft ? desk.topLeft.y : 0}]}>
+//       </View>
+//       <View style={[styles.deskBorderStyle, {left: desk.topRight ? desk.topRight.x : 0, top: desk.topRight ? desk.topRight.y : 0}]}>
+//       </View>
 //     </>
 //   )
 // })}
+
 
 const styles = StyleSheet.create({
   deskBorderStyle: {

@@ -12,6 +12,7 @@ import KlassScreen from './src/screens/KlassScreen'
 import KlassesNavigator from './src/screens/KlassesNavigator'
 import NavBarTitle from './src/navBar/NavBarTitle'
 import NavBarSmallTitle from './src/navBar/NavBarSmallTitle'
+import NavBarKlass from './src/navBar/NavBarKlass'
 import Logout from './src/components/sessions/Logout'
 
 
@@ -41,6 +42,7 @@ const App = () => {
             options={({ navigation, route }) => ({
               title: false,
               headerLeft: (props) => <NavBarTitle props={props} />,
+              headerTitle: props => <NavBarKlass />,
               headerRight: (props) => <Logout navigation={navigation} />,
               gestureEnabled: false
             })}
