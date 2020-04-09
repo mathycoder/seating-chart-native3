@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { connect } from 'react-redux'
 import { login } from '../../actions/currentUserActions.js'
-import { View, Text, TextInput, StyleSheet } from 'react-native'
+import { View, Text, TextInput, StyleSheet, Platform, KeyboardAvoidingView, TouchableWithoutFeedback, Keyboard } from 'react-native'
 import BigButton from '../buttons/BigButton'
 
 const Login = ({ login, navigation }) => {
@@ -21,6 +21,7 @@ const Login = ({ login, navigation }) => {
       <Text style={styles.flexseatsTitle}>
         Login
       </Text>
+
       <TextInput
         style={styles.textInput}
         autoCapitalize="none"
@@ -29,6 +30,7 @@ const Login = ({ login, navigation }) => {
         value={email}
         onChangeText={(newValue) => setEmail(newValue)}
       />
+
       <TextInput
         style={styles.textInput}
         secureTextEntry={true}
@@ -47,6 +49,9 @@ const Login = ({ login, navigation }) => {
 }
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
   signupWrapper: {
     backgroundColor: "rgb(166, 152, 143)",
     alignItems: "center",

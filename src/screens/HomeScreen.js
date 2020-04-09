@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { View, Text, StyleSheet, Button } from 'react-native'
+import { KeyboardAvoidingView, View, Text, StyleSheet, Button } from 'react-native'
 import { getCurrentUser } from '../actions/currentUserActions.js'
 import { connect } from 'react-redux'
 import Login from '../components/sessions/Login'
@@ -19,9 +19,13 @@ const HomeScreen = ({ navigation, getCurrentUser, currentUser }) => {
   }, [navigation, setLogin]);
 
   return (
-    <View style={styles.containerStyle}>
+    <KeyboardAvoidingView
+      behavior="padding"
+      style={styles.containerStyle}
+      keyboardVerticalOffset={50}
+    >
       {login ? <Login navigation={navigation} /> : <Signup navigation={navigation} />}
-    </View>
+    </KeyboardAvoidingView>
   )
 }
 
