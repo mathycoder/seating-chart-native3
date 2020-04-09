@@ -72,7 +72,7 @@ const StudentsIndex = ({ students, deleteStudent, klass }) => {
             <TouchableOpacity
               key={index}
               style={styles.columnHeader}
-              onClick={() => {
+              onPress={() => {
                 filter === item[0] ? setOrder(!order) : setOrder(true)
                 setFilter(item[0])
               }}
@@ -86,7 +86,6 @@ const StudentsIndex = ({ students, deleteStudent, klass }) => {
       <FlatList
         ref={flatListRef}
         scrollEnabled={true}
-        extraData={showForm}
         style={styles.listStyle}
         data={studentIdsByFilter(filter, order)}
         keyExtractor={studentId => studentId}
@@ -108,63 +107,6 @@ const StudentsIndex = ({ students, deleteStudent, klass }) => {
     </View>
   )
 }
-
-
-// <div className="student-index-page noselect">
-//   <div className="student-index-wrapper">
-    // <div className="student-index-row header">
-    //   {
-    //     [['firstName', 'First Name'],
-    //     ['lastName', 'Last Name'],
-    //     ['academicScore', 'Acad. Score'],
-    //     ['behaviorScore', 'Behav. Score']].map((item, index) => (
-    //       <div
-    //         key={index}
-    //         className="column-header"
-    //         onClick={() => {
-    //           filter === item[0] ? setOrder(!order) : setOrder(true)
-    //           setFilter(item[0])
-    //         }}
-    //       >
-    //         {item[1]}
-    //       </div>
-    //     ))
-    //   }
-    // </div>
-    // {studentIdsByFilter(filter, order).map(studentId => {
-    //   const student = students.byId[studentId]
-    //   return (
-    //     <div key={studentId}>
-    //       {editStudentId && student.id === editStudentId
-    //         ? <StudentForm
-    //             klass={klass}
-    //             student={student}
-    //             setEditStudentId={setEditStudentId}
-    //           />
-    //         : <div key={studentId} className="student-index-row">
-    //             <div>{student.firstName}</div>
-    //             <div>{student.lastName}</div>
-    //             <div className="scores">{student.academicScore}</div>
-    //             <div className="scores">{student.behaviorScore}</div>
-    //             <div className="student-edit-buttons">
-    //               <button className="myButton little" onClick={() => setEditStudentId(student.id)}>Edit</button>
-    //               <button className="myButton little" onClick={() => deleteStudent(klass, student)}>X</button>
-    //             </div>
-    //           </div>
-    //       }
-    //     </div>
-    //   )
-    // })}
-//     {showForm ? <StudentForm klass={ klass }/> : null}
-//     <button
-//       className="myButton"
-//       id="add-student-button"
-//       onClick={() => setShowForm(!showForm)}
-//     >
-//       {showForm ? 'Cancel' : 'Add Student'}
-//     </button>
-//   </div>
-// </div>
 
 const styles = StyleSheet.create({
   wrapperStyle: {
