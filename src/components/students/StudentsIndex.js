@@ -92,7 +92,7 @@ const StudentsIndex = ({ students, deleteStudent, klass }) => {
         renderItem={({item, index}) => renderStudentRow(item, index)}
         ListFooterComponent={() => (
           <>
-          {showForm ? <StudentForm /> : null}
+          {showForm ? <StudentForm setShowForm={setShowForm} /> : null}
           <TouchableOpacity
             onPress={() => {
               flatListRef.current.scrollToEnd({animated: true})
