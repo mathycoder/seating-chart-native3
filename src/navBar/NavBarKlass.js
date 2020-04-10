@@ -5,7 +5,7 @@ import { showStudentsPage, hideStudentsPage,
 import { connect } from 'react-redux'
 
 const NavBarKlass = ({ klass, navigation, showStudentsPage, hideStudentsPage,
-                       studentsPage, hideGearMenu, showGearMenu }) => {
+                       studentsPage, hideGearMenu, showGearMenu, gearMenu }) => {
 
   const renderKlassTitle = () => (
     <View style={styles.containerStyle}>
@@ -13,7 +13,7 @@ const NavBarKlass = ({ klass, navigation, showStudentsPage, hideStudentsPage,
           hideStudentsPage()
           hideGearMenu()
         }}>
-        <Text style={[styles.textStyle, !studentsPage ? styles.boldTextStyle : null]}>
+        <Text style={[styles.textStyle, !studentsPage && !gearMenu ? styles.boldTextStyle : null]}>
           {`Class ${klass.name}`}
         </Text>
       </TouchableOpacity>
@@ -21,7 +21,7 @@ const NavBarKlass = ({ klass, navigation, showStudentsPage, hideStudentsPage,
           hideStudentsPage()
           showGearMenu()
         }}>
-        <Text style={[styles.textStyle]}>
+        <Text style={[styles.textStyle, gearMenu ? styles.boldTextStyle : null]}>
           Generate
         </Text>
       </TouchableOpacity>
@@ -68,7 +68,8 @@ const styles = StyleSheet.create({
 const mapStateToProps = state => {
   return {
     klass: state.currentKlass.klass,
-    studentsPage: state.currentKlass.studentsPage
+    studentsPage: state.currentKlass.studentsPage,
+    gearMenu: state.currentKlass.gearMenu
   }
 }
 

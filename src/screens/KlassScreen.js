@@ -13,10 +13,11 @@ import StudentsIndex from '../components/students/StudentsIndex'
 import { newSeat, swapSeats } from '../actions/studentActions.js'
 import { setSeatLocations } from '../actions/seatActions.js'
 import NavBarKlass from '../navBar/NavBarKlass'
+import GearMenu from '../components/klasses/GearMenu'
 
 const KlassScreen = ({ navigation, klasses, route, students, desks,
                        fetchStudents, setCurrentKlass, clearCurrentKlass,
-                       swap, newSeat, setSeatLocations, studentsPage }) => {
+                       swap, newSeat, setSeatLocations, studentsPage, gearMenu }) => {
   const [draggedStudent, setDraggedStudent] = useState(null)
   const [overDesk, _setOverDesk] = useState(null)
   const [cloneLocation, _setCloneLocation] = useState({x: 0, y: 0})
@@ -59,12 +60,6 @@ const KlassScreen = ({ navigation, klasses, route, students, desks,
 
     return () => clearCurrentKlass()
   }, [klass])
-
-  // useLayoutEffect(() => {
-  //   navigation.dangerouslyGetParent().setOptions({
-  //     headerTitle: props => <NavBarKlass klass={klass} />
-  //   })
-  // }, [navigation]);
 
   const panResponder = useRef(
     PanResponder.create({
@@ -197,6 +192,17 @@ const KlassScreen = ({ navigation, klasses, route, students, desks,
     </>
   )
 
+  const renderXOutKlass = () => (
+    <TouchableOpacity
+      style={{position: 'absolute', top: 10, left: 10}}
+      onPress={() => navigation.goBack(null)}>
+      <Text
+        style={styles.xOutStyle}
+        >X
+      </Text>
+    </TouchableOpacity>
+  )
+
   return (
     <KeyboardAvoidingView
       behavior="padding"
@@ -204,14 +210,7 @@ const KlassScreen = ({ navigation, klasses, route, students, desks,
       keyboardVerticalOffset={50}
     >
       {studentsPage ? <StudentsIndex students={students} /> : renderSeatingChart()}
-      <TouchableOpacity
-        style={{position: 'absolute', top: 10, left: 10}}
-        onPress={() => navigation.goBack(null)}>
-        <Text
-          style={styles.xOutStyle}
-          >X
-        </Text>
-      </TouchableOpacity>
+      {gearMenu ? <GearMenu /> : renderXOutKlass()}
     </KeyboardAvoidingView>
   )
 }
@@ -276,7 +275,8 @@ const mapStateToProps = state => {
     klasses: state.klasses,
     students: state.students,
     desks: state.seats.pairSeats,
-    studentsPage: state.currentKlass.studentsPage
+    studentsPage: state.currentKlass.studentsPage,
+    gearMenu: state.currentKlass.gearMenu
   }
 }
 
