@@ -1,10 +1,28 @@
 import React, { useState } from 'react'
 import { View, Text, StyleSheet } from 'react-native'
+import { dynamicPairsHetero, dynamicPairsHomo,
+         dynamicGroupsHetero, dynamicGroupsHomo } from '../../actions/studentActions.js'
+import { showBehavior, hideBehavior,
+        showAcademics, hideAcademics } from '../../actions/optionActions.js'
 import TypeDropdown from './TypeDropdown'
+import SmallButton from '../buttons/SmallButton'
+import { connect } from 'react-redux'
 
-const GearMenu = () => {
+const GearMenu = ({ open, currentKlass, currentGrouping,
+                    currentAcademics, currentBehavior,
+                    dynamicPairsHetero, dynamicPairsHomo,
+                    dynamicGroupsHetero, dynamicGroupsHomo,
+                    showBehavior, hideBehavior, showAcademics, hideAcademics,
+                    students, loading }) => {
+
   const [groupingType, setGroupingType] = useState('Heterogenous')
   const [groupBy, setGroupBy] = useState('Academics')
+
+  const handleSubmit = () => {
+    groupingType === 'Heterogenous'
+      ? dynamicPairsHetero(currentKlass, groupBy)
+      : dynamicPairsHomo(currentKlass, groupBy)
+  }
 
   return (
     <View style={styles.containerStyle}>
@@ -38,7 +56,7 @@ const GearMenu = () => {
           </View>
         </View>
         <View style={styles.buttonContainerStyle}>
-          <Text>Generate</Text>
+          <SmallButton title="Generate" callbackFunction={() => handleSubmit() } />
         </View>
       </View>
     </View>
@@ -82,7 +100,9 @@ const styles = StyleSheet.create({
     alignItems: 'center'
   },
   optionTextStyle: {
-    color: 'white'
+    color: 'white',
+    fontSize: 16,
+    marginBottom: 4
   },
   buttonContainerStyle: {
     paddingTop: 20,
@@ -91,4 +111,28 @@ const styles = StyleSheet.create({
   }
 })
 
-export default GearMenu
+const mapStateToProps = (state) => {
+  return {
+    currentKlass: state.currentKlass.klass,
+    currentGrouping: state.currentKlass.grouping,
+    currentBehavior: state.currentKlass.behavior,
+    currentAcademics: state.currentKlass.academics,
+    students: state.students,
+    loading: state.students.loading
+  }
+}
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    dynamicPairsHetero: (klass, groupBy) => dispatch(dynamicPairsHetero(klass, groupBy)),
+    dynamicPairsHomo: (klass, groupBy) => dispatch(dynamicPairsHomo(klass, groupBy)),
+    dynamicGroupsHetero: (klass, size, groupBy) => dispatch(dynamicGroupsHetero(klass, size, groupBy)),
+    dynamicGroupsHomo: (klass, size, groupBy) => dispatch(dynamicGroupsHomo(klass, size, groupBy)),
+    hideAcademics: () => dispatch(hideAcademics()),
+    showAcademics: () => dispatch(showAcademics()),
+    hideBehavior: () => dispatch(hideBehavior()),
+    showBehavior: () => dispatch(showBehavior()),
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(GearMenu)
