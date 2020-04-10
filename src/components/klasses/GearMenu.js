@@ -1,25 +1,40 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { View, Text, StyleSheet } from 'react-native'
+import TypeDropdown from './TypeDropdown'
 
 const GearMenu = () => {
+  const [groupingType, setGroupingType] = useState('Heterogenous')
+  const [groupBy, setGroupBy] = useState('Academics')
+
   return (
     <View style={styles.containerStyle}>
       <View style={styles.headerStyle}>
-        <Text style={styles.headerTextStyle}>Gear Menu</Text>
+        <Text style={styles.headerTextStyle}>Generate Pairs</Text>
       </View>
       <View style={styles.bodyStyle}>
         <View style={styles.optionsContainerStyle}>
           <View style={styles.optionContainerStyle}>
             <Text style={styles.optionTextStyle}>Type</Text>
-            <Text>Heterogenous</Text>
+            <TypeDropdown
+              category={groupingType}
+              setCategory={setGroupingType}
+              items={[
+              { label: 'Homogenous', value: 'Homogenous' },
+              { label: 'Heterogenous', value: 'Heterogenous' },
+              ]}
+            />
           </View>
           <View style={styles.optionContainerStyle}>
-            <Text style={styles.optionTextStyle}>Type</Text>
-            <Text>Heterogenous</Text>
-          </View>
-          <View style={styles.optionContainerStyle}>
-            <Text style={styles.optionTextStyle}>Type</Text>
-            <Text>Heterogenous</Text>
+            <Text style={styles.optionTextStyle}>By</Text>
+            <TypeDropdown
+              category={groupBy}
+              setCategory={setGroupBy}
+              items={[
+                { label: 'Academics', value: 'Academics' },
+                { label: 'Behavior', value: 'Behavior' },
+                { label: 'Both', value: 'Both' },
+              ]}
+            />
           </View>
         </View>
         <View style={styles.buttonContainerStyle}>
@@ -44,7 +59,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center'
   },
   headerTextStyle: {
-    fontSize: 18,
+    fontSize: 16,
     color: 'white',
     fontWeight: 'bold',
     alignSelf: 'center',
