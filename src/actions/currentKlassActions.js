@@ -17,3 +17,11 @@ export function showStudentsPage(){
 export function hideStudentsPage(){
   return {type: 'HIDE_STUDENTS_PAGE'}
 }
+
+export function showGearMenu(){
+  return {type: 'SHOW_GEAR_MENU'}
+}
+
+export function hideGearMenu(){
+  return {type: 'HIDE_GEAR_MENU'}
+}

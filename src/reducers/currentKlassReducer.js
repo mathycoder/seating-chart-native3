@@ -5,7 +5,8 @@ const currentKlassReducer = combineReducers({
   grouping: currentGrouping,
   academics: showAcademics,
   behavior: showBehavior,
-  studentsPage: showStudents
+  studentsPage: showStudents,
+  gearMenu: showGearMenu
 })
 
 
@@ -76,6 +77,19 @@ function showStudents(state = false, action) {
 
     default:
       return state;
+  }
+}
+
+function showGearMenu(state = false, action){
+  switch(action.type) {
+    case 'SHOW_GEAR_MENU':
+      return true
+
+    case 'HIDE_GEAR_MENU':
+      return false 
+
+    default:
+      return state
   }
 }
 
