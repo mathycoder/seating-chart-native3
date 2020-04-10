@@ -51,17 +51,18 @@ const KlassesIndex = ({ klasses, currentUser, navigation, clearCurrentKlass }) =
       <Text style={styles.flexseatsTitle}>
         {`${currentUser.firstName}'s Classes`}
       </Text>
-      <View style={styles.rowStyle}>
-        <Text style={[styles.periodColumn, styles.headerStyle]}>Period</Text>
-        <Text style={[styles.nameColumn, styles.headerStyle]}>Name</Text>
-        <Text style={[styles.actionsColumn, styles.headerStyle]}></Text>
-      </View>
-
       <FlatList
           scrollEnabled={true}
           style={styles.listStyle}
           data={klasses.allIds}
           keyExtractor={klassId => klassId}
+          ListHeaderComponent={() => (
+            <View style={styles.rowStyle}>
+              <Text style={[styles.periodColumn, styles.headerStyle]}>Period</Text>
+              <Text style={[styles.nameColumn, styles.headerStyle]}>Name</Text>
+              <Text style={[styles.actionsColumn, styles.headerStyle]}></Text>
+            </View>
+          )}
           renderItem={({item}) => {
             const klass = klasses.byId[item]
             return item !== editKlassId

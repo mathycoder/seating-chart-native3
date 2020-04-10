@@ -5,7 +5,7 @@ const EmptyDesk = ({ student, seatNumber, overDesk }) => {
 
   return (
     <View
-      style={[styles.deskStyle, overDesk === `seat${seatNumber}` ? {backgroundColor: "yellow"} : null]}
+      style={[styles.deskStyle, overDesk === `seat${seatNumber}` ? {backgroundColor: "#FFFFBF"} : null]}
     >
     </View>
   )

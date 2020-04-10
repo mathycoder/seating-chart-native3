@@ -6,7 +6,7 @@ const Desk = ({ student, draggedStudent, panResponder, seatNumber, overDesk }) =
   const floatingStyle = student === draggedStudent ?
     {opacity: 0.2} : null
 
-  const overStyle = overDesk === `seat${seatNumber}` ? ["yellow", "yellow"] : ['#f6f6f6', '#e9e9e9']
+  const overStyle = overDesk === `seat${seatNumber}` ? ["#FFFFBF", "#FFFFBF"] : ['#f6f6f6', '#e9e9e9']
 
   return (
     <View>

@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useLayoutEffect, useRef } from 'react'
-import { View, Text, StyleSheet, TouchableOpacity,
+import { View, Text, StyleSheet, TouchableOpacity, KeyboardAvoidingView,
         ScrollContainer, PanResponder, Animated } from 'react-native'
 import { connect } from 'react-redux'
 import { fetchStudents } from '../actions/studentActions.js'
@@ -198,7 +198,11 @@ const KlassScreen = ({ navigation, klasses, route, students, desks,
   )
 
   return (
-    <View style={styles.containerStyle}>
+    <KeyboardAvoidingView
+      behavior="padding"
+      style={styles.containerStyle}
+      keyboardVerticalOffset={50}
+    >
       {studentsPage ? <StudentsIndex students={students} /> : renderSeatingChart()}
       <TouchableOpacity
         style={{position: 'absolute', top: 10, left: 10}}
@@ -208,7 +212,7 @@ const KlassScreen = ({ navigation, klasses, route, students, desks,
           >X
         </Text>
       </TouchableOpacity>
-    </View>
+    </KeyboardAvoidingView>
   )
 }
 

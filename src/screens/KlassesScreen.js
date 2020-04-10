@@ -1,5 +1,5 @@
 import React, { useEffect, useLayoutEffect } from 'react'
-import { View, Text, StyleSheet, FlatList } from 'react-native'
+import { View, Text, StyleSheet, FlatList, KeyboardAvoidingView } from 'react-native'
 import { connect } from 'react-redux'
 import { fetchKlasses } from '../actions/klassActions.js'
 import { getCurrentUser } from '../actions/currentUserActions.js'
@@ -15,9 +15,13 @@ const KlassesScreen = ({ navigation, klasses, fetchKlasses }) => {
 
   return (
     <>
-      <View style={styles.containerStyle}>
+      <KeyboardAvoidingView
+        behavior="padding"
+        style={styles.containerStyle}
+        keyboardVerticalOffset={50}
+      >
         <KlassesIndex navigation={navigation} />
-      </View>
+      </KeyboardAvoidingView>
     </>
   )
 }
