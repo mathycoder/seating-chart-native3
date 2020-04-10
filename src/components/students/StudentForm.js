@@ -99,14 +99,16 @@ const styles = StyleSheet.create({
   containerStyle: {
     height: 40,
     flexDirection: 'row',
-    backgroundColor: '#FFFFBF'
+    backgroundColor: 'rgba(91,91,91, 1)'
+    // backgroundColor: '#FFFFBF'
   },
   textInputWrapperStyle: {
     flex: 1,
     paddingHorizontal: 10
   },
   textInput: {
-    backgroundColor: "white",
+    // backgroundColor: "white",
+    backgroundColor: 'rgb(242,242,242)',
     paddingHorizontal: 8,
     paddingVertical: 4,
     borderRadius: 5,

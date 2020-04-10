@@ -81,7 +81,7 @@ const StudentsIndex = ({ students, deleteStudent, klass }) => {
             </TouchableOpacity>
           ))
         }
-        <View style={styles.columnHeader}></View>
+        <View style={styles.columnHeader}><Text style={styles.headerStyleText}></Text></View>
       </View>
       <FlatList
         ref={flatListRef}
@@ -92,15 +92,15 @@ const StudentsIndex = ({ students, deleteStudent, klass }) => {
         renderItem={({item, index}) => renderStudentRow(item, index)}
         ListFooterComponent={() => (
           <>
-          {showForm ? <StudentForm setShowForm={setShowForm} /> : null}
-          <TouchableOpacity
-            onPress={() => {
-              flatListRef.current.scrollToEnd({animated: true})
-              setShowForm(!showForm)
-            }}
-            style={styles.addStudentButtonStyle}>
-            <Text style={styles.addStudentButtonTextStyle}>{showForm ? 'Cancel' : 'Add Student'}</Text>
-          </TouchableOpacity>
+            {showForm ? <StudentForm setShowForm={setShowForm} /> : null}
+            <TouchableOpacity
+              onPress={() => {
+                flatListRef.current.scrollToEnd({animated: true})
+                setShowForm(!showForm)
+              }}
+              style={styles.addStudentButtonStyle}>
+              <Text style={styles.addStudentButtonTextStyle}>{showForm ? 'Cancel' : 'Add Student'}</Text>
+            </TouchableOpacity>
           </>
         )}
       />
@@ -126,13 +126,13 @@ const styles = StyleSheet.create({
   },
   columnHeader: {
     flex: 1,
+
   },
   headerStyleText: {
     color: 'white',
     fontWeight: 'bold',
     fontSize: 16,
     paddingHorizontal: 10,
-    fontSize: 16
   },
   studentTextStyle: {
     flex: 1,

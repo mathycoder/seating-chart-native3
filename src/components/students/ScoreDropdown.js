@@ -54,16 +54,18 @@ const ScoreDropdown = ({ score, setScore }) => {
 
 const pickerSelectStyles = StyleSheet.create({
   inputIOS: {
-    marginTop: 3,
-    backgroundColor: "rgb(81,84,92)",
+    marginVertical: 4,
+    backgroundColor: 'rgb(242,242,242)',
+    // backgroundColor: "rgb(81,84,92)",
     fontSize: 18,
     paddingVertical: 6,
     paddingHorizontal: 6,
     borderWidth: 1,
     borderColor: 'black',
-    borderRadius: 4,
-    color: 'white',
-    paddingRight: 20, // to ensure the text is never behind the icon
+    borderRadius: 6,
+    // color: 'white',
+    color: 'black',
+    paddingRight: 25, // to ensure the text is never behind the icon
     alignSelf: 'center',
   }
 });

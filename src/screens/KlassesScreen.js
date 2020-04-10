@@ -12,7 +12,7 @@ const KlassesScreen = ({ navigation, klasses, fetchKlasses }) => {
   useEffect(() => {
       fetchKlasses()
     }, [])
-
+ 
   return (
     <>
       <KeyboardAvoidingView
