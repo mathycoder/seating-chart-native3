@@ -181,7 +181,7 @@ const KlassScreen = ({ navigation, klasses, route, students, desks,
   const renderSeatingChart = () => (
     <>
       <View style={styles.PairSeatingChart}>
-        {students.loading ? null : renderDeskRows()}
+        {renderDeskRows()}
       </View>
       <CloneDesk
         pan={pan}

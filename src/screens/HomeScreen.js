@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { KeyboardAvoidingView, View, Text, StyleSheet, Button } from 'react-native'
+import { KeyboardAvoidingView, View, Text, StyleSheet, Button, ImageBackground } from 'react-native'
 import { getCurrentUser } from '../actions/currentUserActions.js'
 import { connect } from 'react-redux'
 import Login from '../components/sessions/Login'
@@ -24,7 +24,9 @@ const HomeScreen = ({ navigation, getCurrentUser, currentUser }) => {
       style={styles.containerStyle}
       keyboardVerticalOffset={50}
     >
-      {login ? <Login navigation={navigation} /> : <Signup navigation={navigation} />}
+      <ImageBackground source={require('../../assets/desks4.png')} style={styles.imageStyle}>
+        {login ? <Login navigation={navigation} /> : <Signup navigation={navigation} />}
+      </ImageBackground>
     </KeyboardAvoidingView>
   )
 }
@@ -33,7 +35,12 @@ const styles = StyleSheet.create({
   containerStyle: {
     justifyContent: "center",
     flex: 1
-  }
+  },
+  imageStyle: {
+    flex: 1,
+    resizeMode: "contain",
+    justifyContent: "center",
+  },
 })
 
 function mapStateToProps(state){

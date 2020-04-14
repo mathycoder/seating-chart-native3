@@ -1,6 +1,7 @@
 import React, { useState, useRef } from 'react'
 import { Text, View, StyleSheet, PanResponder, Animated } from 'react-native'
 import { LinearGradient } from 'expo-linear-gradient';
+import { BlurView } from 'expo-blur'
 
 const Desk = ({ student, draggedStudent, panResponder, seatNumber, overDesk }) => {
   const floatingStyle = student === draggedStudent ?

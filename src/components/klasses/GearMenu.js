@@ -56,7 +56,7 @@ const GearMenu = ({ open, currentKlass, currentGrouping,
           </View>
         </View>
         <View style={styles.buttonContainerStyle}>
-          <SmallButton title="Generate" callbackFunction={() => handleSubmit() } />
+          <SmallButton title="Generate" callbackFunction={() => handleSubmit()} />
         </View>
       </View>
     </View>
