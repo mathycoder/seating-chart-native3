@@ -1,8 +1,10 @@
 import React, { useState, useRef } from 'react'
 import { Text, View, StyleSheet, Animated, measure } from 'react-native'
 import { LinearGradient } from 'expo-linear-gradient';
+import { connect } from 'react-redux'
 
-const CloneDesk = ({ student, index, pan, panResponder, setCloneLocation  }) => {
+const CloneDesk = ({ student, index, pan, panResponder, setCloneLocation,
+                     currentBehavior, currentAcademics   }) => {
   const refContainer = useRef(null)
 
   const panStyle = {
@@ -20,7 +22,7 @@ const CloneDesk = ({ student, index, pan, panResponder, setCloneLocation  }) => 
   }
 
   return (
-    <View style={{position: 'absolute', left: -100, top: -100}}>
+    <View style={{position: 'absolute', left: -500, top: -500}}>
       <Animated.View
         style={[student ? styles.deskStyle : styles.hiddenStyle, panStyle]}
         {...panResponder.panHandlers}
@@ -36,6 +38,8 @@ const CloneDesk = ({ student, index, pan, panResponder, setCloneLocation  }) => 
           <View style={styles.deskItemsStyle}>
             <Text style={styles.deskItemsText}>{student ? student.firstName : ''}</Text>
             <View style={styles.ratingsStyle}>
+              {currentAcademics ? <Text style={styles.academicStyle}>{student ? student.academicScore : ''}</Text> : null}
+              {currentBehavior ? <Text style={styles.behaviorStyle}>{student ? student.behaviorScore : ''}</Text> : null}
             </View>
           </View>
         </LinearGradient>
@@ -69,7 +73,8 @@ const styles = StyleSheet.create({
     borderWidth: 0,
   },
   deskItemsText: {
-    fontSize: 13
+    fontSize: 13,
+    textAlign: 'center'
   },
   gapStyle: {
     width: 30
@@ -80,7 +85,29 @@ const styles = StyleSheet.create({
     width: 35,
     position: 'absolute',
     top: 3
+  },
+  ratingsStyle: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    width: 60,
+  },
+  academicStyle: {
+    color: 'green',
+    opacity: 0.5,
+    fontSize: 12
+  },
+  behaviorStyle: {
+    color: 'red',
+    opacity: 0.5,
+    fontSize: 12
   }
 })
 
-export default CloneDesk
+const mapStateToProps = state => {
+  return {
+    currentBehavior: state.currentKlass.behavior,
+    currentAcademics: state.currentKlass.academics
+  }
+}
+
+export default connect(mapStateToProps, null)(CloneDesk)

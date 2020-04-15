@@ -21,6 +21,7 @@ const KlassScreen = ({ navigation, klasses, route, students, desks,
   const [draggedStudent, setDraggedStudent] = useState(null)
   const [overDesk, _setOverDesk] = useState(null)
   const [cloneLocation, _setCloneLocation] = useState({x: 0, y: 0})
+  const [panResponderEnabled, _setPanResponderEnabled] = useState(true)
   const { klass } = route.params
 
   const pan = useRef(new Animated.ValueXY()).current;
@@ -29,6 +30,12 @@ const KlassScreen = ({ navigation, klasses, route, students, desks,
     cloneLocationRef.current = data;
     _setCloneLocation(data);
   };
+
+  const panResponderEnabledRef = useRef(panResponderEnabled)
+  const setPanResponderEnabled = data => {
+    panResponderEnabledRef.current = data
+    _setPanResponderEnabled(data)
+  }
 
   const desksRef = useRef(desks)
   const studentsRef = useRef(students)
@@ -61,9 +68,11 @@ const KlassScreen = ({ navigation, klasses, route, students, desks,
     return () => clearCurrentKlass()
   }, [klass])
 
+
+
   const panResponder = useRef(
     PanResponder.create({
-      onMoveShouldSetPanResponder: () => true,
+      onMoveShouldSetPanResponder: () => panResponderEnabledRef.current,
       onPanResponderGrant: (e, gesture) => {
         setDraggedStudent(e._targetInst.memoizedProps.student)
         // console.log("pan.x", pan.x, "gesture.x0", gesture.x0, "cloneLocationRef", cloneLocationRef.current.x)
@@ -94,6 +103,9 @@ const KlassScreen = ({ navigation, klasses, route, students, desks,
         )(e, gesture)
       },
       onPanResponderRelease: (e, gesture) => {
+        setPanResponderEnabled(false)
+        pan.setOffset({ x: 0, y: 0 })
+        pan.setValue({ x: 0, y: 0 })
         const seatNumber = overDeskRef.current ? parseInt(overDeskRef.current.split("seat")[1]) : null
         const overStudentId = studentsRef.current.allIds.find(stId => {
           const student = studentsRef.current.byId[stId]
@@ -110,14 +122,17 @@ const KlassScreen = ({ navigation, klasses, route, students, desks,
         }
 
         setDraggedStudent(null)
-        pan.setOffset({ x: 0, y: 0 })
-        pan.setValue({ x: 0, y: 0 })
+        // pan.setOffset({ x: 0, y: 0 })
+        // pan.setValue({ x: 0, y: 0 })
         setOverDesk(null)
-        // pan.flattenOffset();
         // Animated.spring(pan, {
         //   toValue: { x: 0, y: 0 },
         //   friction: 5
         // }).start();
+
+        window.setTimeout(() => {
+          setPanResponderEnabled(true)
+        }, 500)
       }
     })
   ).current;
