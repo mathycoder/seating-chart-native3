@@ -58,6 +58,11 @@ const GearMenu = ({ open, currentKlass, currentGrouping,
         <View style={styles.buttonContainerStyle}>
           <SmallButton title="Generate" callbackFunction={() => handleSubmit()} />
         </View>
+        <View style={styles.settingsStyle}>
+          <Text style={styles.settingStyle}>Test</Text>
+          <Text style={styles.settingStyle}>Test</Text>
+          <Text style={styles.settingStyle}>Test</Text>
+        </View>
       </View>
     </View>
   )
@@ -108,6 +113,16 @@ const styles = StyleSheet.create({
     paddingTop: 20,
     alignItems: 'center',
     justifyContent: 'center'
+  },
+  settingsStyle: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    width: '95%',
+    paddingTop: 25
+  },
+  settingStyle: {
+    color: 'white',
+    fontSize: 16
   }
 })
 
