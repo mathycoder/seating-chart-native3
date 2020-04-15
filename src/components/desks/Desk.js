@@ -6,8 +6,9 @@ import { connect } from 'react-redux'
 
 const Desk = ({ student, draggedStudent, panResponder, seatNumber,
                 overDesk, currentBehavior, currentAcademics }) => {
-  const floatingStyle = student === draggedStudent ?
-    {opacity: 0.2} : null
+
+  const floatingStyle = draggedStudent && student.id === draggedStudent.id ?
+    {opacity: 0.2} : {opacity: 1.0}
 
   const overStyle = overDesk === `seat${seatNumber}` ? ["#FFFFBF", "#FFFFBF"] : ['#f6f6f6', '#e9e9e9']
 
