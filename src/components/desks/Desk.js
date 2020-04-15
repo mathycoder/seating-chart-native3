@@ -2,8 +2,10 @@ import React, { useState, useRef } from 'react'
 import { Text, View, StyleSheet, PanResponder, Animated } from 'react-native'
 import { LinearGradient } from 'expo-linear-gradient';
 import { BlurView } from 'expo-blur'
+import { connect } from 'react-redux'
 
-const Desk = ({ student, draggedStudent, panResponder, seatNumber, overDesk }) => {
+const Desk = ({ student, draggedStudent, panResponder, seatNumber,
+                overDesk, currentBehavior, currentAcademics }) => {
   const floatingStyle = student === draggedStudent ?
     {opacity: 0.2} : null
 
@@ -25,6 +27,8 @@ const Desk = ({ student, draggedStudent, panResponder, seatNumber, overDesk }) =
           <View style={styles.deskItemsStyle}>
             <Text style={styles.deskItemsText}>{student.firstName}</Text>
             <View style={styles.ratingsStyle}>
+              {currentAcademics ? <Text style={styles.academicStyle}>{student.academicScore}</Text> : null}
+              {currentBehavior ? <Text style={styles.behaviorStyle}>{student.behaviorScore}</Text> : null}
             </View>
           </View>
         </LinearGradient>
@@ -55,7 +59,8 @@ const styles = StyleSheet.create({
     zIndex: -1
   },
   deskItemsText: {
-    fontSize: 13
+    fontSize: 13,
+    textAlign: 'center'
   },
   gapStyle: {
     width: 30
@@ -66,7 +71,29 @@ const styles = StyleSheet.create({
     width: 35,
     position: 'absolute',
     top: 3
+  },
+  ratingsStyle: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    width: 60,
+  },
+  academicStyle: {
+    color: 'green',
+    opacity: 0.5,
+    fontSize: 12
+  },
+  behaviorStyle: {
+    color: 'red',
+    opacity: 0.5,
+    fontSize: 12
   }
 })
 
-export default Desk
+const mapStateToProps = state => {
+  return {
+    currentBehavior: state.currentKlass.behavior,
+    currentAcademics: state.currentKlass.academics
+  }
+}
+
+export default connect(mapStateToProps, null)(Desk)
