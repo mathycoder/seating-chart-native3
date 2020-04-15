@@ -7,6 +7,7 @@ import { showBehavior, hideBehavior,
 import TypeDropdown from './TypeDropdown'
 import SmallButton from '../buttons/SmallButton'
 import { connect } from 'react-redux'
+import Checkbox from './Checkbox'
 
 const GearMenu = ({ open, currentKlass, currentGrouping,
                     currentAcademics, currentBehavior,
@@ -59,9 +60,8 @@ const GearMenu = ({ open, currentKlass, currentGrouping,
           <SmallButton title="Generate" callbackFunction={() => handleSubmit()} />
         </View>
         <View style={styles.settingsStyle}>
-          <Text style={styles.settingStyle}>Test</Text>
-          <Text style={styles.settingStyle}>Test</Text>
-          <Text style={styles.settingStyle}>Test</Text>
+          <Checkbox title="Academics" checked={currentAcademics} callbackFunction={() => currentAcademics ? hideAcademics(): showAcademics()}/>
+          <Checkbox title="Behavior" checked={currentBehavior} callbackFunction={() => currentBehavior? hideBehavior(): showBehavior()}/>
         </View>
       </View>
     </View>
@@ -117,7 +117,7 @@ const styles = StyleSheet.create({
   settingsStyle: {
     flexDirection: 'row',
     justifyContent: 'space-around',
-    width: '95%',
+    width: '70%',
     paddingTop: 25
   },
   settingStyle: {
