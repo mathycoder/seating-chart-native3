@@ -40,10 +40,12 @@ const KlassScreen = ({ navigation, klasses, route, students, desks,
   const desksRef = useRef(desks)
   const studentsRef = useRef(students)
   const overDeskRef = useRef(overDesk)
+  const groupingRef = useRef(grouping)
 
   useEffect(() => {
     setCurrentKlass(klass)
     setSeatLocations(Dimensions.get('window').width, Dimensions.get('window').height, grouping)
+    groupingRef.current = grouping
   }, [grouping])
 
   useEffect(() => {
@@ -116,9 +118,9 @@ const KlassScreen = ({ navigation, klasses, route, students, desks,
         const overStudent = overStudentId ? studentsRef.current.byId[overStudentId] : null
 
         if (overStudent) {
-          swap(klass, currentStudent, overStudent, 'pair')
+          swap(klass, currentStudent, overStudent, groupingRef.current === 'Pairs' ? 'pair' : 'group')
         } else if (overDeskRef.current) {
-          newSeat(klass, currentStudent, seatNumber, 'pair')
+          newSeat(klass, currentStudent, seatNumber, groupingRef.current === 'Pairs' ? 'pair' : 'group')
         }
 
         setDraggedStudent(null)
