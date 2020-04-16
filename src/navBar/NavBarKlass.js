@@ -1,31 +1,48 @@
-import React from 'react'
+import React, { useRef } from 'react'
 import { View, Text, TextInput, StyleSheet, TouchableOpacity } from 'react-native'
 import { showStudentsPage, hideStudentsPage, setCurrentGroup,
          showGearMenu, hideGearMenu } from '../actions/currentKlassActions.js'
 import { connect } from 'react-redux'
-import DropdownMenu from 'react-native-dropdown-menu'
+import Menu, { MenuItem, MenuDivider } from 'react-native-material-menu'
 
 const NavBarKlass = ({ klass, navigation, showStudentsPage, hideStudentsPage,
                        setCurrentGroup, grouping,
                        studentsPage, hideGearMenu, showGearMenu, gearMenu }) => {
+
+  const setMenuRef = useRef()
 
   const renderKlassTitle = () => (
     <View style={styles.containerStyle}>
       <TouchableOpacity onPress={() => {
           hideStudentsPage()
         }}>
-        <Text style={[styles.textStyle, !studentsPage && !gearMenu ? styles.boldTextStyle : null]}>
+        <Text style={[styles.textStyle]}>
           {`Class ${klass.name}`}
         </Text>
       </TouchableOpacity>
-      <TouchableOpacity onPress={() => {
-          hideStudentsPage()
-          grouping === 'Pairs' ? setCurrentGroup('Groups') : setCurrentGroup('Pairs')
-        }}>
-        <Text style={[styles.textStyle]}>
-          {grouping}
-        </Text>
-      </TouchableOpacity>
+      <Menu
+        style={{marginTop: 25, marginLeft: 5}}
+        ref={setMenuRef}
+        button={<Text
+                  style={[styles.textStyle, {width: 52}]}
+                  onPress={() => setMenuRef.current.show()}>{grouping}
+                </Text>}
+      >
+        <MenuItem
+          textStyle={{fontSize: 16}}
+          onPress={() => {
+            setCurrentGroup('Pairs')
+            setMenuRef.current.hide()
+          }}>Pairs
+        </MenuItem>
+        <MenuItem
+          textStyle={{fontSize: 16}}
+          onPress={() => {
+            setCurrentGroup('Groups')
+            setMenuRef.current.hide()
+          }}>Groups
+        </MenuItem>
+      </Menu>
       <TouchableOpacity onPress={() => {
           hideStudentsPage()
           gearMenu ? hideGearMenu() : showGearMenu()
