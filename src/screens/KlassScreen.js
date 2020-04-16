@@ -43,6 +43,10 @@ const KlassScreen = ({ navigation, klasses, route, students, desks,
   const groupingRef = useRef(grouping)
 
   useEffect(() => {
+    gearMenu ? setPanResponderEnabled(false) : setPanResponderEnabled(true)
+  }, [gearMenu])
+
+  useEffect(() => {
     setCurrentKlass(klass)
     setSeatLocations(Dimensions.get('window').width, Dimensions.get('window').height, grouping)
     groupingRef.current = grouping
