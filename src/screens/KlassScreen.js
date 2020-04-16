@@ -16,7 +16,7 @@ import NavBarKlass from '../navBar/NavBarKlass'
 import GearMenu from '../components/klasses/GearMenu'
 
 const KlassScreen = ({ navigation, klasses, route, students, desks,
-                       fetchStudents, setCurrentKlass, clearCurrentKlass,
+                       fetchStudents, setCurrentKlass, clearCurrentKlass, grouping,
                        swap, newSeat, setSeatLocations, studentsPage, gearMenu }) => {
   const [draggedStudent, setDraggedStudent] = useState(null)
   const [overDesk, _setOverDesk] = useState(null)
@@ -142,13 +142,13 @@ const KlassScreen = ({ navigation, klasses, route, students, desks,
     return [...Array(32).keys()].map(seatNumber => {
       const studentId = students.allIds.find(stId => {
         const st = students.byId[stId]
-        return st.seatPair === seatNumber
+        return (grouping === 'Pairs' ? st.seatPair : st.seatGroup) === seatNumber
       })
       return studentId ? studentId : null
     })
   }
 
-  const renderDeskRows = () => {
+  const renderDeskRowsForPairs = () => {
     const mySeats = seats()
     return [0,1,2,3].map(row => {
       const rowOfStudents = mySeats.slice(row*8, (row+1)*8)
@@ -162,6 +162,46 @@ const KlassScreen = ({ navigation, klasses, route, students, desks,
         </View>
       )
     })
+  }
+
+  const renderDeskRowsForGroups = () => {
+    const mySeats = seats()
+    return (
+      <>
+        <View style={styles.rowGroupsStyle}>
+          {
+            [0,1].map(row => {
+              const rowOfStudents = mySeats.slice(row*8, (row+1)*8)
+              return (
+                <View style={styles.rowGroupStyle} key={`row${row}`}>
+                  {[0,1,2,3].map(pair => (
+                      <View style={styles.pairStyle} key={`row${row}pair${pair}`}>
+                        {renderDeskPairs(rowOfStudents, row, pair)}
+                      </View>
+                  ))}
+                </View>
+              )
+            })
+          }
+        </View>
+        <View style={styles.rowGroupsStyle}>
+          {
+            [2,3].map(row => {
+              const rowOfStudents = mySeats.slice(row*8, (row+1)*8)
+              return (
+                <View style={styles.rowGroupStyle} key={`row${row}`}>
+                  {[0,1,2,3].map(pair => (
+                      <View style={styles.pairStyle} key={`row${row}pair${pair}`}>
+                        {renderDeskPairs(rowOfStudents, row, pair)}
+                      </View>
+                  ))}
+                </View>
+              )
+            })
+          }
+        </View>
+      </>
+    )
   }
 
   const renderDeskPairs = (rowOfStudents, row, pair) => {
@@ -193,10 +233,12 @@ const KlassScreen = ({ navigation, klasses, route, students, desks,
       })
   }
 
+
+
   const renderSeatingChart = () => (
     <>
-      <View style={styles.PairSeatingChart}>
-        {renderDeskRows()}
+      <View style={styles.SeatingChart}>
+        {grouping === "Pairs" ? renderDeskRowsForPairs() : renderDeskRowsForGroups()}
       </View>
       <CloneDesk
         pan={pan}
@@ -266,17 +308,28 @@ const styles = StyleSheet.create({
   xOutStyle: {
     fontSize: 20,
   },
-  PairSeatingChart: {
+  SeatingChart: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    alignSelf: 'stretch',
+    alignSelf: 'stretch'
 
   },
   rowStyle: {
     flexDirection: 'row',
     flex: 1,
     alignItems: 'center',
+    justifyContent: 'space-around',
+    alignSelf: 'stretch'
+  },
+  rowGroupsStyle: {
+    flex: 1,
+    alignSelf: 'stretch',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  rowGroupStyle: {
+    flexDirection: 'row',
     justifyContent: 'space-around',
     alignSelf: 'stretch'
   },
@@ -291,7 +344,8 @@ const mapStateToProps = state => {
     students: state.students,
     desks: state.seats.pairSeats,
     studentsPage: state.currentKlass.studentsPage,
-    gearMenu: state.currentKlass.gearMenu
+    gearMenu: state.currentKlass.gearMenu,
+    grouping: state.currentKlass.grouping
   }
 }
 
