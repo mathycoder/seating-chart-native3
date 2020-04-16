@@ -3,6 +3,7 @@ import { View, Text, TextInput, StyleSheet, TouchableOpacity } from 'react-nativ
 import { showStudentsPage, hideStudentsPage, setCurrentGroup,
          showGearMenu, hideGearMenu } from '../actions/currentKlassActions.js'
 import { connect } from 'react-redux'
+import DropdownMenu from 'react-native-dropdown-menu'
 
 const NavBarKlass = ({ klass, navigation, showStudentsPage, hideStudentsPage,
                        setCurrentGroup, grouping,
