@@ -16,19 +16,34 @@ const GearMenu = ({ open, currentKlass, currentGrouping,
                     showBehavior, hideBehavior, showAcademics, hideAcademics,
                     students, loading }) => {
 
+  const [groupSize, setGroupSize] = useState(4)
   const [groupingType, setGroupingType] = useState('Heterogenous')
   const [groupBy, setGroupBy] = useState('Academics')
 
+  const possibleGroups = () => {
+    return [4,3,2,1].filter(size => students.allIds.length / size <= 8)
+  }
+
+  const possibleGroupsArray = () => possibleGroups().map(num => {
+    return {label: `${num}`, value: num}
+  })
+
   const handleSubmit = () => {
-    groupingType === 'Heterogenous'
-      ? dynamicPairsHetero(currentKlass, groupBy)
-      : dynamicPairsHomo(currentKlass, groupBy)
+    if (currentGrouping === "Groups"){
+      groupingType === 'Heterogenous'
+        ? dynamicGroupsHetero(currentKlass, groupSize, groupBy)
+        : dynamicGroupsHomo(currentKlass, groupSize, groupBy)
+    } else {
+      groupingType === 'Heterogenous'
+        ? dynamicPairsHetero(currentKlass, groupBy)
+        : dynamicPairsHomo(currentKlass, groupBy)
+    }
   }
 
   return (
     <View style={styles.containerStyle}>
       <View style={styles.headerStyle}>
-        <Text style={styles.headerTextStyle}>Generate Pairs</Text>
+        <Text style={styles.headerTextStyle}>{`Generate ${currentGrouping}`}</Text>
       </View>
       <View style={styles.bodyStyle}>
         <View style={styles.optionsContainerStyle}>
@@ -56,6 +71,16 @@ const GearMenu = ({ open, currentKlass, currentGrouping,
             />
           </View>
         </View>
+        { currentGrouping === 'Groups' ?
+          <View style={styles.optionContainerStyle}>
+            <Text style={styles.optionTextStyle}>Group Size</Text>
+            <TypeDropdown
+              category={groupSize}
+              setCategory={setGroupSize}
+              items={possibleGroupsArray()}
+            />
+          </View> : null
+        }
         <View style={styles.buttonContainerStyle}>
           <SmallButton title="Generate" callbackFunction={() => handleSubmit()} />
         </View>
