@@ -111,7 +111,7 @@ const KlassScreen = ({ navigation, klasses, route, students, desks,
         const seatNumber = overDeskRef.current ? parseInt(overDeskRef.current.split("seat")[1]) : null
         const overStudentId = studentsRef.current.allIds.find(stId => {
           const student = studentsRef.current.byId[stId]
-          return student.seatPair === parseInt(seatNumber)
+          return parseInt(seatNumber) === (groupingRef.current === 'Pairs' ? student.seatPair : student.seatGroup)
         })
 
         const currentStudent = e._targetInst.memoizedProps.student
