@@ -43,8 +43,8 @@ const KlassScreen = ({ navigation, klasses, route, students, desks,
 
   useEffect(() => {
     setCurrentKlass(klass)
-    setSeatLocations(Dimensions.get('window').width, Dimensions.get('window').height)
-  }, [])
+    setSeatLocations(Dimensions.get('window').width, Dimensions.get('window').height, grouping)
+  }, [grouping])
 
   useEffect(() => {
     desksRef.current = desks
@@ -168,7 +168,7 @@ const KlassScreen = ({ navigation, klasses, route, students, desks,
     const mySeats = seats()
     return (
       <>
-        <View style={styles.rowGroupsStyle}>
+        <View style={styles.rowGroupsStyle} key="group1">
           {
             [0,1].map(row => {
               const rowOfStudents = mySeats.slice(row*8, (row+1)*8)
@@ -184,7 +184,7 @@ const KlassScreen = ({ navigation, klasses, route, students, desks,
             })
           }
         </View>
-        <View style={styles.rowGroupsStyle}>
+        <View style={styles.rowGroupsStyle} key="group2">
           {
             [2,3].map(row => {
               const rowOfStudents = mySeats.slice(row*8, (row+1)*8)
@@ -268,6 +268,21 @@ const KlassScreen = ({ navigation, klasses, route, students, desks,
     >
       {studentsPage ? <StudentsIndex students={students} /> : renderSeatingChart()}
       {gearMenu ? <GearMenu /> : renderXOutKlass()}
+      {students.loading ? null : desks.allIds.map(deskId => {
+        const desk = desks.byId[deskId]
+        return (
+          <>
+            <View style={[styles.deskBorderStyle, {left: desk.bottomLeft ? desk.bottomLeft.x : 0, top: desk.bottomLeft ? desk.bottomLeft.y : 0}]}>
+            </View>
+            <View style={[styles.deskBorderStyle, {left: desk.bottomRight ? desk.bottomRight.x : 0, top: desk.bottomRight ? desk.bottomRight.y : 0}]}>
+            </View>
+            <View style={[styles.deskBorderStyle, {left: desk.topLeft ? desk.topLeft.x : 0, top: desk.topLeft ? desk.topLeft.y : 0}]}>
+            </View>
+            <View style={[styles.deskBorderStyle, {left: desk.topRight ? desk.topRight.x : 0, top: desk.topRight ? desk.topRight.y : 0}]}>
+            </View>
+          </>
+        )
+      })}
     </KeyboardAvoidingView>
   )
 }
@@ -356,7 +371,7 @@ const mapDispatchToProps = (dispatch) => {
     clearCurrentKlass: () => dispatch(clearCurrentKlass()),
     swap: (klass, student1, student2, type) => dispatch(swapSeats(klass, student1, student2, type)),
     newSeat: (klass, student, seat, type) => dispatch(newSeat(klass, student, seat, type)),
-    setSeatLocations: (screenWidth, screenHeight) => dispatch(setSeatLocations(screenWidth, screenHeight))
+    setSeatLocations: (screenWidth, screenHeight, grouping) => dispatch(setSeatLocations(screenWidth, screenHeight, grouping))
   }
 }
 

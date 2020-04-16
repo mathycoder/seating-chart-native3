@@ -36,9 +36,13 @@ function pairSeatsById(state = emptySeats(), action) {
       }
 
     case 'SET_SEAT_LOCATIONS':
-      const { screenWidth, screenHeight } = action
+      const { screenWidth, screenHeight, grouping } = action
+      console.log(grouping)
+      const newLocations = grouping === 'Pairs'
+        ? setPairSeatLocations({...state}, screenWidth, screenHeight)
+        : setGroupSeatLocations({...state}, screenWidth, screenHeight)
       return {
-        ...state, ...setSeatLocations({...state}, screenWidth, screenHeight)
+        ...state, ...newLocations
       }
 
     default:
@@ -46,7 +50,7 @@ function pairSeatsById(state = emptySeats(), action) {
   }
 }
 
-function setSeatLocations(stateCopy, screenWidth, screenHeight){
+function setPairSeatLocations(stateCopy, screenWidth, screenHeight){
   const deskWidth = 65
   const deskHeight = 52
   const paddingHorizontal = 20
@@ -64,6 +68,36 @@ function setSeatLocations(stateCopy, screenWidth, screenHeight){
                                 + Math.floor(col / 2) * marginHorizontal*2
                                 + col * deskWidth
     const relMarTop = -10 + marginVertical
+                                + row * marginVertical
+                                + row * deskHeight
+
+    stateCopy[key].topLeft = { x: relMarHor, y: relMarTop }
+    stateCopy[key].topRight = { x: relMarHor + deskWidth, y: relMarTop }
+    stateCopy[key].bottomLeft = { x: relMarHor, y: relMarTop + deskHeight }
+    stateCopy[key].bottomRight = { x: relMarHor + deskWidth, y: relMarTop + deskHeight }
+    stateCopy[key].center = { x: relMarHor + deskWidth/2, y: relMarTop + deskHeight/2 }
+  }
+  return stateCopy
+}
+
+function setGroupSeatLocations(stateCopy, screenWidth, screenHeight){
+  const deskWidth = 65
+  const deskHeight = 52
+  const paddingHorizontal = 20
+  const paddingVertical = 15
+
+  const marginHorizontal = (screenWidth - deskWidth*8 - paddingHorizontal) / 8  // 47
+  const marginVertical = (screenHeight - deskHeight*4 - paddingVertical) / 4
+
+  for (let key in stateCopy){
+    const seat = parseInt(key.split("seat")[1])
+    const row = Math.floor(seat / 8)
+    const col = seat % 8
+
+    const relMarHor = 10 + marginHorizontal
+                                + Math.floor(col / 2) * marginHorizontal*2
+                                + col * deskWidth
+    const relMarTop = marginVertical
                                 + row * marginVertical
                                 + row * deskHeight
 
