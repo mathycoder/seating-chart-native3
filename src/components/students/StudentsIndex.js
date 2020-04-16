@@ -4,8 +4,10 @@ import { connect } from 'react-redux'
 import { deleteStudent } from '../../actions/studentActions.js'
 import StudentForm from './StudentForm'
 import SmallButton from '../buttons/SmallButton'
+import { hideStudentsPage } from '../../actions/currentKlassActions.js'
 
-const StudentsIndex = ({ students, deleteStudent, klass }) => {
+
+const StudentsIndex = ({ students, deleteStudent, klass, hideStudentsPage }) => {
   const [showForm, setShowForm] = useState(false)
   const [editStudentId, setEditStudentId] = useState(null)
   const [filter, setFilter] = useState('firstName')
@@ -81,7 +83,13 @@ const StudentsIndex = ({ students, deleteStudent, klass }) => {
             </TouchableOpacity>
           ))
         }
-        <View style={styles.columnHeader}><Text style={styles.headerStyleText}></Text></View>
+        <View style={styles.columnHeader}>
+          <TouchableOpacity
+            onPress={() => hideStudentsPage() }
+            style={styles.XOutStyle}>
+            <Text style={[styles.XOutTextStyle]}>X</Text>
+          </TouchableOpacity>
+        </View>
       </View>
       <FlatList
         ref={flatListRef}
@@ -157,7 +165,18 @@ const styles = StyleSheet.create({
     color: 'white',
     fontWeight: 'bold',
     fontSize: 16
-  }
+  },
+  XOutStyle: {
+    flex: 1,
+    alignItems: 'flex-end',
+    paddingRight: 7,
+    paddingTop: 7
+
+  },
+  XOutTextStyle: {
+    color: 'white',
+    fontSize: 16
+  },
 
 })
 
@@ -169,7 +188,9 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    deleteStudent: (klass, student) => dispatch(deleteStudent(klass, student))
+    deleteStudent: (klass, student) => dispatch(deleteStudent(klass, student)),
+    hideStudentsPage: () => dispatch(hideStudentsPage()),
+
   }
 }
 

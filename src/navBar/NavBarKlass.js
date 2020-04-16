@@ -35,7 +35,7 @@ const NavBarKlass = ({ klass, navigation, showStudentsPage, hideStudentsPage,
       </TouchableOpacity>
       <TouchableOpacity onPress={() => {
           hideGearMenu()
-          showStudentsPage()
+          studentsPage ? hideStudentsPage() : showStudentsPage()
         }}>
         <Text style={[styles.textStyle, studentsPage ? styles.boldTextStyle : null]}>
           Students
