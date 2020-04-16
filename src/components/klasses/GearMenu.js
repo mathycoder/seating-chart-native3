@@ -60,6 +60,7 @@ const GearMenu = ({ open, currentKlass, currentGrouping,
           <SmallButton title="Generate" callbackFunction={() => handleSubmit()} />
         </View>
         <View style={styles.settingsStyle}>
+          <Text style={styles.settingStyle}>Display:</Text>
           <Checkbox title="Academics" checked={currentAcademics} callbackFunction={() => currentAcademics ? hideAcademics(): showAcademics()}/>
           <Checkbox title="Behavior" checked={currentBehavior} callbackFunction={() => currentBehavior? hideBehavior(): showBehavior()}/>
         </View>
@@ -122,7 +123,10 @@ const styles = StyleSheet.create({
   },
   settingStyle: {
     color: 'white',
-    fontSize: 16
+    fontSize: 16,
+    marginTop: 2,
+    marginRight: 10,
+    // fontWeight: 'bold'
   }
 })
 
