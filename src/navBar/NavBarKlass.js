@@ -12,7 +12,6 @@ const NavBarKlass = ({ klass, navigation, showStudentsPage, hideStudentsPage,
     <View style={styles.containerStyle}>
       <TouchableOpacity onPress={() => {
           hideStudentsPage()
-          hideGearMenu()
         }}>
         <Text style={[styles.textStyle, !studentsPage && !gearMenu ? styles.boldTextStyle : null]}>
           {`Class ${klass.name}`}
@@ -20,7 +19,6 @@ const NavBarKlass = ({ klass, navigation, showStudentsPage, hideStudentsPage,
       </TouchableOpacity>
       <TouchableOpacity onPress={() => {
           hideStudentsPage()
-          hideGearMenu()
           grouping === 'Pairs' ? setCurrentGroup('Groups') : setCurrentGroup('Pairs')
         }}>
         <Text style={[styles.textStyle]}>
@@ -29,7 +27,7 @@ const NavBarKlass = ({ klass, navigation, showStudentsPage, hideStudentsPage,
       </TouchableOpacity>
       <TouchableOpacity onPress={() => {
           hideStudentsPage()
-          showGearMenu()
+          gearMenu ? hideGearMenu() : showGearMenu()
         }}>
         <Text style={[styles.textStyle, gearMenu ? styles.boldTextStyle : null]}>
           Generate

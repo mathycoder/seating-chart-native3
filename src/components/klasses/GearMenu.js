@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { View, Text, StyleSheet } from 'react-native'
+import { View, Text, StyleSheet, TouchableOpacity } from 'react-native'
 import { dynamicPairsHetero, dynamicPairsHomo,
          dynamicGroupsHetero, dynamicGroupsHomo } from '../../actions/studentActions.js'
 import { showBehavior, hideBehavior,
@@ -8,13 +8,14 @@ import TypeDropdown from './TypeDropdown'
 import SmallButton from '../buttons/SmallButton'
 import { connect } from 'react-redux'
 import Checkbox from './Checkbox'
+import { hideGearMenu } from '../../actions/currentKlassActions.js'
 
 const GearMenu = ({ open, currentKlass, currentGrouping,
                     currentAcademics, currentBehavior,
                     dynamicPairsHetero, dynamicPairsHomo,
                     dynamicGroupsHetero, dynamicGroupsHomo,
                     showBehavior, hideBehavior, showAcademics, hideAcademics,
-                    students, loading }) => {
+                    students, loading, hideGearMenu }) => {
 
   const [groupSize, setGroupSize] = useState(4)
   const [groupingType, setGroupingType] = useState('Heterogenous')
@@ -44,6 +45,11 @@ const GearMenu = ({ open, currentKlass, currentGrouping,
     <View style={styles.containerStyle}>
       <View style={styles.headerStyle}>
         <Text style={styles.headerTextStyle}>{`Generate ${currentGrouping}`}</Text>
+        <TouchableOpacity
+          onPress={() => hideGearMenu() }
+          style={styles.XOutStyle}>
+          <Text style={styles.XOutTextStyle}>X</Text>
+        </TouchableOpacity>
       </View>
       <View style={styles.bodyStyle}>
         <View style={styles.optionsContainerStyle}>
@@ -101,7 +107,7 @@ const styles = StyleSheet.create({
   containerStyle: {
     position: 'absolute',
     width: 400,
-    alignItems: 'center',
+    alignItems: 'center'
 
   },
   headerStyle: {
@@ -109,6 +115,18 @@ const styles = StyleSheet.create({
     flex: 1,
     alignSelf: 'stretch',
     justifyContent: 'center',
+    flexDirection: 'row'
+  },
+  XOutStyle: {
+    position: 'absolute',
+    color: 'white',
+    left: 5,
+    top: 5,
+    fontSize: 16
+  },
+  XOutTextStyle: {
+    color: 'white',
+    fontSize: 16
   },
   headerTextStyle: {
     fontSize: 16,
@@ -181,6 +199,7 @@ const mapDispatchToProps = (dispatch) => {
     showAcademics: () => dispatch(showAcademics()),
     hideBehavior: () => dispatch(hideBehavior()),
     showBehavior: () => dispatch(showBehavior()),
+    hideGearMenu: () => dispatch(hideGearMenu())
   }
 }
 

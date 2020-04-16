@@ -269,7 +269,8 @@ const KlassScreen = ({ navigation, klasses, route, students, desks,
       keyboardVerticalOffset={50}
     >
       {studentsPage ? <StudentsIndex students={students} /> : renderSeatingChart()}
-      {gearMenu ? <GearMenu /> : renderXOutKlass()}
+      {gearMenu ? <GearMenu /> : null}
+      {!studentsPage && !gearMenu ? renderXOutKlass() : null}
     </KeyboardAvoidingView>
   )
 }
