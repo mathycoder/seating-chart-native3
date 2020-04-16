@@ -70,20 +70,23 @@ const GearMenu = ({ open, currentKlass, currentGrouping,
               ]}
             />
           </View>
+          { currentGrouping === 'Groups' ?
+            <View style={styles.optionContainerStyle}>
+              <Text style={styles.optionTextStyle}>Group Size</Text>
+              <TypeDropdown
+                size="small"
+                category={groupSize}
+                setCategory={setGroupSize}
+                items={possibleGroupsArray()}
+              />
+            </View> : null
+          }
+          <View style={styles.buttonContainerStyle}>
+            <SmallButton title="Generate" callbackFunction={() => handleSubmit()} />
+          </View>
         </View>
-        { currentGrouping === 'Groups' ?
-          <View style={styles.optionContainerStyle}>
-            <Text style={styles.optionTextStyle}>Group Size</Text>
-            <TypeDropdown
-              category={groupSize}
-              setCategory={setGroupSize}
-              items={possibleGroupsArray()}
-            />
-          </View> : null
-        }
-        <View style={styles.buttonContainerStyle}>
-          <SmallButton title="Generate" callbackFunction={() => handleSubmit()} />
-        </View>
+
+
         <View style={styles.settingsStyle}>
           <Text style={styles.settingStyle}>Display:</Text>
           <Checkbox title="Academics" checked={currentAcademics} callbackFunction={() => currentAcademics ? hideAcademics(): showAcademics()}/>
@@ -105,7 +108,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgb(81,84,92)',
     flex: 1,
     alignSelf: 'stretch',
-    justifyContent: 'center'
+    justifyContent: 'center',
   },
   headerTextStyle: {
     fontSize: 16,
@@ -124,11 +127,13 @@ const styles = StyleSheet.create({
   optionsContainerStyle: {
     flexDirection: 'row',
     justifyContent: 'space-around',
-    width: '95%'
+    width: '95%',
+    flexWrap: 'wrap'
   },
   optionContainerStyle: {
     justifyContent: 'center',
-    alignItems: 'center'
+    alignItems: 'center',
+    padding: 10
   },
   optionTextStyle: {
     color: 'white',
