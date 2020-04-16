@@ -25,13 +25,13 @@ function currentKlass(state = null, action) {
   }
 }
 
-function currentGrouping(state = null, action) {
+function currentGrouping(state = 'Pairs', action) {
   switch(action.type) {
     case 'SET_CURRENT_GROUP':
       return action.group
 
     case 'CLEAR_CURRENT_KLASS':
-      return null
+      return 'Pairs'
 
     default:
       return state;
@@ -86,7 +86,7 @@ function showGearMenu(state = false, action){
       return true
 
     case 'HIDE_GEAR_MENU':
-      return false 
+      return false
 
     default:
       return state

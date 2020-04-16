@@ -1,10 +1,11 @@
 import React from 'react'
 import { View, Text, TextInput, StyleSheet, TouchableOpacity } from 'react-native'
-import { showStudentsPage, hideStudentsPage,
+import { showStudentsPage, hideStudentsPage, setCurrentGroup,
          showGearMenu, hideGearMenu } from '../actions/currentKlassActions.js'
 import { connect } from 'react-redux'
 
 const NavBarKlass = ({ klass, navigation, showStudentsPage, hideStudentsPage,
+                       setCurrentGroup, grouping,
                        studentsPage, hideGearMenu, showGearMenu, gearMenu }) => {
 
   const renderKlassTitle = () => (
@@ -15,6 +16,15 @@ const NavBarKlass = ({ klass, navigation, showStudentsPage, hideStudentsPage,
         }}>
         <Text style={[styles.textStyle, !studentsPage && !gearMenu ? styles.boldTextStyle : null]}>
           {`Class ${klass.name}`}
+        </Text>
+      </TouchableOpacity>
+      <TouchableOpacity onPress={() => {
+          hideStudentsPage()
+          hideGearMenu()
+          grouping === 'Pairs' ? setCurrentGroup('Groups') : setCurrentGroup('Pairs')
+        }}>
+        <Text style={[styles.textStyle]}>
+          {grouping}
         </Text>
       </TouchableOpacity>
       <TouchableOpacity onPress={() => {
@@ -69,7 +79,8 @@ const mapStateToProps = state => {
   return {
     klass: state.currentKlass.klass,
     studentsPage: state.currentKlass.studentsPage,
-    gearMenu: state.currentKlass.gearMenu
+    gearMenu: state.currentKlass.gearMenu,
+    grouping: state.currentKlass.grouping
   }
 }
 
@@ -78,7 +89,8 @@ const mapDispatchToProps = dispatch => {
     showStudentsPage: () => dispatch(showStudentsPage()),
     hideStudentsPage: () => dispatch(hideStudentsPage()),
     showGearMenu: () => dispatch(showGearMenu()),
-    hideGearMenu: () => dispatch(hideGearMenu())
+    hideGearMenu: () => dispatch(hideGearMenu()),
+    setCurrentGroup: (group) => dispatch(setCurrentGroup(group))
   }
 }
 
