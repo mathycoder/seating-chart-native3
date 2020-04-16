@@ -268,21 +268,6 @@ const KlassScreen = ({ navigation, klasses, route, students, desks,
     >
       {studentsPage ? <StudentsIndex students={students} /> : renderSeatingChart()}
       {gearMenu ? <GearMenu /> : renderXOutKlass()}
-      {students.loading ? null : desks.allIds.map(deskId => {
-        const desk = desks.byId[deskId]
-        return (
-          <>
-            <View style={[styles.deskBorderStyle, {left: desk.bottomLeft ? desk.bottomLeft.x : 0, top: desk.bottomLeft ? desk.bottomLeft.y : 0}]}>
-            </View>
-            <View style={[styles.deskBorderStyle, {left: desk.bottomRight ? desk.bottomRight.x : 0, top: desk.bottomRight ? desk.bottomRight.y : 0}]}>
-            </View>
-            <View style={[styles.deskBorderStyle, {left: desk.topLeft ? desk.topLeft.x : 0, top: desk.topLeft ? desk.topLeft.y : 0}]}>
-            </View>
-            <View style={[styles.deskBorderStyle, {left: desk.topRight ? desk.topRight.x : 0, top: desk.topRight ? desk.topRight.y : 0}]}>
-            </View>
-          </>
-        )
-      })}
     </KeyboardAvoidingView>
   )
 }

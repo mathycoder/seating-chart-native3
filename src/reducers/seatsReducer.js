@@ -37,7 +37,6 @@ function pairSeatsById(state = emptySeats(), action) {
 
     case 'SET_SEAT_LOCATIONS':
       const { screenWidth, screenHeight, grouping } = action
-      console.log(grouping)
       const newLocations = grouping === 'Pairs'
         ? setPairSeatLocations({...state}, screenWidth, screenHeight)
         : setGroupSeatLocations({...state}, screenWidth, screenHeight)
@@ -51,13 +50,13 @@ function pairSeatsById(state = emptySeats(), action) {
 }
 
 function setPairSeatLocations(stateCopy, screenWidth, screenHeight){
-  const deskWidth = 65
+  const deskWidth = 63
   const deskHeight = 52
   const paddingHorizontal = 20
-  const paddingVertical = 15
+  const paddingVertical = 40
 
   const marginHorizontal = (screenWidth - deskWidth*8 - paddingHorizontal) / 8  // 47
-  const marginVertical = (screenHeight - deskHeight*4 - paddingVertical) / 5
+  const marginVertical = (screenHeight - deskHeight*4 - paddingVertical) / 8
 
   for (let key in stateCopy){
     const seat = parseInt(key.split("seat")[1])
@@ -67,8 +66,8 @@ function setPairSeatLocations(stateCopy, screenWidth, screenHeight){
     const relMarHor = 10 + marginHorizontal
                                 + Math.floor(col / 2) * marginHorizontal*2
                                 + col * deskWidth
-    const relMarTop = -10 + marginVertical
-                                + row * marginVertical
+    const relMarTop = 5 + marginVertical
+                                + row * marginVertical*2
                                 + row * deskHeight
 
     stateCopy[key].topLeft = { x: relMarHor, y: relMarTop }
@@ -82,9 +81,9 @@ function setPairSeatLocations(stateCopy, screenWidth, screenHeight){
 
 function setGroupSeatLocations(stateCopy, screenWidth, screenHeight){
   const deskWidth = 65
-  const deskHeight = 52
+  const deskHeight = 50
   const paddingHorizontal = 20
-  const paddingVertical = 15
+  const paddingVertical = 40
 
   const marginHorizontal = (screenWidth - deskWidth*8 - paddingHorizontal) / 8  // 47
   const marginVertical = (screenHeight - deskHeight*4 - paddingVertical) / 4
@@ -97,8 +96,8 @@ function setGroupSeatLocations(stateCopy, screenWidth, screenHeight){
     const relMarHor = 10 + marginHorizontal
                                 + Math.floor(col / 2) * marginHorizontal*2
                                 + col * deskWidth
-    const relMarTop = marginVertical
-                                + row * marginVertical
+    const relMarTop = 5 + marginVertical
+                                + Math.floor(row / 2) * marginVertical*2
                                 + row * deskHeight
 
     stateCopy[key].topLeft = { x: relMarHor, y: relMarTop }
