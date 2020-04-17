@@ -1,8 +1,11 @@
 import React from 'react'
 import { View, Text, TextInput, StyleSheet, TouchableOpacity, Image } from 'react-native'
+import NavBarSmallTitle from './NavBarSmallTitle'
+import { connect } from 'react-redux'
 
-const NavBarTitle = () => {
-  return (
+const NavBarTitle = ({ klass }) => {
+
+  const renderFullTitle = () => (
     <View style={styles.containerStyle}>
       <Text style={[styles.textStyle, {fontWeight: '700'}]}>Flex</Text>
       <Image
@@ -11,6 +14,12 @@ const NavBarTitle = () => {
       />
       <Text style={styles.textStyle}>Seats</Text>
     </View>
+  )
+
+  return (
+    <>
+      {klass ? <NavBarSmallTitle /> : renderFullTitle()}
+    </>
   )
 }
 
@@ -35,4 +44,10 @@ const styles = StyleSheet.create({
   }
 })
 
-export default NavBarTitle
+const mapStateToProps = state => {
+  return {
+    klass: state.currentKlass.klass
+  }
+}
+
+export default connect(mapStateToProps, null)(NavBarTitle)

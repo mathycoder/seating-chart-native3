@@ -15,7 +15,6 @@ import NavBarSmallTitle from './src/navBar/NavBarSmallTitle'
 import NavBarKlass from './src/navBar/NavBarKlass'
 import Logout from './src/components/sessions/Logout'
 
-
 const Stack = createStackNavigator();
 
 const App = () => {
@@ -42,7 +41,7 @@ const App = () => {
             options={({ navigation, route }) => ({
               title: false,
               headerLeft: (props) => <NavBarTitle props={props} />,
-            headerTitle: props => <NavBarKlass navigation={navigation} />,
+              headerTitle: props => <NavBarKlass navigation={navigation} />,
               headerRight: (props) => <Logout navigation={navigation} />,
               gestureEnabled: false
             })}
