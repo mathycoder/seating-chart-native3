@@ -6,6 +6,7 @@ import klassesReducer from './reducers/klassesReducer.js'
 import studentsReducer from './reducers/studentsReducer.js'
 import flashReducer from './reducers/flashReducer.js'
 import seatsReducer from './reducers/seatsReducer.js'
+import gearMenuReducer from './reducers/gearMenuReducer.js'
 import { combineReducers } from 'redux'
 
 const rootReducer = combineReducers({
@@ -14,7 +15,8 @@ const rootReducer = combineReducers({
   klasses: klassesReducer,
   students: studentsReducer,
   flashMessage: flashReducer,
-  seats: seatsReducer
+  seats: seatsReducer,
+  gearMenu: gearMenuReducer
 })
 
 const composeEnhancer = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose

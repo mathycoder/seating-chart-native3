@@ -4,6 +4,7 @@ import { dynamicPairsHetero, dynamicPairsHomo,
          dynamicGroupsHetero, dynamicGroupsHomo } from '../../actions/studentActions.js'
 import { showBehavior, hideBehavior,
         showAcademics, hideAcademics } from '../../actions/optionActions.js'
+import { setGroupType, setGroupBy, setGroupSize } from '../../actions/gearMenuActions.js'
 import TypeDropdown from './TypeDropdown'
 import SmallButton from '../buttons/SmallButton'
 import { connect } from 'react-redux'
@@ -15,11 +16,12 @@ const GearMenu = ({ open, currentKlass, currentGrouping,
                     dynamicPairsHetero, dynamicPairsHomo,
                     dynamicGroupsHetero, dynamicGroupsHomo,
                     showBehavior, hideBehavior, showAcademics, hideAcademics,
-                    students, loading, hideGearMenu }) => {
+                    students, loading, hideGearMenu,
+                    groupType, groupSize, groupBy, setGroupType, setGroupBy, setGroupSize }) => {
 
-  const [groupSize, setGroupSize] = useState(4)
-  const [groupingType, setGroupingType] = useState('Heterogenous')
-  const [groupBy, setGroupBy] = useState('Academics')
+  // const [groupSize, setGroupSize] = useState(4)
+  // const [groupingType, setGroupingType] = useState('Heterogenous')
+  // const [groupBy, setGroupBy] = useState('Academics')
 
   const possibleGroups = () => {
     return [4,3,2,1].filter(size => students.allIds.length / size <= 8)
@@ -31,11 +33,11 @@ const GearMenu = ({ open, currentKlass, currentGrouping,
 
   const handleSubmit = () => {
     if (currentGrouping === "Groups"){
-      groupingType === 'Heterogenous'
+      groupType === 'Heterogenous'
         ? dynamicGroupsHetero(currentKlass, groupSize, groupBy)
         : dynamicGroupsHomo(currentKlass, groupSize, groupBy)
     } else {
-      groupingType === 'Heterogenous'
+      groupType === 'Heterogenous'
         ? dynamicPairsHetero(currentKlass, groupBy)
         : dynamicPairsHomo(currentKlass, groupBy)
     }
@@ -57,11 +59,11 @@ const GearMenu = ({ open, currentKlass, currentGrouping,
           <View style={styles.optionContainerStyle}>
             <Text style={styles.optionTextStyle}>Type</Text>
             <TypeDropdown
-              category={groupingType}
-              setCategory={setGroupingType}
+              category={groupType}
+              setCategory={setGroupType}
               items={[
               { label: 'Homogenous', value: 'Homogenous' },
-              { label: 'Heterogenous', value: 'Heterogenous' },
+              { label: 'Heterogenous', value: 'Heterogenous' }
               ]}
             />
           </View>
@@ -186,7 +188,10 @@ const mapStateToProps = (state) => {
     currentBehavior: state.currentKlass.behavior,
     currentAcademics: state.currentKlass.academics,
     students: state.students,
-    loading: state.students.loading
+    loading: state.students.loading,
+    groupType: state.gearMenu.groupType,
+    groupBy: state.gearMenu.groupBy,
+    groupSize: state.gearMenu.groupSize
   }
 }
 
@@ -200,7 +205,10 @@ const mapDispatchToProps = (dispatch) => {
     showAcademics: () => dispatch(showAcademics()),
     hideBehavior: () => dispatch(hideBehavior()),
     showBehavior: () => dispatch(showBehavior()),
-    hideGearMenu: () => dispatch(hideGearMenu())
+    hideGearMenu: () => dispatch(hideGearMenu()),
+    setGroupType: groupType => dispatch(setGroupType(groupType)),
+    setGroupBy: groupBy => dispatch(setGroupBy(groupBy)),
+    setGroupSize: groupSize => dispatch(setGroupSize(groupSize))
   }
 }
 
