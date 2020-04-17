@@ -18,7 +18,7 @@ const NavBarTitle = ({ klass }) => {
 
   return (
     <>
-      {klass ? <NavBarSmallTitle /> : renderFullTitle()}
+      {renderFullTitle()}
     </>
   )
 }
