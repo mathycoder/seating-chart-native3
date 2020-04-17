@@ -6,20 +6,35 @@ import { connect } from 'react-redux'
 import Menu, { MenuItem, MenuDivider } from 'react-native-material-menu'
 
 const NavBarKlass = ({ klass, navigation, showStudentsPage, hideStudentsPage,
-                       setCurrentGroup, grouping,
+                       setCurrentGroup, grouping, klasses,
                        studentsPage, hideGearMenu, showGearMenu, gearMenu }) => {
 
+  const setKlassesMenuRef = useRef()
   const setMenuRef = useRef()
 
   const renderKlassTitle = () => (
     <View style={styles.containerStyle}>
-      <TouchableOpacity onPress={() => {
-          hideStudentsPage()
-        }}>
-        <Text style={[styles.textStyle]}>
-          {`Class ${klass.name}`}
-        </Text>
-      </TouchableOpacity>
+      <Menu
+        style={{marginTop: 25, marginLeft: 5}}
+        ref={setKlassesMenuRef}
+        button={<Text
+                  style={[styles.textStyle, {width: 70}]}
+                  onPress={() => setKlassesMenuRef.current.show()}>{`Class ${klass.name}`}
+                </Text>}
+      >
+        {klasses.allIds.map(klId => {
+          const kl = klasses.byId[klId]
+          return (
+            <MenuItem
+              textStyle={{fontSize: 16}}
+              onPress={() => {
+                setCurrentGroup('Groups')
+                setKlassesMenuRef.current.hide()
+              }}>{`Class ${kl.name}`}
+            </MenuItem>
+          )
+        })}
+      </Menu>
       <Menu
         style={{marginTop: 25, marginLeft: 5}}
         ref={setMenuRef}
@@ -94,6 +109,7 @@ const styles = StyleSheet.create({
 const mapStateToProps = state => {
   return {
     klass: state.currentKlass.klass,
+    klasses: state.klasses,
     studentsPage: state.currentKlass.studentsPage,
     gearMenu: state.currentKlass.gearMenu,
     grouping: state.currentKlass.grouping
