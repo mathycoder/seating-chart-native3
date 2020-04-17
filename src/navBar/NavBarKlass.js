@@ -18,7 +18,7 @@ const NavBarKlass = ({ klass, navigation, showStudentsPage, hideStudentsPage,
         style={{marginTop: 25, marginLeft: 5}}
         ref={setKlassesMenuRef}
         button={<Text
-                  style={[styles.textStyle, {width: 70}]}
+                  style={[styles.textStyle, {width: 75}]}
                   onPress={() => setKlassesMenuRef.current.show()}>{`Class ${klass.name}`}
                 </Text>}
       >
@@ -28,7 +28,10 @@ const NavBarKlass = ({ klass, navigation, showStudentsPage, hideStudentsPage,
             <MenuItem
               textStyle={{fontSize: 16}}
               onPress={() => {
-                setCurrentGroup('Groups')
+                navigation.navigate('KlassesNavigator', {
+                                screen: 'Klass',
+                                params: { klass: kl },
+                        })
                 setKlassesMenuRef.current.hide()
               }}>{`Class ${kl.name}`}
             </MenuItem>
