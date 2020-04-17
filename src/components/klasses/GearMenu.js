@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native'
 import { dynamicPairsHetero, dynamicPairsHomo,
          dynamicGroupsHetero, dynamicGroupsHomo } from '../../actions/studentActions.js'
@@ -39,6 +39,7 @@ const GearMenu = ({ open, currentKlass, currentGrouping,
         ? dynamicPairsHetero(currentKlass, groupBy)
         : dynamicPairsHomo(currentKlass, groupBy)
     }
+    hideGearMenu()
   }
 
   return (
