@@ -26,6 +26,7 @@ const NavBarKlass = ({ klass, navigation, showStudentsPage, hideStudentsPage,
           const kl = klasses.byId[klId]
           return (
             <MenuItem
+              key={`klass-${klId}`}
               textStyle={{fontSize: 16}}
               onPress={() => {
                 navigation.navigate('KlassesNavigator', {
